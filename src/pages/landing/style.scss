@@ -1,0 +1,119 @@
+$primary-color: #2c324a;
+
+.home-page {
+  padding-bottom: 100px;
+  .header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    h2 {
+      font-family: Archivo;
+      font-weight: 800;
+      font-style: italic;
+      font-size: 32px;
+      line-height: 34.82px;
+      letter-spacing: 0%;
+      color: #2c324a;
+    }
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 96px);
+    overflow: hidden;
+    align-items: center;
+    text-align: center;
+    color: white;
+  }
+
+  .background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    // object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+
+  /* Gradient Overlay for Fade Effect */
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0)
+    );
+    z-index: 0;
+  }
+
+  /* Text Styling */
+  .video-text-content {
+    position: relative;
+    z-index: 1;
+    margin-top: 100px;
+    align-items: center;
+
+    h1 {
+      font-size: 64px;
+      line-height: 72px;
+      color: $primary-color;
+    }
+
+    span {
+      font-size: 18px;
+      line-height: 24px;
+      color: $primary-color;
+      max-width: min(100%, 550px);
+    }
+  }
+
+  .specialities {
+    margin-top: 47px;
+    text-align: center;
+
+    .speciality-cards {
+      .ant-tag {
+        border: none;
+        margin: 0;
+        border-radius: 24px;
+        padding: 12px 24px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 19.58px;
+        letter-spacing: 0%;
+      }
+
+      .speciality-card:nth-child(1) .ant-tag {
+        background-color: #f6b8ff;
+        color: #8f51f5;
+      }
+
+      .speciality-card:nth-child(2) .ant-tag {
+        background-color: #ebf2ee;
+        color: #56946f;
+      }
+
+      .speciality-card:nth-child(3) .ant-tag {
+        background-color: #48d2ff33;
+        color: #38c6ff;
+      }
+    }
+
+    .speciality-card {
+      padding: 32px;
+      border-radius: 32px;
+      background-color: #f7f7f7;
+      border: none;
+      flex: 1;
+      min-width: 300px;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import MainRouter from "./routes";
+import './style.scss';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);

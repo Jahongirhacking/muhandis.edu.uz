@@ -1,6 +1,6 @@
 # muhandis.edu.uz
 
-muhandis.edu.uz - respublika miqiyosidagi muhandislar tanlovi uchun ariza yuborish sayti
+muhandis.edu.uz - respublika miqyosidagi muhandislar tanlovi uchun ariza yuborish sayti
 
 # React + TypeScript + Vite
 

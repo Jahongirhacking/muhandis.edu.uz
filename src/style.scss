@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  font-family: "Archivo", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.root-layout {
+  .padding-box {
+    width: 100%;
+    padding: 0 18px;
+    max-width: 1216px;
+  }
+
+  .title-text {
+    font-family: "Archivo Black", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .main-btn {
+    border-radius: 16px;
+    padding: 11px 24px;
+    box-sizing: content-box;
+    span {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    transition: 0.4s ease;
+
+    &.primary-btn {
+      background-color: #1bca92;
+      span {
+        color: #2d324b;
+      }
+
+      &:hover {
+        background-color: #2d324b;
+        span {
+          color: #1bca92;
+        }
+      }
+    }
+  }
+}
