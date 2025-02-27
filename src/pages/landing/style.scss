@@ -281,8 +281,9 @@ $secondary_color: #85889e;
       .step-item {
         align-items: center;
 
-        &:nth-child(2) {
-          gap: 16px !important;
+        &:nth-child(2),
+        &:nth-child(3) {
+          gap: 24px !important;
         }
 
         .step-info {
@@ -325,6 +326,7 @@ $secondary_color: #85889e;
 
         .step-main {
           align-items: center;
+          width: 100%;
 
           & > span {
             font-style: italic;
@@ -342,77 +344,79 @@ $secondary_color: #85889e;
           }
 
           .step-cards {
-            .first-step-card {
+            width: 100%;
+
+            .first-step-card,
+            .second-step-card,
+            .third-step-card {
               flex: 1;
               width: 100%;
               min-width: 300px;
               padding: 32px;
+              border-radius: 32px;
 
               .ant-card-body {
                 padding: 0;
+              }
+            }
 
-                & > .ant-image {
-                  max-width: 200px;
-                  width: 100%;
+            .first-step-card {
+              & > .ant-image {
+                max-width: 200px;
+                width: 100%;
+              }
+
+              .step-card-info {
+                text-align: left;
+
+                h4 {
+                  color: $primary-color;
+                  font-weight: 700;
+                  font-size: 24px;
+                  line-height: 26.11px;
                 }
 
-                .step-card-info {
-                  text-align: left;
+                span {
+                  color: #86868b;
+                  font-weight: 500;
+                  font-size: 16px;
+                  line-height: 24px;
+                }
+              }
 
-                  h4 {
-                    color: $primary-color;
-                    font-weight: 700;
-                    font-size: 24px;
-                    line-height: 26.11px;
-                  }
+              .card__specialities {
+                width: 100%;
+
+                & > .ant-flex {
+                  align-items: center;
 
                   span {
-                    color: #86868b;
                     font-weight: 500;
-                    font-size: 16px;
-                    line-height: 24px;
+                    font-size: 18px;
+                    line-height: 19.58px;
+                  }
+
+                  &:nth-child(1) > span {
+                    color: #8f51f5;
+                  }
+
+                  &:nth-child(2) > span {
+                    color: #56946f;
+                  }
+
+                  &:nth-child(3) > span {
+                    color: #38c6ff;
                   }
                 }
 
-                .card__specialities {
+                .ant-image {
+                  max-width: 48px;
                   width: 100%;
-
-                  & > .ant-flex {
-                    align-items: center;
-
-                    span {
-                      font-weight: 500;
-                      font-size: 18px;
-                      line-height: 19.58px;
-                    }
-
-                    &:nth-child(1) > span {
-                      color: #8f51f5;
-                    }
-
-                    &:nth-child(2) > span {
-                      color: #56946f;
-                    }
-
-                    &:nth-child(3) > span {
-                      color: #38c6ff;
-                    }
-                  }
-
-                  .ant-image {
-                    max-width: 48px;
-                    width: 100%;
-                  }
                 }
               }
             }
 
             .second-step-card {
-              flex: 1;
-              width: 100%;
-              min-width: 300px;
-              padding: 32px;
-
               &:hover .participant-number h1 {
                 color: #1bca92 !important;
                 -webkit-text-stroke-color: transparent !important;
@@ -467,7 +471,6 @@ $secondary_color: #85889e;
                 .card__participants {
                   background-color: #f7f7f7;
                   padding: 12px;
-                  width: 332;
                   border-radius: 24px;
                   text-align: left;
 
@@ -495,39 +498,83 @@ $secondary_color: #85889e;
                 }
               }
             }
+
+            & > .ant-flex:last-child .third-step-card:last-child {
+              max-width: 488px;
+            }
+
+            .third-step-card {
+              text-align: left;
+
+              .card-header {
+                width: 100%;
+
+                h2 {
+                  font-weight: 400;
+                  font-size: 160px;
+                  line-height: 174.08px;
+                  color: #4b51ec;
+                }
+
+                .ant-image {
+                  max-width: 200px;
+                  width: 100%;
+                }
+              }
+
+              span {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                color: $secondary_color;
+
+                strong {
+                  font-weight: 400;
+                  color: $primary-color;
+                }
+              }
+            }
           }
         }
-      }
-    }
 
-    .step-details {
-      .details-item {
-        text-align: left;
-        border-radius: 32px;
-        padding: 32px;
-        background-color: #f7f7f7;
+        .step-details {
+          margin-top: 8px;
 
-        h4 {
-          font-weight: 600;
-          font-size: 20px;
-          line-height: 24px;
-          color: #2c324a;
-        }
+          .details-item {
+            text-align: left;
+            border-radius: 32px;
+            padding: 32px;
+            background-color: #f7f7f7;
 
-        ul {
-          gap: 16px;
-          list-style: disc;
-          margin-left: 16px;
-        }
+            h4 {
+              font-weight: 600;
+              font-size: 20px;
+              line-height: 24px;
+              color: #2c324a;
+            }
 
-        span {
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 24px;
-          color: #86868b !important;
+            ul {
+              gap: 16px;
+              list-style: disc;
+              margin-left: 16px;
+            }
 
-          strong {
-            color: #2c324a;
+            span {
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 24px;
+              color: #86868b !important;
+              font-style: normal;
+
+              strong {
+                font-weight: 400;
+                color: #2c324a;
+              }
+
+              .important {
+                color: #ffa115 !important;
+              }
+            }
           }
         }
       }

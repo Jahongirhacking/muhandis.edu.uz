@@ -4,6 +4,7 @@ import ConfettiExplosion from "react-confetti-explosion";
 import { Link } from "react-router-dom";
 import FirstStepCard from "./components/FirstStepCard";
 import SecondStepCard from "./components/SecondStepCard";
+import ThirdStepCard from "./components/ThirdStepCard";
 import './style.scss';
 
 const HomePage = () => {
@@ -241,6 +242,49 @@ const HomePage = () => {
                                 <Flex vertical className="details-item" gap={24}>
                                     <Typography.Text>Ishchi guruh tomonidan gʻoya, loyiha va ixtirolarning <strong>yakuniy ballari Ishchi guruh aʼzolari ballarining oʻrtacha arifmetik qiymati bilan belgilanadi;</strong></Typography.Text>
                                     <Typography.Text>Ikki yoki undan ortiq ishtirokchilarning <strong>yakuniy ballari bir xil boʻlgan hollarda</strong> gʻoliblar Tanlov komissiyasi aʼzolari tomonidan <strong>ovoz berish</strong> yoʻli bilan aniqlanadi;</Typography.Text>
+                                </Flex>
+                            </Flex>
+
+                            <Link to={'#'} style={{ marginTop: 16 }}>
+                                <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
+                            </Link>
+                        </Flex>
+
+                        {/* 3RD STEP */}
+                        <Flex vertical className="step-item" gap={40}>
+                            <Flex vertical className="step-info" gap={16}>
+                                <Typography.Title level={3} className="title-text">3-bosqich</Typography.Title>
+                            </Flex>
+
+                            <Flex vertical className="step-main" gap={32}>
+                                <Typography.Text><strong>Baholash va gʻoliblarni aniqlash</strong> - tanlov doirasida taqdim etilgan gʻoya, loyiha, ixtirolar shakliy, mazmuniy, texnik, iqtisodiy va amaliy jihatdan asoslanganligi boʻyicha dastlabki saralash bosqichidan oʻtkazuvchi hamda yakuniy bosqichga yoʻnaltirish maqsadida tegishli vazirliklar, idoralar hamda tarmoq korxonalari vakillaridan tuziladigan mutaxassislar tarkibi.</Typography.Text>
+                                <Flex vertical className="step-cards" gap={32}>
+                                    <Flex gap={32} wrap>
+                                        <ThirdStepCard index={1} img="/images/step3_1.svg">
+                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
+                                        </ThirdStepCard>
+                                        <ThirdStepCard index={2} img="/images/step3_2.svg">
+                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
+                                        </ThirdStepCard>
+                                    </Flex>
+                                    <Flex gap={32} wrap>
+                                        <ThirdStepCard index={3} img="/images/step3_3.svg">
+                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
+                                        </ThirdStepCard>
+                                        <ThirdStepCard index={4} img="/images/step3_4.svg">
+                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
+                                        </ThirdStepCard>
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+
+                            <Flex vertical gap={24} className="step-details">
+                                <Flex vertical gap={24} className="details-item">
+                                    <Typography.Text>Shuningdek, Tanlov komissiyasi tavsiyasi va Tashkiliy qoʻmita qaroriga muvofiq <strong>“Barqaror rivojlanish uchun eng yaxshi gʻoya/loyiha/ixtiro”</strong> nominatsiyasida gʻolib deb topilgan yana <strong>bir nafar ishtirokchisi ham</strong> rivojlangan <span className="important">xorijiy davlatlarga stajirovkalarga yuboriladi.</span></Typography.Text>
+                                    <Typography.Text>Ushbu nominatsiya gʻolibi <strong>ekologiya va atrof-muhitni asrash boʻyicha muhandislik ishlanmalari (gʻoya/loyiha/ixtiro)</strong> orasidan aniqlanadi. Bunda, har bir yoʻnalishda dastlabki uchta oʻrinlarni egallagan <strong>gʻoliblardan soʻng eng yuqori ball toʻplagan bir nafar ishtirokchi gʻolib</strong> deb topiladi.</Typography.Text>
+                                </Flex>
+                                <Flex vertical className="details-item" gap={24}>
+                                    <Typography.Text><strong>Tanlov komissiyasi - tanlov doirasida taqdim etilgan gʻoyalar, loyihalar va ixtirolarni koʻrib chiqish, baholash va gʻoliblarni aniqlash maqsadida tegishli vazirliklar, idoralar, tarmoq korxonalari hamda xorijiy tashkilotlar vakillaridan tuziladigan komissiya tarkibi.</strong></Typography.Text>
                                 </Flex>
                             </Flex>
 

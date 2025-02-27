@@ -60,7 +60,7 @@ body {
   .scalable-card {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     &:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     }
   }
