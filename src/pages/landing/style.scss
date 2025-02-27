@@ -1,4 +1,5 @@
 $primary-color: #2c324a;
+$secondary_color: #85889e;
 
 .home-page {
   padding-bottom: 100px;
@@ -12,7 +13,7 @@ $primary-color: #2c324a;
       font-size: 32px;
       line-height: 34.82px;
       letter-spacing: 0%;
-      color: #2c324a;
+      color: $primary-color;
     }
   }
 
@@ -115,5 +116,430 @@ $primary-color: #2c324a;
       flex: 1;
       min-width: 300px;
     }
+  }
+
+  .prizes {
+    margin-top: 88px;
+
+    .ant-typography {
+      margin: 0;
+    }
+
+    .main-prize-card {
+      border: 0;
+      padding: 32px;
+
+      .ant-card-body {
+        padding: 0;
+      }
+
+      .prize-title {
+        h2 {
+          font-size: 40px;
+          line-height: 50px;
+          color: $primary-color;
+        }
+
+        h1 {
+          font-size: 72px;
+          line-height: 78.34px;
+          color: #1bca92;
+          font-family: Archivo;
+          font-weight: 900;
+          text-align: center;
+        }
+      }
+
+      .prize-content {
+        .ant-image {
+          max-width: 752px;
+          width: 100%;
+        }
+
+        .prize-info {
+          max-width: 750px;
+          width: 100%;
+
+          h1 {
+            padding: 0 20px;
+            font-weight: 500;
+            font-size: 85px;
+            line-height: 92.48px;
+            font-style: italic;
+            background: linear-gradient(
+              90deg,
+              #0090f7 8%,
+              #ba62fc 33.33%,
+              #f2416b 66.67%,
+              #f55600 100%
+            );
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text_animation 2s infinite alternate;
+          }
+
+          span {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: $primary-color;
+
+            strong {
+              font-weight: 700;
+            }
+
+            &.spoiler {
+              color: $secondary_color;
+            }
+          }
+        }
+      }
+    }
+
+    .prize-card-container {
+      .prize-card:nth-child(2) {
+        max-width: 490px;
+      }
+
+      .prize-card {
+        border-radius: 32px;
+        border-width: 1px;
+        border-color: #f0f0f0;
+        padding: 32px;
+        flex: 1;
+        min-width: 300px;
+        width: 100%;
+
+        .ant-card-body {
+          padding: 0;
+          height: 100%;
+
+          & > .ant-flex {
+            height: 100%;
+            justify-content: space-between;
+
+            h2 {
+              font-family: "Archivo Black", serif;
+              font-weight: 500;
+              font-size: 48px;
+              line-height: 52.22px;
+              color: #ffa115;
+            }
+
+            h3 {
+              color: $primary-color;
+              font-weight: 700;
+              font-size: 24px;
+              line-height: 26.11px;
+            }
+
+            .prize-info {
+              font-size: 16px;
+              line-height: 24px;
+              color: #86868b;
+
+              strong {
+                font-weight: 400;
+                color: $primary-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .steps {
+    margin-top: 120px;
+    text-align: center;
+
+    .ant-typography {
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .steps-title {
+      h2 {
+        color: $primary-color;
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 52.22px;
+      }
+
+      span {
+        color: $primary-color;
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+
+    .steps-container {
+      .step-item {
+        align-items: center;
+
+        &:nth-child(2) {
+          gap: 16px !important;
+        }
+
+        .step-info {
+          max-width: 980px;
+          width: 100%;
+
+          h3 {
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 34.82px;
+            color: #1bca92;
+          }
+
+          span {
+            font-size: 18px;
+            line-height: 24px;
+            text-align: center;
+            color: $primary-color;
+
+            strong {
+              font-weight: 700;
+            }
+          }
+        }
+
+        ul {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          li > span {
+            font-weight: 400;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: $primary-color;
+          }
+        }
+
+        .step-main {
+          align-items: center;
+
+          & > span {
+            font-style: italic;
+            font-size: 20px;
+            line-height: 24px;
+            color: $secondary_color;
+            max-width: 890px;
+            width: 100%;
+
+            strong {
+              font-style: italic;
+              font-weight: 400;
+              color: #2c324a;
+            }
+          }
+
+          .step-cards {
+            .first-step-card {
+              flex: 1;
+              width: 100%;
+              min-width: 300px;
+              padding: 32px;
+
+              .ant-card-body {
+                padding: 0;
+
+                & > .ant-image {
+                  max-width: 200px;
+                  width: 100%;
+                }
+
+                .step-card-info {
+                  text-align: left;
+
+                  h4 {
+                    color: $primary-color;
+                    font-weight: 700;
+                    font-size: 24px;
+                    line-height: 26.11px;
+                  }
+
+                  span {
+                    color: #86868b;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 24px;
+                  }
+                }
+
+                .card__specialities {
+                  width: 100%;
+
+                  & > .ant-flex {
+                    align-items: center;
+
+                    span {
+                      font-weight: 500;
+                      font-size: 18px;
+                      line-height: 19.58px;
+                    }
+
+                    &:nth-child(1) > span {
+                      color: #8f51f5;
+                    }
+
+                    &:nth-child(2) > span {
+                      color: #56946f;
+                    }
+
+                    &:nth-child(3) > span {
+                      color: #38c6ff;
+                    }
+                  }
+
+                  .ant-image {
+                    max-width: 48px;
+                    width: 100%;
+                  }
+                }
+              }
+            }
+
+            .second-step-card {
+              flex: 1;
+              width: 100%;
+              min-width: 300px;
+              padding: 32px;
+
+              &:hover .participant-number h1 {
+                color: #1bca92 !important;
+                -webkit-text-stroke-color: transparent !important;
+              }
+
+              &:nth-child(1) .card-speciality span {
+                color: #8f51f5;
+              }
+
+              &:nth-child(2) .card-speciality span {
+                color: #56946f;
+              }
+
+              &:nth-child(3) .card-speciality span {
+                color: #41ccff;
+              }
+
+              .ant-card-body {
+                padding: 0;
+
+                .card-speciality {
+                  .ant-image {
+                    max-width: 48px;
+                    width: 100%;
+                  }
+
+                  span {
+                    font-weight: 500;
+                    font-size: 18px;
+                    line-height: 19.58px;
+                  }
+                }
+
+                .participant-number {
+                  h1 {
+                    font-weight: 400;
+                    font-size: 116px;
+                    line-height: 126.21px;
+                    color: transparent;
+                    -webkit-text-stroke: 2px #1bca92;
+                    transition: 0.4s ease;
+                  }
+
+                  span {
+                    font-weight: 900;
+                    font-size: 18px;
+                    line-height: 19.58px;
+                    color: #1bca92;
+                  }
+                }
+
+                .card__participants {
+                  background-color: #f7f7f7;
+                  padding: 12px;
+                  width: 332;
+                  border-radius: 24px;
+                  text-align: left;
+
+                  & > .ant-flex {
+                    align-items: center;
+
+                    strong {
+                      font-weight: 600;
+                      font-size: 24px;
+                      line-height: 26.11px;
+                      color: #1bca92;
+                    }
+
+                    .ant-image {
+                      max-width: 28px;
+                      width: 100%;
+                    }
+
+                    span {
+                      font-size: 16px;
+                      line-height: 19.58px;
+                      color: #2c324a;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .step-details {
+      .details-item {
+        text-align: left;
+        border-radius: 32px;
+        padding: 32px;
+        background-color: #f7f7f7;
+
+        h4 {
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          color: #2c324a;
+        }
+
+        ul {
+          gap: 16px;
+          list-style: disc;
+          margin-left: 16px;
+        }
+
+        span {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: #86868b !important;
+
+          strong {
+            color: #2c324a;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes text_animation {
+  0% {
+    background-position: -12px 0px;
+  }
+  100% {
+    background-position: 12px 0px;
   }
 }
