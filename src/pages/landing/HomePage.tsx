@@ -1,4 +1,5 @@
-import { Button, Card, Flex, Image, Tag, Typography } from "antd";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Collapse, Flex, Image, Tag, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 import { Link } from "react-router-dom";
@@ -165,7 +166,7 @@ const HomePage = () => {
                     </Flex>
                     <Flex vertical className="steps-container" gap={120}>
                         {/* 1ST STEP */}
-                        <Flex vertical className="step-item" gap={40}>
+                        <Flex vertical className="step-item first-item" gap={40}>
                             <Flex vertical className="step-info" gap={16}>
                                 <Typography.Title level={3} className="title-text">1-bosqich</Typography.Title>
                                 <Typography.Text><strong>Texnik ekspertiza</strong> kelib tushgan hujjatlarning Vazirlik tomonidan tasdiqlangan talablarga muvofiqligini, shuningdek, loyiha hujjatlariga koʻra taqdim etilgan maʼlumotlarni tahlil qilishda xatolarni aniqlash maqsadida amalga oshiriladi.</Typography.Text>
@@ -204,7 +205,7 @@ const HomePage = () => {
                         </Flex>
 
                         {/* 2ND STEP */}
-                        <Flex vertical className="step-item" gap={40}>
+                        <Flex vertical className="step-item second-item" gap={40}>
                             <Flex vertical className="step-info" gap={16}>
                                 <Typography.Title level={3} className="title-text">2-bosqich</Typography.Title>
                             </Flex>
@@ -251,7 +252,7 @@ const HomePage = () => {
                         </Flex>
 
                         {/* 3RD STEP */}
-                        <Flex vertical className="step-item" gap={40}>
+                        <Flex vertical className="step-item third-item" gap={40}>
                             <Flex vertical className="step-info" gap={16}>
                                 <Typography.Title level={3} className="title-text">3-bosqich</Typography.Title>
                             </Flex>
@@ -293,6 +294,24 @@ const HomePage = () => {
                             </Link>
                         </Flex>
                     </Flex>
+                </Flex>
+            </Flex>
+
+            {/* FAQ section */}
+            <Flex vertical className="faq" align="center">
+                <Flex vertical className="padding-box" gap={72} align="center">
+                    <Typography.Title level={1} className="title-text">Eng ko‘p beriladigan savollar</Typography.Title>
+                    <Collapse
+                        expandIcon={({ isActive }) => isActive ? <MinusOutlined /> : <PlusOutlined />}
+                        expandIconPosition="end"
+                        items={[
+                            { key: 1, label: 'Tanlov nechta bosqichdan iborat?', children: 'Lorem Ipsum' },
+                            { key: 2, label: 'Har bir bosqich uchun qanday muddatlar belgilangan?', children: 'Lorem Ipsum' },
+                            { key: 3, label: 'Ariza topshirishda muammo yuzaga kelsa, kimga murojaat qilish mumkin?', children: 'Lorem Ipsum' },
+                            { key: 4, label: 'Tashkilotchilar bilan qanday bog‘lanish mumkin?', children: 'Lorem Ipsum' },
+                            { key: 5, label: 'Taqdim etilgan loyihalarning mualliflik huquqi qanday himoyalanadi?', children: 'Lorem Ipsum' },
+                        ]}
+                    />
                 </Flex>
             </Flex>
         </Flex>

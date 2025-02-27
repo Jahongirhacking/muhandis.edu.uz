@@ -281,6 +281,10 @@ $secondary_color: #85889e;
       .step-item {
         align-items: center;
 
+        &.third-item .step-cards > .ant-flex {
+          justify-content: center;
+        }
+
         &:nth-child(2),
         &:nth-child(3) {
           gap: 24px !important;
@@ -576,6 +580,53 @@ $secondary_color: #85889e;
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  .faq {
+    margin-top: 120px;
+
+    .ant-typography {
+      margin: 0;
+    }
+
+    h1 {
+      color: $primary-color;
+      font-size: 48px;
+      line-height: 52.22px;
+    }
+
+    .ant-collapse {
+      width: 100%;
+      border: none;
+      background-color: transparent;
+
+      .ant-collapse-item {
+        border-radius: 0;
+        border: none;
+        border-top: 2px solid #f0f0f0;
+
+        .ant-collapse-header {
+          padding: 28px 0;
+
+          &-text {
+            color: $primary-color;
+            font-size: 18px;
+            line-height: 32.4px;
+          }
+
+          .ant-collapse-expand-icon {
+            .anticon {
+              font-size: 40px;
+              color: #dfdfdf;
+            }
+          }
+        }
+
+        .ant-collapse-content-box {
+          padding: 28px 25px;
         }
       }
     }
