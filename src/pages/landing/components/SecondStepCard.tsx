@@ -5,7 +5,7 @@ const SecondStepCard = ({ img, name }: { img: string; name: string }) => {
         <Card className="step-card second-step-card scalable-card">
             <Flex vertical gap={32} align="center">
                 <Flex className="card-speciality" gap={24} align="center">
-                    <Image src={img} preview={false} alt={`${name} rasmi`} />
+                    <Image loading="lazy" src={img} preview={false} alt={`${name} rasmi`} />
                     <Typography.Text>{name}</Typography.Text>
                 </Flex>
 
@@ -17,17 +17,17 @@ const SecondStepCard = ({ img, name }: { img: string; name: string }) => {
                 <Flex vertical gap={24} className="card__participants">
                     <Flex gap={8}>
                         <Typography.Text strong>10</Typography.Text>
-                        <Image src="/images/participant_1.svg" preview={false} />
+                        <Image loading="lazy" src="/images/participant_1.svg" preview={false} />
                         <Typography.Text>Talabalar</Typography.Text>
                     </Flex>
                     <Flex gap={8}>
                         <Typography.Text strong>10</Typography.Text>
-                        <Image src="/images/participant_2.svg" preview={false} />
+                        <Image loading="lazy" src="/images/participant_2.svg" preview={false} />
                         <Typography.Text>Amaliyotchi muhandislar</Typography.Text>
                     </Flex>
                     <Flex gap={8}>
                         <Typography.Text strong>10</Typography.Text>
-                        <Image src="/images/participant_3.svg" preview={false} />
+                        <Image loading="lazy" src="/images/participant_3.svg" preview={false} />
                         <Typography.Text>O‘qituvchilar va professorlar</Typography.Text>
                     </Flex>
                 </Flex>

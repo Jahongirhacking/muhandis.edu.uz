@@ -11,7 +11,7 @@ import './style.scss';
 
 const Logo = () => (
     <Flex className="logo main-logo" gap={8} align="center">
-        <Image src="/icon.svg" preview={false} width={32} alt="logo" />
+        <Image loading="lazy" src="/icon.svg" preview={false} width={32} alt="logo" />
         <Typography.Title level={2} style={{ margin: 0 }}>Muhandis edu</Typography.Title>
     </Flex>
 )
@@ -88,7 +88,7 @@ const HomePage = () => {
                             ].map((spec, index) => (
                                 <Card key={index} className="speciality-card scalable-card">
                                     <Flex vertical align="center" justify="center" gap={48}>
-                                        <Image src={spec.icon} preview={false} alt={spec.label} />
+                                        <Image loading="lazy" src={spec.icon} preview={false} alt={spec.label} />
                                         <Tag>{spec.label}</Tag>
                                     </Flex>
                                 </Card>
@@ -111,7 +111,7 @@ const HomePage = () => {
                                 <Typography.Title level={1}>1-O‘RIN</Typography.Title>
                             </Flex>
                             <Flex vertical gap={40} className="prize-content" align='center'>
-                                <Image src="/images/prize_1.svg" preview={false} alt="1-sovrin rasmi" />
+                                <Image loading="lazy" src="/images/prize_1.svg" preview={false} alt="1-sovrin rasmi" />
                                 <Flex vertical className="prize-info" gap={16} align="center">
                                     <Typography.Title level={1} className="title-text">Elektromobil</Typography.Title>
                                     <Flex vertical gap={12}>
@@ -134,7 +134,7 @@ const HomePage = () => {
                                         <Typography.Title level={2}>2-O‘RIN</Typography.Title>
                                         <Typography.Title level={3}>Rivojlangan davlatlarga malaka oshirish</Typography.Title>
                                     </Flex>
-                                    <Image src="/images/prize_2.svg" preview={false} alt="2-sovrin rasmi" />
+                                    <Image loading="lazy" src="/images/prize_2.svg" preview={false} alt="2-sovrin rasmi" />
                                 </Flex>
                                 <Typography.Text className="prize-info">
                                     <strong>Ikkinchi o‘rinni egallagan jami 9 nafar</strong> g‘oliblar hamda 1 nafar “Barqaror rivojlanish uchun eng yaxshi g‘oya/loyiha/ixtiro” nominatsiyasi g‘olibi rivojlangan davlatlarga <strong>120 kundan</strong> ortiq bo‘lmagan muddatga stajirovkaga yuboriladi
@@ -148,7 +148,7 @@ const HomePage = () => {
                                         <Typography.Title level={2}>3-O‘RIN</Typography.Title>
                                         <Typography.Title level={3}>Bir martalik pul mukofotlari</Typography.Title>
                                     </Flex>
-                                    <Image src="/images/prize_3.svg" preview={false} alt="3-sovrin rasmi" style={{ marginTop: '38px' }} />
+                                    <Image loading="lazy" src="/images/prize_3.svg" preview={false} alt="3-sovrin rasmi" style={{ marginTop: '38px' }} />
                                 </Flex>
                                 <Typography.Text className="prize-info">
                                     <strong>Uchinchi o‘rinni egallagan jami 9 nafar</strong> g‘oliblarga bazaviy hisoblash miqdorining <strong>100 baravari</strong> miqdorida bir martalik pul mukofotlari bilan taqdirlanadi
@@ -332,9 +332,9 @@ const HomePage = () => {
                             <Flex vertical gap={24}>
                                 <Typography.Title level={3}>Biz ijtimoiy tarmoqlarda</Typography.Title>
                                 <ul>
-                                    <li><Button type="text" icon={<Image preview={false} src={InstagramIcon} />} href="#">Instagram</Button></li>
-                                    <li><Button type="text" icon={<Image preview={false} src={TelegramIcon} />} href="#">Telegram</Button></li>
-                                    <li><Button type="text" icon={<Image preview={false} src={FacebookIcon} />} href="#">Facebook</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={InstagramIcon} />} href="#">Instagram</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={TelegramIcon} />} href="#">Telegram</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={FacebookIcon} />} href="#">Facebook</Button></li>
                                 </ul>
                             </Flex>
                             <Flex vertical gap={24}>

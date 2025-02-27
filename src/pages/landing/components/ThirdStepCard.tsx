@@ -7,7 +7,7 @@ const ThirdStepCard = ({ index, img, children }: { index: number; img: string; c
             <Flex vertical gap={24} align="center">
                 <Flex className="card-header" gap={24} align="center" justify='space-between'>
                     <Typography.Title level={2}>{index}</Typography.Title>
-                    <Image src={img} preview={false} />
+                    <Image loading="lazy" src={img} preview={false} />
                 </Flex>
                 {children}
             </Flex>
