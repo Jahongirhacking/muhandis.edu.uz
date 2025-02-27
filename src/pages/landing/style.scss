@@ -11,7 +11,7 @@ $secondary_color: #85889e;
     position: relative;
     width: 100%;
     height: calc(100vh - 96px);
-    overflow: hidden;
+    overflow-x: hidden;
     align-items: center;
     text-align: center;
     color: white;
@@ -49,13 +49,23 @@ $secondary_color: #85889e;
   .video-text-content {
     position: relative;
     z-index: 1;
-    margin-top: 100px;
+    margin-top: 15dvh;
     align-items: center;
 
     h1 {
       font-size: 64px;
       line-height: 72px;
       color: $primary-color;
+
+      @media screen and (max-width: 330px) {
+        font-size: 20px;
+        line-height: 23px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 30px;
+        line-height: 35px;
+      }
     }
 
     span {
@@ -63,12 +73,65 @@ $secondary_color: #85889e;
       line-height: 24px;
       color: $primary-color;
       max-width: min(100%, 550px);
+
+      @media screen and (max-width: 330px) {
+        font-size: 12px;
+        line-height: 15px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 15px;
+        line-height: 21px;
+      }
     }
   }
 
   .specialities {
     margin-top: 47px;
     text-align: center;
+
+    .content {
+      h1 {
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 48px;
+        color: $primary-color;
+
+        @media screen and (max-width: 330px) {
+          font-size: 20px;
+          line-height: 23px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 30px;
+          line-height: 35px;
+        }
+      }
+
+      span {
+        font-weight: 400;
+        font-style: italic;
+        font-size: 20px;
+        line-height: 21.76px;
+        color: #85889e;
+
+        @media screen and (max-width: 330px) {
+          font-size: 12px;
+          line-height: 13px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 15px;
+          line-height: 21px;
+        }
+
+        strong {
+          font-style: italic;
+          font-weight: 400;
+          color: $primary-color;
+        }
+      }
+    }
 
     .speciality-cards {
       .ant-tag {
@@ -80,6 +143,16 @@ $secondary_color: #85889e;
         font-size: 18px;
         line-height: 19.58px;
         letter-spacing: 0%;
+
+        @media screen and (max-width: 330px) {
+          font-size: 13px;
+          line-height: 14px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 15px;
+          line-height: 21px;
+        }
       }
 
       .speciality-card:nth-child(1) .ant-tag {
@@ -128,6 +201,16 @@ $secondary_color: #85889e;
           font-size: 40px;
           line-height: 50px;
           color: $primary-color;
+
+          @media screen and (max-width: 330px) {
+            font-size: 20px;
+            line-height: 23px;
+          }
+
+          @media screen and (max-width: 480px) {
+            font-size: 25px;
+            line-height: 30px;
+          }
         }
 
         h1 {
@@ -137,6 +220,16 @@ $secondary_color: #85889e;
           font-family: Archivo;
           font-weight: 900;
           text-align: center;
+
+          @media screen and (max-width: 330px) {
+            font-size: 28px;
+            line-height: 30px;
+          }
+
+          @media screen and (max-width: 480px) {
+            font-size: 40px;
+            line-height: 45px;
+          }
         }
       }
 
@@ -166,6 +259,16 @@ $secondary_color: #85889e;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: text_animation 2s infinite alternate;
+
+            @media screen and (max-width: 330px) {
+              font-size: 20px;
+              line-height: 23px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 30px;
+              line-height: 35px;
+            }
           }
 
           span {
@@ -174,6 +277,16 @@ $secondary_color: #85889e;
             line-height: 24px;
             text-align: center;
             color: $primary-color;
+
+            @media screen and (max-width: 330px) {
+              font-size: 12px;
+              line-height: 15px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 15px;
+              line-height: 21px;
+            }
 
             strong {
               font-weight: 700;
@@ -215,6 +328,16 @@ $secondary_color: #85889e;
               font-size: 48px;
               line-height: 52.22px;
               color: #ffa115;
+
+              @media screen and (max-width: 330px) {
+                font-size: 26px;
+                line-height: 28px;
+              }
+
+              @media screen and (max-width: 480px) {
+                font-size: 35px;
+                line-height: 40px;
+              }
             }
 
             h3 {
@@ -222,12 +345,27 @@ $secondary_color: #85889e;
               font-weight: 700;
               font-size: 24px;
               line-height: 26.11px;
+
+              @media screen and (max-width: 330px) {
+                font-size: 20px;
+                line-height: 23px;
+              }
+
+              @media screen and (max-width: 480px) {
+                font-size: 25px;
+                line-height: 30px;
+              }
             }
 
             .prize-info {
               font-size: 16px;
               line-height: 24px;
               color: #86868b;
+
+              @media screen and (max-width: 330px) {
+                font-size: 12px;
+                line-height: 15px;
+              }
 
               strong {
                 font-weight: 400;
@@ -258,12 +396,32 @@ $secondary_color: #85889e;
         font-weight: 400;
         font-size: 48px;
         line-height: 52.22px;
+
+        @media screen and (max-width: 330px) {
+          font-size: 20px;
+          line-height: 23px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 30px;
+          line-height: 35px;
+        }
       }
 
       span {
         color: $primary-color;
         font-size: 18px;
         line-height: 24px;
+
+        @media screen and (max-width: 330px) {
+          font-size: 14px;
+          line-height: 18px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 15px;
+          line-height: 20px;
+        }
       }
     }
 
@@ -289,6 +447,16 @@ $secondary_color: #85889e;
             font-size: 32px;
             line-height: 34.82px;
             color: #1bca92;
+
+            @media screen and (max-width: 330px) {
+              font-size: 20px;
+              line-height: 23px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 30px;
+              line-height: 35px;
+            }
           }
 
           span {
@@ -296,6 +464,16 @@ $secondary_color: #85889e;
             line-height: 24px;
             text-align: center;
             color: $primary-color;
+
+            @media screen and (max-width: 330px) {
+              font-size: 14px;
+              line-height: 18px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 15px;
+              line-height: 21px;
+            }
 
             strong {
               font-weight: 700;
@@ -315,6 +493,16 @@ $secondary_color: #85889e;
             line-height: 24px;
             text-align: center;
             color: $primary-color;
+
+            @media screen and (max-width: 330px) {
+              font-size: 14px;
+              line-height: 18px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 15px;
+              line-height: 21px;
+            }
           }
         }
 
@@ -329,6 +517,16 @@ $secondary_color: #85889e;
             color: $secondary_color;
             max-width: 890px;
             width: 100%;
+
+            @media screen and (max-width: 330px) {
+              font-size: 14px;
+              line-height: 18px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 15px;
+              line-height: 21px;
+            }
 
             strong {
               font-style: italic;
@@ -371,6 +569,11 @@ $secondary_color: #85889e;
                   font-weight: 700;
                   font-size: 24px;
                   line-height: 26.11px;
+
+                  @media screen and (max-width: 330px) {
+                    font-size: 20px;
+                    line-height: 23px;
+                  }
                 }
 
                 span {
@@ -378,6 +581,11 @@ $secondary_color: #85889e;
                   font-weight: 500;
                   font-size: 16px;
                   line-height: 24px;
+
+                  @media screen and (max-width: 330px) {
+                    font-size: 14px;
+                    line-height: 18px;
+                  }
                 }
               }
 
@@ -391,6 +599,16 @@ $secondary_color: #85889e;
                     font-weight: 500;
                     font-size: 18px;
                     line-height: 19.58px;
+
+                    @media screen and (max-width: 330px) {
+                      font-size: 14px;
+                      line-height: 18px;
+                    }
+
+                    @media screen and (max-width: 480px) {
+                      font-size: 15px;
+                      line-height: 21px;
+                    }
                   }
 
                   &:nth-child(1) > span {
@@ -476,6 +694,10 @@ $secondary_color: #85889e;
                   & > .ant-flex {
                     align-items: center;
 
+                    span:first-child {
+                      min-width: 28px;
+                    }
+
                     strong {
                       font-weight: 600;
                       font-size: 24px;
@@ -513,11 +735,27 @@ $secondary_color: #85889e;
                   font-size: 160px;
                   line-height: 174.08px;
                   color: #4b51ec;
+
+                  @media screen and (max-width: 330px) {
+                    font-size: 80px;
+                  }
+
+                  @media screen and (max-width: 480px) {
+                    font-size: 100px;
+                  }
                 }
 
                 .ant-image {
                   max-width: 200px;
                   width: 100%;
+
+                  @media screen and (max-width: 330px) {
+                    max-width: 100px;
+                  }
+
+                  @media screen and (max-width: 480px) {
+                    max-width: 120px;
+                  }
                 }
               }
 
@@ -526,6 +764,11 @@ $secondary_color: #85889e;
                 font-size: 16px;
                 line-height: 24px;
                 color: $secondary_color;
+
+                @media screen and (max-width: 330px) {
+                  font-size: 14px;
+                  line-height: 21px;
+                }
 
                 strong {
                   font-weight: 400;
@@ -565,6 +808,11 @@ $secondary_color: #85889e;
               color: #86868b !important;
               font-style: normal;
 
+              @media screen and (max-width: 330px) {
+                font-size: 14px;
+                line-height: 21px;
+              }
+
               strong {
                 font-weight: 400;
                 color: #2c324a;
@@ -591,6 +839,16 @@ $secondary_color: #85889e;
       color: $primary-color;
       font-size: 48px;
       line-height: 52.22px;
+
+      @media screen and (max-width: 330px) {
+        font-size: 20px;
+        line-height: 24px;
+      }
+
+      @media screen and (max-width: 480px) {
+        font-size: 28px;
+        line-height: 35px;
+      }
     }
 
     .ant-collapse {
@@ -610,6 +868,16 @@ $secondary_color: #85889e;
             color: $primary-color;
             font-size: 18px;
             line-height: 32.4px;
+
+            @media screen and (max-width: 330px) {
+              font-size: 14px;
+              line-height: 21px;
+            }
+
+            @media screen and (max-width: 480px) {
+              font-size: 15px;
+              line-height: 21px;
+            }
           }
 
           .ant-collapse-expand-icon {
