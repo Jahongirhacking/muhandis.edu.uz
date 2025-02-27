@@ -1,12 +1,20 @@
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Collapse, Flex, Image, Tag, Typography } from "antd";
+import { Button, Card, Collapse, Divider, Flex, Image, Tag, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 import { Link } from "react-router-dom";
+import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import FirstStepCard from "./components/FirstStepCard";
 import SecondStepCard from "./components/SecondStepCard";
 import ThirdStepCard from "./components/ThirdStepCard";
 import './style.scss';
+
+const Logo = () => (
+    <Flex className="logo main-logo" gap={8} align="center">
+        <Image src="/icon.svg" preview={false} width={32} alt="logo" />
+        <Typography.Title level={2} style={{ margin: 0 }}>Muhandis edu</Typography.Title>
+    </Flex>
+)
 
 const HomePage = () => {
     const [isExploding, setIsExploding] = useState(false);
@@ -40,10 +48,7 @@ const HomePage = () => {
             {/* Header section */}
             <Flex className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
-                    <Flex className="logo" gap={8} align="center">
-                        <Image src="/icon.svg" preview={false} width={32} alt="logo" />
-                        <Typography.Title level={2} style={{ margin: 0 }}>Muhandis edu</Typography.Title>
-                    </Flex>
+                    <Logo />
                     <Button type='primary' className="main-btn primary-btn">Ro‘yxatdan o‘tish</Button>
                 </Flex>
             </Flex>
@@ -314,6 +319,40 @@ const HomePage = () => {
                     />
                 </Flex>
             </Flex>
+
+            {/* Footer section */}
+            <footer className="footer">
+                <Flex vertical className="padding-box" gap={17} align="center">
+                    <Flex justify='space-between' gap={20} style={{ width: '100%' }} className="footer-main" wrap>
+                        <Flex vertical gap={40} className="footer-logo">
+                            <Logo />
+                            <Typography.Text>Muhandislik yo‘nalishlari bo‘yicha respublika tanlovi</Typography.Text>
+                        </Flex>
+                        <Flex justify='space-between' gap={20} className="footer-social" wrap>
+                            <Flex vertical gap={24}>
+                                <Typography.Title level={3}>Biz ijtimoiy tarmoqlarda</Typography.Title>
+                                <ul>
+                                    <li><Button type="text" icon={<Image preview={false} src={InstagramIcon} />} href="#">Instagram</Button></li>
+                                    <li><Button type="text" icon={<Image preview={false} src={TelegramIcon} />} href="#">Telegram</Button></li>
+                                    <li><Button type="text" icon={<Image preview={false} src={FacebookIcon} />} href="#">Facebook</Button></li>
+                                </ul>
+                            </Flex>
+                            <Flex vertical gap={24}>
+                                <Typography.Title level={3}>Bog’lanish</Typography.Title>
+                                <ul>
+                                    <li>Ishonch telefoni: <a href="tel:1006">1006</a></li>
+                                    <li><a href="#">100095, Toshkent shahri, 2-Chimboy k, 96-uy</a></li>
+                                    <li><a href="#">Telegram bot</a></li>
+                                </ul>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                    <Divider style={{ margin: 0, marginTop: 25 }} />
+                    <Typography.Text style={{ marginLeft: 'auto' }}>
+                        <strong>Ishlab chiqaruvchi:</strong> Raqamli ta'lim texnologiyalarini rivojlantirish markazi
+                    </Typography.Text>
+                </Flex>
+            </footer>
         </Flex>
     )
 }
