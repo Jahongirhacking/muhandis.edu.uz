@@ -27,6 +27,7 @@ const HomePage = () => {
 
         return () => {
             if (prizeRef.current) {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 observer.unobserve(prizeRef.current);
             }
         };
