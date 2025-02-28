@@ -82,11 +82,11 @@ const HomePage = () => {
                     <Flex gap={32} className="speciality-cards" align="center" justify='center' wrap>
                         {
                             [
-                                { label: "Eng yaxshi g’oya", icon: "./images/idea.svg" },
-                                { label: "Eng yaxshi loyiha", icon: "./images/project.svg" },
-                                { label: "Eng yaxshi ixtiro", icon: "./images/invention.svg" }
+                                { label: "Eng yaxshi g’oya", icon: "./images/idea.svg", animation: "fade-up-right" },
+                                { label: "Eng yaxshi loyiha", icon: "./images/project.svg", animation: "fade-up" },
+                                { label: "Eng yaxshi ixtiro", icon: "./images/invention.svg", animation: "fade-up-left" }
                             ].map((spec, index) => (
-                                <Card key={index} className="speciality-card scalable-card">
+                                <Card key={index} className="speciality-card scalable-card" data-aos={spec.animation}>
                                     <Flex vertical align="center" justify="center" gap={48}>
                                         <Image loading="lazy" src={spec.icon} preview={false} alt={spec.label} />
                                         <Tag>{spec.label}</Tag>
@@ -207,7 +207,7 @@ const HomePage = () => {
                                     />
                                 </Flex>
                             </Flex>
-                            <Link to={'#'}>
+                            <Link to={'#'} data-aos="fade-up">
                                 <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
                             </Link>
                         </Flex>
