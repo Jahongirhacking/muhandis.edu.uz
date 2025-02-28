@@ -10,7 +10,7 @@ $secondary_color: #85889e;
   .video-container {
     position: relative;
     width: 100%;
-    height: calc(100vh - 96px);
+    height: calc(100vh - 120px);
     overflow: hidden;
     align-items: center;
     text-align: center;
@@ -26,7 +26,7 @@ $secondary_color: #85889e;
     object-fit: cover;
     transform: translateX(-50%);
     z-index: -1;
-    aspect-ratio: 178 / 100;
+    aspect-ratio: 16 / 9;
   }
 
   /* Gradient Overlay for Fade Effect */
