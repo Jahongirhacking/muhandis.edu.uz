@@ -61,10 +61,10 @@ const HomePage = () => {
                 </video>
                 <div className="video-overlay"></div>
                 <Flex vertical gap={24} className="video-text-content padding-box">
-                    <Typography.Title level={1} className="title-text" style={{ margin: 0 }}>
+                    <Typography.Title level={1} className="title-text" style={{ margin: 0 }} data-aos="fade-up">
                         Muhandislik yo‘nalishlari bo‘yicha respublika tanlovi
                     </Typography.Title>
-                    <Typography.Text>
+                    <Typography.Text data-aos="fade-up" data-aos-duration="2000">
                         Agar siz muhandislikka qiziqsangiz va innovatsion fikrlaringiz bo‘lsa, bu tanlov siz uchun ajoyib imkoniyat!
                     </Typography.Text>
                 </Flex>
@@ -74,8 +74,8 @@ const HomePage = () => {
             <Flex vertical className="specialities" align="center">
                 <Flex vertical className="padding-box" gap={56}>
                     <Flex vertical className="content">
-                        <Typography.Title className="title-text">Tanlovning yo‘nalishlari</Typography.Title>
-                        <Typography.Text>
+                        <Typography.Title className="title-text" data-aos="fade-up">Tanlovning yo‘nalishlari</Typography.Title>
+                        <Typography.Text data-aos="fade-up" data-aos-duration="2000">
                             Tanlov quyidagi <strong>3 ta yoʻnalishda oʻtkaziladi</strong>
                         </Typography.Text>
                     </Flex>
@@ -107,10 +107,10 @@ const HomePage = () => {
                     <Card className="main-prize-card" style={{ textAlign: 'center' }}>
                         <Flex vertical className="card-content" gap={64}>
                             <Flex vertical gap={40} className="prize-title">
-                                <Typography.Title level={2} className="title-text">Ilm, innovatsiya va yutuqlaringizni munosib rag‘batlantiramiz!</Typography.Title>
-                                <Typography.Title level={1}>1-O‘RIN</Typography.Title>
+                                <Typography.Title level={2} className="title-text" data-aos="fade-up">Ilm, innovatsiya va yutuqlaringizni munosib rag‘batlantiramiz!</Typography.Title>
+                                <Typography.Title level={1} data-aos="fade-up" data-aos-duration="2000">1-O‘RIN</Typography.Title>
                             </Flex>
-                            <Flex vertical gap={40} className="prize-content" align='center'>
+                            <Flex vertical gap={40} className="prize-content" align='center' data-aos="fade-up" data-aos-duration="3000">
                                 <Image loading="lazy" src="/images/prize_1.svg" preview={false} alt="1-sovrin rasmi" />
                                 <Flex vertical className="prize-info" gap={16} align="center">
                                     <Typography.Title level={1} className="title-text">Elektromobil</Typography.Title>
@@ -127,7 +127,7 @@ const HomePage = () => {
                         </Flex>
                     </Card>
                     <Flex gap={32} className="prize-card-container" justify="center" wrap>
-                        <Card className="prize-card scalable-card">
+                        <Card className="prize-card scalable-card" data-aos="fade-right" data-aos-duration="3000">
                             <Flex vertical gap={32}>
                                 <Flex vertical gap={32}>
                                     <Flex vertical gap={16}>
@@ -141,7 +141,7 @@ const HomePage = () => {
                                 </Typography.Text>
                             </Flex>
                         </Card>
-                        <Card className="prize-card scalable-card">
+                        <Card className="prize-card scalable-card" data-aos="fade-left" data-aos-duration="3000">
                             <Flex vertical gap={32}>
                                 <Flex vertical gap={32}>
                                     <Flex vertical gap={16}>
@@ -156,7 +156,7 @@ const HomePage = () => {
                             </Flex>
                         </Card>
                     </Flex>
-                    <Link to={'#'}>
+                    <Link to={'#'} data-aos="fade-up">
                         <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
                     </Link>
                 </Flex>
@@ -165,18 +165,18 @@ const HomePage = () => {
             {/* Steps section */}
             <Flex vertical className="steps" align="center">
                 <Flex vertical className="padding-box" gap={40} align="center">
-                    <Flex vertical gap={24} className="steps-title">
+                    <Flex vertical gap={24} className="steps-title" data-aos="fade-up">
                         <Typography.Title level={2} className="title-text">Tanlovda ishtirok etish bosqichlari</Typography.Title>
                         <Typography.Text>Har bir ishtirokchi tanlovning faqatgina bir yoʻnalishida ishtirok etishi mumkin</Typography.Text>
                     </Flex>
                     <Flex vertical className="steps-container" gap={120}>
                         {/* 1ST STEP */}
                         <Flex vertical className="step-item first-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16}>
+                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
                                 <Typography.Title level={3} className="title-text">1-bosqich</Typography.Title>
                                 <Typography.Text><strong>Texnik ekspertiza</strong> kelib tushgan hujjatlarning Vazirlik tomonidan tasdiqlangan talablarga muvofiqligini, shuningdek, loyiha hujjatlariga koʻra taqdim etilgan maʼlumotlarni tahlil qilishda xatolarni aniqlash maqsadida amalga oshiriladi.</Typography.Text>
                             </Flex>
-                            <ul>
+                            <ul data-aos="fade-up">
                                 <li>
                                     <Typography.Text>- arizaga ilova qilingan shakllarning toʻliqligi va toʻgʻriligini, zarur imzo, muhr va shtamplarning mavjudligini tekshirish;</Typography.Text>
                                 </li>
@@ -185,22 +185,25 @@ const HomePage = () => {
                                 </li>
                             </ul>
                             <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text>Tanlov quyidagi <strong>3 ta kategoriyaning har birida 3 ta yoʻnalishda oʻtkaziladi</strong></Typography.Text>
+                                <Typography.Text data-aos="fade-up">Tanlov quyidagi <strong>3 ta kategoriyaning har birida 3 ta yoʻnalishda oʻtkaziladi</strong></Typography.Text>
                                 <Flex className="step-cards" gap={32} wrap>
                                     <FirstStepCard
                                         img="/images/step1_1.svg"
                                         name="Talabalar"
                                         info="Bakalavriat hamda magistratura bosqichida tahsil olayotgan talabalar"
+                                        data-aos="fade-up-right"
                                     />
                                     <FirstStepCard
                                         img="/images/step1_2.svg"
                                         name="Amaliyotchi muhandislar"
                                         info="Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar"
+                                        data-aos="fade-up"
                                     />
                                     <FirstStepCard
                                         img="/images/step1_3.svg"
                                         name="O‘qituvchilar va professorlar"
                                         info="Doktorantlar, tadqiqotchilar, sanoat va texnopark mutaxassislari ishtirok etadi"
+                                        data-aos="fade-up-left"
                                     />
                                 </Flex>
                             </Flex>
@@ -211,29 +214,32 @@ const HomePage = () => {
 
                         {/* 2ND STEP */}
                         <Flex vertical className="step-item second-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16}>
+                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
                                 <Typography.Title level={3} className="title-text">2-bosqich</Typography.Title>
                             </Flex>
 
                             <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text><strong>Saralash bosqichi</strong> - quyidagi <strong>yoʻnalishlarning har biridan 10 nafardan</strong> eng yuqori natijaga erishgan ishtirokchilar yakuniy bosqichga oʻtkaziladi.</Typography.Text>
+                                <Typography.Text data-aos="fade-up"><strong>Saralash bosqichi</strong> - quyidagi <strong>yoʻnalishlarning har biridan 10 nafardan</strong> eng yuqori natijaga erishgan ishtirokchilar yakuniy bosqichga oʻtkaziladi.</Typography.Text>
                                 <Flex className="step-cards" gap={32} wrap>
                                     <SecondStepCard
                                         img="/images/idea.svg"
                                         name="Eng yaxshi g’oya"
+                                        data-aos="fade-up-right"
                                     />
                                     <SecondStepCard
                                         img="/images/project.svg"
                                         name="Eng yaxshi loyiha"
+                                        data-aos="fade-up"
                                     />
                                     <SecondStepCard
                                         img="/images/invention.svg"
                                         name="Eng yaxshi ixtiro"
+                                        data-aos="fade-up-left"
                                     />
                                 </Flex>
                             </Flex>
 
-                            <Flex vertical gap={24} className="step-details">
+                            <Flex vertical gap={24} className="step-details" data-aos="fade-up">
                                 <Flex vertical gap={24} className="details-item">
                                     <Typography.Title level={4}>Dastlabki saralash bosqichi quyidagi baholash mezonlari asosida oʻtkaziladi</Typography.Title>
                                     <ul>
@@ -251,40 +257,40 @@ const HomePage = () => {
                                 </Flex>
                             </Flex>
 
-                            <Link to={'#'} style={{ marginTop: 16 }}>
+                            <Link to={'#'} style={{ marginTop: 16 }} data-aos="fade-up">
                                 <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
                             </Link>
                         </Flex>
 
                         {/* 3RD STEP */}
                         <Flex vertical className="step-item third-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16}>
+                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
                                 <Typography.Title level={3} className="title-text">3-bosqich</Typography.Title>
                             </Flex>
 
                             <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text><strong>Baholash va gʻoliblarni aniqlash</strong> - tanlov doirasida taqdim etilgan gʻoya, loyiha, ixtirolar shakliy, mazmuniy, texnik, iqtisodiy va amaliy jihatdan asoslanganligi boʻyicha dastlabki saralash bosqichidan oʻtkazuvchi hamda yakuniy bosqichga yoʻnaltirish maqsadida tegishli vazirliklar, idoralar hamda tarmoq korxonalari vakillaridan tuziladigan mutaxassislar tarkibi.</Typography.Text>
+                                <Typography.Text data-aos="fade-up"><strong>Baholash va gʻoliblarni aniqlash</strong> - tanlov doirasida taqdim etilgan gʻoya, loyiha, ixtirolar shakliy, mazmuniy, texnik, iqtisodiy va amaliy jihatdan asoslanganligi boʻyicha dastlabki saralash bosqichidan oʻtkazuvchi hamda yakuniy bosqichga yoʻnaltirish maqsadida tegishli vazirliklar, idoralar hamda tarmoq korxonalari vakillaridan tuziladigan mutaxassislar tarkibi.</Typography.Text>
                                 <Flex vertical className="step-cards" gap={32}>
                                     <Flex gap={32} wrap>
-                                        <ThirdStepCard index={1} img="/images/step3_1.svg">
+                                        <ThirdStepCard index={1} img="/images/step3_1.svg" data-aos="fade-right">
                                             <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
                                         </ThirdStepCard>
-                                        <ThirdStepCard index={2} img="/images/step3_2.svg">
+                                        <ThirdStepCard index={2} img="/images/step3_2.svg" data-aos="fade-left">
                                             <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
                                         </ThirdStepCard>
                                     </Flex>
                                     <Flex gap={32} wrap>
-                                        <ThirdStepCard index={3} img="/images/step3_3.svg">
+                                        <ThirdStepCard index={3} img="/images/step3_3.svg" data-aos="fade-right">
                                             <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
                                         </ThirdStepCard>
-                                        <ThirdStepCard index={4} img="/images/step3_4.svg">
+                                        <ThirdStepCard index={4} img="/images/step3_4.svg" data-aos="fade-left">
                                             <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
                                         </ThirdStepCard>
                                     </Flex>
                                 </Flex>
                             </Flex>
 
-                            <Flex vertical gap={24} className="step-details">
+                            <Flex vertical gap={24} className="step-details" data-aos="fade-up">
                                 <Flex vertical gap={24} className="details-item">
                                     <Typography.Text>Shuningdek, Tanlov komissiyasi tavsiyasi va Tashkiliy qoʻmita qaroriga muvofiq <strong>“Barqaror rivojlanish uchun eng yaxshi gʻoya/loyiha/ixtiro”</strong> nominatsiyasida gʻolib deb topilgan yana <strong>bir nafar ishtirokchisi ham</strong> rivojlangan <span className="important">xorijiy davlatlarga stajirovkalarga yuboriladi.</span></Typography.Text>
                                     <Typography.Text>Ushbu nominatsiya gʻolibi <strong>ekologiya va atrof-muhitni asrash boʻyicha muhandislik ishlanmalari (gʻoya/loyiha/ixtiro)</strong> orasidan aniqlanadi. Bunda, har bir yoʻnalishda dastlabki uchta oʻrinlarni egallagan <strong>gʻoliblardan soʻng eng yuqori ball toʻplagan bir nafar ishtirokchi gʻolib</strong> deb topiladi.</Typography.Text>
@@ -294,7 +300,7 @@ const HomePage = () => {
                                 </Flex>
                             </Flex>
 
-                            <Link to={'#'} style={{ marginTop: 24 }}>
+                            <Link to={'#'} style={{ marginTop: 24 }} data-aos="fade-up">
                                 <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
                             </Link>
                         </Flex>
@@ -303,7 +309,7 @@ const HomePage = () => {
             </Flex>
 
             {/* FAQ section */}
-            <Flex vertical className="faq" align="center">
+            <Flex vertical className="faq" align="center" data-aos="fade-up">
                 <Flex vertical className="padding-box" gap={72} align="center">
                     <Typography.Title level={1} className="title-text">Eng ko‘p beriladigan savollar</Typography.Title>
                     <Collapse

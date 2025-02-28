@@ -1,8 +1,13 @@
-import { Card, Flex, Image, Typography } from "antd";
+import { Card, CardProps, Flex, Image, Typography } from "antd";
 
-const SecondStepCard = ({ img, name }: { img: string; name: string }) => {
+interface ISecondStepCard extends CardProps {
+    img: string;
+    name: string;
+}
+
+const SecondStepCard = ({ img, name, ...props }: ISecondStepCard) => {
     return (
-        <Card className="step-card second-step-card scalable-card">
+        <Card className="step-card second-step-card scalable-card" {...props}>
             <Flex vertical gap={32} align="center">
                 <Flex className="card-speciality" gap={24} align="center">
                     <Image loading="lazy" src={img} preview={false} alt={`${name} rasmi`} />

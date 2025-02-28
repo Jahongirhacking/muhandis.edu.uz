@@ -1,10 +1,21 @@
 import { LoadingOutlined } from "@ant-design/icons";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { useEffect, useState } from "react";
 import MainRouter from "./routes";
 import './style.scss';
 
+
 const App = () => {
   const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-in-out',
+    });
+  }, []);
 
   useEffect(() => {
     setIsReady(true);
