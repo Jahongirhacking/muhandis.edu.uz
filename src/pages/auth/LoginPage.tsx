@@ -1,7 +1,10 @@
+import { Flex } from "antd"
 
 const LoginPage = () => {
     return (
-        <div>LoginPage</div>
+        <Flex vertical>
+            <div style={{ height: '100dvh' }}>LoginPage</div>
+        </Flex>
     )
 }
 

@@ -1,8 +1,9 @@
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card, Collapse, Divider, Flex, Image, Tag, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
-import ConfettiExplosion from "react-confetti-explosion";
+import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
+import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import FirstStepCard from "./components/FirstStepCard";
 import SecondStepCard from "./components/SecondStepCard";
@@ -19,13 +20,14 @@ const Logo = () => (
 const HomePage = () => {
     const [isExploding, setIsExploding] = useState(false);
     const prizeRef = useRef<HTMLDivElement | null>(null);
+    const { width, height } = useWindowSize();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsExploding(true);
-                    setTimeout(() => setIsExploding(false), 3000); // Reset after 3s
+                    // setTimeout(() => setIsExploding(false), 15000);
                 }
             },
             { threshold: 0.5 } // Adjust this to trigger earlier/later
@@ -99,9 +101,15 @@ const HomePage = () => {
             </Flex>
 
             {/* Prizes section */}
-            <Flex vertical className="prizes" align="center" ref={prizeRef}>
+            <Flex vertical className="prizes" align="center" style={{ position: 'relative' }} ref={prizeRef}>
                 {isExploding && (
-                    <ConfettiExplosion force={0.8} duration={2500} particleCount={200} width={window.innerWidth} />
+                    <Confetti
+                        width={width}
+                        height={height}
+                        recycle={false}
+                        numberOfPieces={300}
+                        tweenDuration={20000}
+                    />
                 )}
                 <Flex vertical className="padding-box" align="center" gap={40}>
                     <Card className="main-prize-card" style={{ textAlign: 'center' }}>

@@ -16,6 +16,10 @@
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
+
+  #root {
+    overflow-x: hidden;
+  }
 }
 
 .root-layout {
