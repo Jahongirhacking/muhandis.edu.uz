@@ -1,14 +1,11 @@
-import { CaretRightOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Collapse, Divider, Flex, Image, Typography } from "antd";
+import { CaretRightOutlined } from "@ant-design/icons";
+import { Button, Card, Divider, Flex, FloatButton, Image, Typography } from "antd";
 import { useRef, useState } from "react";
 import Confetti from "react-confetti";
-import { Link } from "react-router-dom";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import BallsScene from "./BallsScene";
-import FirstStepCard from "./components/FirstStepCard";
-import SecondStepCard from "./components/SecondStepCard";
-import ThirdStepCard from "./components/ThirdStepCard";
+import Statistics from "./Statistics";
 import './style.scss';
 
 const Logo = () => (
@@ -25,28 +22,15 @@ const HomePage = () => {
 
     const { width, height } = useWindowSize();
 
-    // useEffect(() => {
-    //     const observer = new IntersectionObserver(
-    //         ([entry]) => {
-    //             if (entry.isIntersecting) {
-    //                 setIsExploding(true);
-    //                 // setTimeout(() => setIsExploding(false), 15000);
-    //             }
-    //         },
-    //         { threshold: 0.5 } // Adjust this to trigger earlier/later
-    //     );
-
-    //     if (prizeRef.current) {
-    //         observer.observe(prizeRef.current);
-    //     }
-
-    //     return () => {
-    //         if (prizeRef.current) {
-    //             // eslint-disable-next-line react-hooks/exhaustive-deps
-    //             observer.unobserve(prizeRef.current);
-    //         }
-    //     };
-    // }, []);
+    const navbar = [
+        { title: "Bosh sahifa", href: '#home' },
+        { title: "Tanlov yo‘nalishlari", href: '#criteria' },
+        { title: "Sovrinlar", href: '#prizes' },
+        { title: "Ishtirokchilar", href: '#participants' },
+        { title: "Statistika", href: '#stats' },
+        { title: "Yangiliklar", href: '#news' },
+        { title: "Nizom", href: '#home' },
+    ];
 
     return (
         <Flex vertical className="home-page">
@@ -54,12 +38,21 @@ const HomePage = () => {
             <Flex className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
                     <Logo />
-                    <Button type='primary' className="main-btn primary-btn">Ro‘yxatdan o‘tish</Button>
+                    <Flex gap={46} align="center">
+                        <Flex gap={24} align="center" className="links">
+                            {
+                                navbar.map((el, index) => (
+                                    <a href={el.href} key={index}>{el.title}</a>
+                                ))
+                            }
+                        </Flex>
+                        <Button type='primary' className="main-btn primary-btn">Ro‘yxatdan o‘tish</Button>
+                    </Flex>
                 </Flex>
             </Flex>
 
             {/* Hero section*/}
-            <Flex vertical className="video-container">
+            <Flex vertical className="video-container" id="home">
                 <BallsScene />
                 <Flex vertical gap={12} className="video-text-content padding-box">
                     <Flex vertical className="view-video-btn">
@@ -84,7 +77,7 @@ const HomePage = () => {
             </Flex>
 
             {/* Specialities section*/}
-            <Flex vertical className="specialities" align="center">
+            <Flex vertical className="specialities" align="center" id="criteria">
                 <Flex vertical className="padding-box" gap={56}>
                     <Flex className="content" gap={30} justify='space-between' wrap>
                         <Typography.Title level={1} className="title-text" data-aos="fade-up">Tanlov <span className="main-text">yo‘nalishlari</span></Typography.Title>
@@ -99,7 +92,7 @@ const HomePage = () => {
                                 { label: "Eng yaxshi loyiha", info: "G‘oya bosqichidan keyingi daraja bo‘lib, unda g‘oya amalga oshirish uchun aniq rejalashtirilgan va hujjatlashtirilgan shaklda ifodalanadi. Loyihada aniq biznes-reja, maqsadlar, resurslar, vaqt jadvali, bosqichlar va ehtiyojlar belgilab qo‘yiladi. Loyihalar g‘oya asosida quriladi, lekin ular aniq rejalashtirilgan va amalga oshirish uchun aniq yondashuvlarni o‘z ichiga oladi.", icon: "./images/project.png", animation: "fade-up" },
                                 { label: "Eng yaxshi ixtiro", info: "Amaliyotda qo‘llanilishi mumkin bo‘lgan yangi, ilgari mavjud bo‘lmagan mahsulot, qurilma yoki texnologiyani yaratishni anglatadi. Ixtirolar odatda maxsus sinovlardan o‘tgan va patentlanadigan obyektlar hisoblanadi. G‘oya va loyihadan keyingi bosqich bo‘lib, real, jismoniy yoki texnik jihatdan aniq shaklga ega. Ixtiro mavjud muammoni hal etuvchi tayyor yechim bo‘lib, undan foydalanish mumkin.", icon: "./images/invention.png", animation: "fade-up-left" }
                             ].map((spec, index) => (
-                                <Card key={index} className="speciality-card scalable-card" data-aos={spec.animation || 'fade-up'} style={{ marginTop: index * 160 }}>
+                                <Card key={index} className="speciality-card scalable-card" data-aos={spec.animation || 'fade-up'} style={{ marginTop: width >= 1110 ? index * 160 : 0 }}>
                                     <Flex vertical align="center" justify="center" gap={24}>
                                         <Image loading="lazy" src={spec.icon} preview={false} alt={spec.label} />
                                         <Flex vertical gap={12} align="left">
@@ -115,8 +108,7 @@ const HomePage = () => {
             </Flex>
 
             {/* Prizes section */}
-            <Flex vertical className="prizes" align="center" style={{ position: 'relative' }} ref={prizeRef}>
-                {/* {isExploding && ( */}
+            <Flex vertical className="prizes" align="center" style={{ position: 'relative' }} id="prizes" ref={prizeRef}>
                 <Confetti
                     width={width}
                     height={3 * height}
@@ -124,7 +116,6 @@ const HomePage = () => {
                     numberOfPieces={Math.floor(width / 25)}
                     tweenDuration={20000}
                 />
-                {/* )} */}
                 <Flex vertical className="padding-box" align="center" gap={42}>
                     <Typography.Title level={1} className="prizes-title title-text" data-aos="fade-up" data-aos-duration="2000">Sovrinlar</Typography.Title>
                     <Card className="main-prize-card scalable-card" style={{ textAlign: 'center' }} data-aos="fade-up" data-aos-duration="3000">
@@ -207,176 +198,85 @@ const HomePage = () => {
                 </Flex>
             </Flex>
 
-            {/* participants section */}
-            <Flex className="participants">
-                <Typography.Title level={1} className="title-text">
-                    Tanlovda <span className="main-text">kimlar qatnasha oladi?</span>
-                </Typography.Title>
-            </Flex>
-
-            {/* Steps section */}
-            <Flex vertical className="steps" align="center">
-                <Flex vertical className="padding-box" gap={40} align="center">
-                    <Flex vertical gap={24} className="steps-title" data-aos="fade-up">
-                        <Typography.Title level={2} className="title-text">Tanlovda ishtirok etish bosqichlari</Typography.Title>
-                        <Typography.Text>Har bir ishtirokchi tanlovning faqatgina bir yoʻnalishida ishtirok etishi mumkin</Typography.Text>
-                    </Flex>
-                    <Flex vertical className="steps-container" gap={120}>
-                        {/* 1ST STEP */}
-                        <Flex vertical className="step-item first-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
-                                <Typography.Title level={3} className="title-text">1-bosqich</Typography.Title>
-                                <Typography.Text><strong>Texnik ekspertiza</strong> kelib tushgan hujjatlarning Vazirlik tomonidan tasdiqlangan talablarga muvofiqligini, shuningdek, loyiha hujjatlariga koʻra taqdim etilgan maʼlumotlarni tahlil qilishda xatolarni aniqlash maqsadida amalga oshiriladi.</Typography.Text>
-                            </Flex>
-                            <ul data-aos="fade-up">
-                                <li>
-                                    <Typography.Text>- arizaga ilova qilingan shakllarning toʻliqligi va toʻgʻriligini, zarur imzo, muhr va shtamplarning mavjudligini tekshirish;</Typography.Text>
-                                </li>
-                                <li>
-                                    <Typography.Text>- ariza hujjatlarida koʻrsatilgan maʼlumotlarni tekshirish, texnik xatolar va noaniqliklar yoʻqligini tekshirish.</Typography.Text>
-                                </li>
-                            </ul>
-                            <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text data-aos="fade-up">Tanlov quyidagi <strong>3 ta kategoriyaning har birida 3 ta yoʻnalishda oʻtkaziladi</strong></Typography.Text>
-                                <Flex className="step-cards" gap={32} wrap>
-                                    <FirstStepCard
-                                        img="/images/step1_1.svg"
-                                        name="Talabalar"
-                                        info="Bakalavriat hamda magistratura bosqichida tahsil olayotgan talabalar"
-                                        data-aos="fade-up-right"
-                                    />
-                                    <FirstStepCard
-                                        img="/images/step1_2.svg"
-                                        name="Amaliyotchi muhandislar"
-                                        info="Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar"
-                                        data-aos="fade-up"
-                                    />
-                                    <FirstStepCard
-                                        img="/images/step1_3.svg"
-                                        name="O‘qituvchilar va professorlar"
-                                        info="Doktorantlar, tadqiqotchilar, sanoat va texnopark mutaxassislari ishtirok etadi"
-                                        data-aos="fade-up-left"
-                                    />
-                                </Flex>
-                            </Flex>
-                            <Link to={'#'} data-aos="fade-up">
-                                <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
-                            </Link>
-                        </Flex>
-
-                        {/* 2ND STEP */}
-                        <Flex vertical className="step-item second-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
-                                <Typography.Title level={3} className="title-text">2-bosqich</Typography.Title>
-                            </Flex>
-
-                            <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text data-aos="fade-up"><strong>Saralash bosqichi</strong> - quyidagi <strong>yoʻnalishlarning har biridan 10 nafardan</strong> eng yuqori natijaga erishgan ishtirokchilar yakuniy bosqichga oʻtkaziladi.</Typography.Text>
-                                <Flex className="step-cards" gap={32} wrap>
-                                    <SecondStepCard
-                                        img="/images/idea.svg"
-                                        name="Eng yaxshi g’oya"
-                                        data-aos="fade-up-right"
-                                    />
-                                    <SecondStepCard
-                                        img="/images/project.svg"
-                                        name="Eng yaxshi loyiha"
-                                        data-aos="fade-up"
-                                    />
-                                    <SecondStepCard
-                                        img="/images/invention.svg"
-                                        name="Eng yaxshi ixtiro"
-                                        data-aos="fade-up-left"
-                                    />
-                                </Flex>
-                            </Flex>
-
-                            <Flex vertical gap={24} className="step-details" data-aos="fade-up">
-                                <Flex vertical gap={24} className="details-item">
-                                    <Typography.Title level={4}>Dastlabki saralash bosqichi quyidagi baholash mezonlari asosida oʻtkaziladi</Typography.Title>
-                                    <ul>
-                                        <li><Typography.Text>gʻoya, loyiha va ixtirolar <strong>mazmuniy jihatdan toʻliq yoritib berilganligi – 20 ballgacha;</strong></Typography.Text></li>
-                                        <li><Typography.Text>gʻoya, loyiha va ixtirolarga oid <strong>texnik chizmalar, konseptual grafikalar yoki modellar taqdim etilganligi – 10 ballgacha;</strong></Typography.Text></li>
-                                        <li><Typography.Text>taklif etilayotgan gʻoya, loyiha va ixtirolarning <strong>dolzarbligi, amalga oshirish imkoniyatlari tahliliy maʼlumotlar asosida yoritib berilganligi – 20 ballgacha;</strong></Typography.Text></li>
-                                        <li><Typography.Text>taklif etilayotgan gʻoya, loyiha va ixtirolarni amalga oshirish uchun <strong>zarur mablagʻlarni mablagʻlarning aniq va asoslangan hisob-kitob qilinganligi – 10 ballgacha;</strong></Typography.Text></li>
-                                        <li><Typography.Text>taklif etilayotgan gʻoya, loyiha va ixtirolarni amalga oshirishning <strong>ijtimoiy-iqtisodiy samaradorligi tahliliy maʼlumotlar asosida yoritib berilganligi – 20 ballgacha;</strong></Typography.Text></li>
-                                        <li><Typography.Text>taklif etilayotgan gʻoya, loyiha va ixtirolarning <strong>zamonaviyligi, raqobatbardoshligi, amaliyotga joriy etish ehtimoli va texnik tayyorligi – 20 ballgacha.</strong></Typography.Text></li>
-                                    </ul>
-                                </Flex>
-                                <Flex vertical className="details-item" gap={24}>
-                                    <Typography.Text>Ishchi guruh tomonidan gʻoya, loyiha va ixtirolarning <strong>yakuniy ballari Ishchi guruh aʼzolari ballarining oʻrtacha arifmetik qiymati bilan belgilanadi;</strong></Typography.Text>
-                                    <Typography.Text>Ikki yoki undan ortiq ishtirokchilarning <strong>yakuniy ballari bir xil boʻlgan hollarda</strong> gʻoliblar Tanlov komissiyasi aʼzolari tomonidan <strong>ovoz berish</strong> yoʻli bilan aniqlanadi;</Typography.Text>
-                                </Flex>
-                            </Flex>
-
-                            <Link to={'#'} style={{ marginTop: 16 }} data-aos="fade-up">
-                                <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
-                            </Link>
-                        </Flex>
-
-                        {/* 3RD STEP */}
-                        <Flex vertical className="step-item third-item" gap={40}>
-                            <Flex vertical className="step-info" gap={16} data-aos="fade-up">
-                                <Typography.Title level={3} className="title-text">3-bosqich</Typography.Title>
-                            </Flex>
-
-                            <Flex vertical className="step-main" gap={32}>
-                                <Typography.Text data-aos="fade-up"><strong>Baholash va gʻoliblarni aniqlash</strong> - tanlov doirasida taqdim etilgan gʻoya, loyiha, ixtirolar shakliy, mazmuniy, texnik, iqtisodiy va amaliy jihatdan asoslanganligi boʻyicha dastlabki saralash bosqichidan oʻtkazuvchi hamda yakuniy bosqichga yoʻnaltirish maqsadida tegishli vazirliklar, idoralar hamda tarmoq korxonalari vakillaridan tuziladigan mutaxassislar tarkibi.</Typography.Text>
-                                <Flex vertical className="step-cards" gap={32}>
-                                    <Flex gap={32} wrap>
-                                        <ThirdStepCard index={1} img="/images/step3_1.svg" data-aos="fade-right">
-                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
-                                        </ThirdStepCard>
-                                        <ThirdStepCard index={2} img="/images/step3_2.svg" data-aos="fade-left">
-                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
-                                        </ThirdStepCard>
+            {/* Participants section */}
+            <Flex vertical className="participants" id="participants">
+                <Flex vertical className="padding-box" align="center" gap={42}>
+                    <Typography.Title level={1} className="title-text">
+                        Tanlovda <span className="main-text">kimlar qatnasha oladi?</span>
+                    </Typography.Title>
+                    <Flex className="cards-container" justify="center" align="flex-start" gap={32} data-aos="fade-up" wrap>
+                        {
+                            [
+                                { label: "Talabalar", info: "Bakalavriat hamda magistratura bosqichida tahsil olayotgan talabalar", video: "./videos/student.mp4", animation: "fade-up-right" },
+                                { label: "Amaliyotchi muhandislar", info: "Doktorantlar, tadqiqotchilar, sanoat va texnopark mutaxassislari ishtirok etadi.", video: "./videos/engineer.mp4", animation: "fade-up" },
+                                { label: "Professor-O‘qituvchilar", info: "Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar", video: "./videos/teacher.mp4", animation: "fade-up-left" }
+                            ].map((participant, index) => (
+                                <Card key={index} data-aos={participant.animation} className="participant-card scalable-card">
+                                    <Flex vertical gap={24}>
+                                        <Flex className="video-box" vertical>
+                                            <video autoPlay loop muted playsInline className="background-video">
+                                                <source src={participant.video} />
+                                            </video>
+                                        </Flex>
+                                        <Flex vertical gap={12}>
+                                            <Typography.Title level={2} style={{ margin: 0 }} className="title-text">{participant.label}</Typography.Title>
+                                            <Typography.Text>{participant.info}</Typography.Text>
+                                        </Flex>
                                     </Flex>
-                                    <Flex gap={32} wrap>
-                                        <ThirdStepCard index={3} img="/images/step3_3.svg" data-aos="fade-right">
-                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
-                                        </ThirdStepCard>
-                                        <ThirdStepCard index={4} img="/images/step3_4.svg" data-aos="fade-left">
-                                            <Typography.Text>Tanlovning yakuniy bosqichida Tanlov ishtirokchilari Tanlov komissiyasi oldida oʻz gʻoya, loyiha va ixtirolarining <strong>taqdimot (prezentatsiya)</strong> koʻrinishida himoyasini oʻtkazadilar.</Typography.Text>
-                                        </ThirdStepCard>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-
-                            <Flex vertical gap={24} className="step-details" data-aos="fade-up">
-                                <Flex vertical gap={24} className="details-item">
-                                    <Typography.Text>Shuningdek, Tanlov komissiyasi tavsiyasi va Tashkiliy qoʻmita qaroriga muvofiq <strong>“Barqaror rivojlanish uchun eng yaxshi gʻoya/loyiha/ixtiro”</strong> nominatsiyasida gʻolib deb topilgan yana <strong>bir nafar ishtirokchisi ham</strong> rivojlangan <span className="important">xorijiy davlatlarga stajirovkalarga yuboriladi.</span></Typography.Text>
-                                    <Typography.Text>Ushbu nominatsiya gʻolibi <strong>ekologiya va atrof-muhitni asrash boʻyicha muhandislik ishlanmalari (gʻoya/loyiha/ixtiro)</strong> orasidan aniqlanadi. Bunda, har bir yoʻnalishda dastlabki uchta oʻrinlarni egallagan <strong>gʻoliblardan soʻng eng yuqori ball toʻplagan bir nafar ishtirokchi gʻolib</strong> deb topiladi.</Typography.Text>
-                                </Flex>
-                                <Flex vertical className="details-item" gap={24}>
-                                    <Typography.Text><strong>Tanlov komissiyasi - tanlov doirasida taqdim etilgan gʻoyalar, loyihalar va ixtirolarni koʻrib chiqish, baholash va gʻoliblarni aniqlash maqsadida tegishli vazirliklar, idoralar, tarmoq korxonalari hamda xorijiy tashkilotlar vakillaridan tuziladigan komissiya tarkibi.</strong></Typography.Text>
-                                </Flex>
-                            </Flex>
-
-                            <Link to={'#'} style={{ marginTop: 24 }} data-aos="fade-up">
-                                <Button type="primary" className="main-btn primary-btn">Ariza topshirish</Button>
-                            </Link>
-                        </Flex>
+                                </Card>
+                            ))
+                        }
                     </Flex>
                 </Flex>
             </Flex>
 
-            {/* FAQ section */}
-            <Flex vertical className="faq" align="center" data-aos="fade-up">
-                <Flex vertical className="padding-box" gap={72} align="center">
-                    <Typography.Title level={1} className="title-text">Eng ko‘p beriladigan savollar</Typography.Title>
-                    <Collapse
-                        expandIcon={({ isActive }) => isActive ? <MinusOutlined /> : <PlusOutlined />}
-                        expandIconPosition="end"
-                        items={[
-                            { key: 1, label: 'Tanlov nechta bosqichdan iborat?', children: 'Lorem Ipsum' },
-                            { key: 2, label: 'Har bir bosqich uchun qanday muddatlar belgilangan?', children: 'Lorem Ipsum' },
-                            { key: 3, label: 'Ariza topshirishda muammo yuzaga kelsa, kimga murojaat qilish mumkin?', children: 'Lorem Ipsum' },
-                            { key: 4, label: 'Tashkilotchilar bilan qanday bog‘lanish mumkin?', children: 'Lorem Ipsum' },
-                            { key: 5, label: 'Taqdim etilgan loyihalarning mualliflik huquqi qanday himoyalanadi?', children: 'Lorem Ipsum' },
-                        ]}
-                    />
+            {/* Statistics section */}
+            <Statistics />
+
+            {/* News */}
+            <Flex vertical className="news" id="news">
+                <Flex vertical className="padding-box" align="center" gap={42}>
+                    <Typography.Title level={1} className="title-text">
+                        Yangliklar
+                    </Typography.Title>
+                    <Flex className="cards-container" justify="center" align="stretch" gap={32} data-aos="fade-up" wrap>
+                        {
+                            [
+                                { title: "Yosh olimlar va tadqiqotchilar har tomonlama qoʻllab-quvvatlanadi", image: "./images/news/news_1.png", time: "11:30 28.11.2024" },
+                                { title: "AQShning “Chemonics International” tashkiloti vakillari bilan uchrashuv", image: "./images/news/news_2.png", time: "11:30 28.11.2024" },
+                                { title: "O‘zbekiston va Koreya o‘rtasida qishloq xo‘jaligi texnikalarini ishlab chiqarish bo‘yicha hamkorlik aloqalari mustahkamlanmoqda", image: "./images/news/news_3.png", time: "11:30 28.11.2024" }
+                            ].map((news, index) => (
+                                <Card key={index} className="news-card scalable-card">
+                                    <Flex vertical gap={24} className="card-box">
+                                        <Flex className="video-box" vertical>
+                                            <Image src={news.image} />
+                                        </Flex>
+                                        <Flex vertical gap={12} justify="space-between">
+                                            <Typography.Title level={2} style={{ margin: 0 }}>{news.title}</Typography.Title>
+                                            <Typography.Text>{news.time}</Typography.Text>
+                                        </Flex>
+                                    </Flex>
+                                </Card>
+                            ))
+                        }
+                    </Flex>
                 </Flex>
             </Flex>
+
+            {/* Motto section */}
+            <Flex vertical className="motto" align="center" justify="center">
+                <video autoPlay loop muted playsInline className="background-video">
+                    <source src="/videos/universe.mp4" />
+                </video>
+                <div className="video-overlay overlay-1" />
+                <div className="video-overlay overlay-2" />
+
+                <Flex className="padding-box" justify="center" align="center" data-aos="fade-up" data-aos-duration="3000">
+                    <Typography.Title level={1} className="title-text">Kelajakni Muhandislar quradi!</Typography.Title>
+                </Flex>
+            </Flex>
+
+            <FloatButton.BackTop />
 
             {/* Footer section */}
             <footer className="footer">

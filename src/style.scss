@@ -6,20 +6,23 @@
   padding: 0;
   margin: 0;
 
+  scroll-behavior: smooth;
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "wdth" 100;
+  scrollbar-width: thin;
+  scrollbar-color: #10f3ffc0 transparent;
 }
 
-.ant-typography {
+.ant-typography,
+a {
   font-family: "Rubik", sans-serif;
 }
 
 body {
   overflow-x: hidden;
-  scroll-behavior: smooth;
   background-color: #01112b;
 
   #root {
@@ -32,6 +35,12 @@ body {
     width: 100%;
     padding: 0 64px;
     // max-width: 1216px;
+    @media screen and (max-width: 300px) {
+      padding: 0 12px;
+    }
+    @media screen and (max-width: 500px) {
+      padding: 0 18px;
+    }
   }
 
   .title-text {
@@ -115,7 +124,7 @@ body {
         line-height: 15px;
       }
 
-      @media screen and (max-width: 480px) {
+      @media screen and (max-width: 599px) {
         font-size: 17px;
         line-height: 20px;
       }

@@ -7,3 +7,8 @@ declare module "*.gif" {
   const content: string;
   export default content;
 }
+
+declare module "@svg-maps/uzbekistan" {
+  const content: Map;
+  export default content;
+}
