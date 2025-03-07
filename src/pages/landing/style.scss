@@ -1,6 +1,15 @@
 $primary-color: #2c324a;
 $secondary_color: #85889e;
 
+$original_width: 1728;
+
+@mixin makeBall($index, $width) {
+  &:nth-child(#{$index}) {
+    width: calc(100dvw * #{$width} / $original_width);
+    background-image: url("/gradients/bg-#{$index}.png");
+  }
+}
+
 .home-page {
   .header {
     padding-top: 20px;
@@ -10,92 +19,209 @@ $secondary_color: #85889e;
   .video-container {
     position: relative;
     width: 100%;
-    height: calc(100vh - 120px);
+    height: calc(100dvh - 94px);
     overflow: hidden;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-end;
     text-align: center;
     color: white;
-  }
 
-  .background-video {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 100%;
-    // height: 100%;
-    object-fit: cover;
-    transform: translateX(-50%);
-    z-index: -1;
-    aspect-ratio: 16 / 9;
-  }
+    .ball-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-  /* Gradient Overlay for Fade Effect */
-  .video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #ffffff 35%,
-      rgba(255, 255, 255, 0) 93.52%
-    );
-    z-index: 0;
-  }
+    .ball {
+      position: absolute;
+      background-color: #10f5ff;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+      aspect-ratio: 1 / 1;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      min-width: 35px;
+      transition: 0.4s ease;
 
-  /* Text Styling */
-  .video-text-content {
-    position: relative;
-    z-index: 1;
-    margin-top: 15dvh;
-    align-items: center;
-
-    h1 {
-      font-size: 64px;
-      line-height: 72px;
-      color: $primary-color;
-
-      @media screen and (max-width: 330px) {
-        font-size: 20px;
-        line-height: 23px;
+      @keyframes scalable_ball {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.1);
+        }
       }
 
-      @media screen and (max-width: 480px) {
-        font-size: 30px;
-        line-height: 35px;
+      img {
+        max-width: 48px;
+        width: 70%;
+      }
+
+      @include makeBall(1, 88);
+      @include makeBall(2, 132);
+      @include makeBall(3, 132);
+      @include makeBall(4, 60);
+      @include makeBall(5, 81);
+      @include makeBall(6, 97);
+      @include makeBall(7, 88);
+      @include makeBall(8, 88);
+      @include makeBall(9, 97);
+    }
+
+    /* Text Styling */
+    .video-text-content {
+      position: absolute;
+      top: 50%;
+      transform: translate(0%, -50%);
+      z-index: 1;
+      text-align: left;
+      max-width: min(990px, 100%);
+      align-items: flex-start;
+      padding-right: 0 !important;
+
+      .view-video-btn {
+        padding: 67px 88px;
+        background: url("/videos/bg-1.mp4");
+        overflow: hidden;
+        position: relative;
+        border-radius: 170px;
+
+        * {
+          color: #fff;
+        }
+
+        &__background-video {
+          object-fit: contain;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+        }
+
+        button {
+          padding: 16px;
+          background: #8080804d;
+          background-blend-mode: luminosity;
+          border: 1.4px solid;
+          overflow: hidden;
+          border-image-source: linear-gradient(
+            156.52deg,
+            rgba(255, 255, 255, 0.4) 2.12%,
+            rgba(255, 255, 255, 0.0001) 39%,
+            rgba(255, 255, 255, 0.0001) 54.33%,
+            rgba(255, 255, 255, 0.1) 93.02%
+          );
+          backdrop-filter: blur(100px);
+          border-radius: 119px;
+        }
+      }
+
+      h1 {
+        font-size: 120px;
+        line-height: 120px;
+        color: #fff;
+        text-transform: uppercase;
+        span {
+          font-size: inherit;
+          line-height: inherit;
+          font-family: inherit;
+        }
+
+        @media screen and (max-width: 330px) {
+          font-size: 20px;
+          line-height: 23px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 30px;
+          line-height: 35px;
+        }
+      }
+
+      span.ant-typography {
+        font-size: 18px;
+        line-height: 24px;
+        color: #fff;
+        max-width: min(100%, 550px);
+        padding: 16px 24px;
+        background: #8080804d;
+        background-blend-mode: luminosity;
+        border: 1.4px solid #ffffff25;
+        backdrop-filter: blur(12px);
+        border-radius: 119px;
+
+        @media screen and (max-width: 330px) {
+          font-size: 12px;
+          line-height: 15px;
+        }
+
+        @media screen and (max-width: 480px) {
+          font-size: 15px;
+          line-height: 21px;
+        }
       }
     }
 
-    span {
-      font-size: 18px;
-      line-height: 24px;
-      color: $primary-color;
-      max-width: min(100%, 550px);
+    .video-box {
+      position: relative;
 
-      @media screen and (max-width: 330px) {
-        font-size: 12px;
-        line-height: 15px;
+      .background-video {
+        display: block;
+        position: relative;
+        max-height: calc(100dvh - 94px);
+        width: 100dvw;
+        // height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        aspect-ratio: 16 / 9;
       }
 
-      @media screen and (max-width: 480px) {
-        font-size: 15px;
-        line-height: 21px;
+      /* Gradient Overlay for Fade Effect */
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          #01112b 0%,
+          #01112b 35%,
+          rgba(255, 255, 255, 0) 93.52%
+        );
+        z-index: 0;
       }
     }
   }
 
   .specialities {
-    margin-top: 47px;
+    margin-top: 80px;
+    margin-bottom: 106px;
     text-align: center;
+    * {
+      color: #fff;
+    }
 
     .content {
+      align-items: center;
       h1 {
+        margin: 0;
         font-weight: 400;
-        font-size: 40px;
-        line-height: 48px;
-        color: $primary-color;
+        font-size: 120px;
+        line-height: 120px;
+        text-transform: uppercase;
+        max-width: 830px;
+        width: 100%;
 
         @media screen and (max-width: 330px) {
           font-size: 20px;
@@ -109,11 +235,15 @@ $secondary_color: #85889e;
       }
 
       span {
+        text-align: left;
         font-weight: 400;
         font-style: italic;
         font-size: 20px;
-        line-height: 21.76px;
-        color: #85889e;
+        line-height: 24.76px;
+        width: fit-content !important;
+        // margin: auto;
+        min-width: 200px;
+        max-width: (600px);
 
         @media screen and (max-width: 330px) {
           font-size: 12px;
@@ -134,55 +264,67 @@ $secondary_color: #85889e;
     }
 
     .speciality-cards {
-      .ant-tag {
+      align-items: flex-start;
+
+      .speciality-card {
+        text-align: left;
+        padding: 24px;
+        border-radius: 32px;
+        background: radial-gradient(
+          128.62% 214.84% at 100% 100%,
+          rgba(99, 84, 255, 0.1) 0%,
+          rgba(98, 84, 255, 0) 100%
+        );
         border: none;
-        margin: 0;
-        border-radius: 24px;
-        padding: 12px 24px;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 19.58px;
-        letter-spacing: 0%;
+        flex: 1;
+        min-width: 300px;
+        box-shadow: -6px -6px 16px 0px #ffffff0d inset;
 
-        @media screen and (max-width: 330px) {
-          font-size: 13px;
-          line-height: 14px;
+        * {
+          color: #fff;
         }
 
-        @media screen and (max-width: 480px) {
-          font-size: 15px;
-          line-height: 21px;
+        .ant-image {
+          width: 100%;
+        }
+
+        .title-text {
+          margin: 0;
+          font-size: 32px;
+          line-height: 32px;
+        }
+
+        .ant-card-body {
+          padding: 0;
         }
       }
-
-      .speciality-card:nth-child(1) .ant-tag {
-        background-color: #f6b8ff;
-        color: #8f51f5;
-      }
-
-      .speciality-card:nth-child(2) .ant-tag {
-        background-color: #ebf2ee;
-        color: #56946f;
-      }
-
-      .speciality-card:nth-child(3) .ant-tag {
-        background-color: #48d2ff33;
-        color: #38c6ff;
-      }
-    }
-
-    .speciality-card {
-      padding: 32px;
-      border-radius: 32px;
-      background-color: #f7f7f7;
-      border: none;
-      flex: 1;
-      min-width: 300px;
     }
   }
 
   .prizes {
-    margin-top: 88px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    background-color: #ecf5ff;
+
+    canvas {
+      height: 100%;
+    }
+
+    .prizes-title {
+      font-weight: 400;
+      font-size: 258px;
+      line-height: 100%;
+      letter-spacing: 6%;
+      text-align: center;
+      vertical-align: middle;
+      text-transform: uppercase;
+
+      background: url("/videos/bg-2.gif"); /* Fallback */
+      background-size: cover;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
     .ant-typography {
       margin: 0;
@@ -190,17 +332,36 @@ $secondary_color: #85889e;
 
     .main-prize-card {
       border: 0;
-      padding: 32px;
+      padding: 72px 32px;
+      width: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+
+      .badge-container {
+        .ant-image {
+          max-width: 240px;
+        }
+      }
 
       .ant-card-body {
         padding: 0;
       }
 
       .prize-title {
+        text-align: left;
+
         h2 {
-          font-size: 40px;
-          line-height: 50px;
-          color: $primary-color;
+          font-size: 120px;
+          line-height: 120px;
+          background: linear-gradient(
+            106.42deg,
+            #ca8ded 9.26%,
+            #3c2dcb 102.11%
+          );
+          background-size: cover;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
 
           @media screen and (max-width: 330px) {
             font-size: 20px;
@@ -214,12 +375,10 @@ $secondary_color: #85889e;
         }
 
         h1 {
-          font-size: 72px;
-          line-height: 78.34px;
-          color: #1bca92;
-          font-family: Archivo;
+          font-size: 48px;
+          line-height: 48px;
+          color: #068eff;
           font-weight: 900;
-          text-align: center;
 
           @media screen and (max-width: 330px) {
             font-size: 28px;
@@ -234,9 +393,46 @@ $secondary_color: #85889e;
       }
 
       .prize-content {
-        .ant-image {
-          max-width: 752px;
+        .image-container {
           width: 100%;
+          aspect-ratio: 49 / 17;
+
+          .ant-image {
+            width: 100%;
+
+            img {
+              transition: 0.6s ease;
+              will-change: transform;
+            }
+
+            @keyframes drive_car {
+              0% {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+              }
+              59% {
+                transform: translateX(-150%) translateY(100%) scale(1.9);
+                opacity: 1;
+                filter: blur(2px);
+              }
+              60% {
+                opacity: 0;
+              }
+              65% {
+                opacity: 0; /* Hide the car */
+                transform: translateX(90%) translateY(-100%) scale(0.1);
+              }
+              100% {
+                opacity: 1; /* Show again */
+                transform: translateX(0) scale(1);
+                filter: blur(0px);
+              }
+            }
+
+            .activated {
+              animation: 4s ease-in-out drive_car;
+            }
+          }
         }
 
         .prize-info {
@@ -258,7 +454,7 @@ $secondary_color: #85889e;
             );
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: text_animation 2s infinite alternate;
+            animation: text_animation 3s infinite alternate;
 
             @media screen and (max-width: 330px) {
               font-size: 20px;
@@ -301,8 +497,9 @@ $secondary_color: #85889e;
     }
 
     .prize-card-container {
-      .prize-card:nth-child(2) {
-        max-width: 490px;
+      & > *,
+      .other-cards > *:first-child {
+        flex: 1;
       }
 
       .prize-card {
@@ -310,9 +507,16 @@ $secondary_color: #85889e;
         border-width: 1px;
         border-color: #f0f0f0;
         padding: 32px;
-        flex: 1;
         min-width: 300px;
         width: 100%;
+        overflow: hidden;
+
+        .badge-container {
+          .ant-image {
+            width: 100%;
+            max-width: 135px;
+          }
+        }
 
         .ant-card-body {
           padding: 0;
@@ -323,11 +527,17 @@ $secondary_color: #85889e;
             justify-content: space-between;
 
             h2 {
-              font-family: "Archivo Black", serif;
               font-weight: 500;
               font-size: 48px;
               line-height: 52.22px;
-              color: #ffa115;
+
+              .main-text {
+                color: #068eff !important;
+              }
+
+              .secondary-text {
+                color: #85889e !important;
+              }
 
               @media screen and (max-width: 330px) {
                 font-size: 26px;
@@ -370,6 +580,70 @@ $secondary_color: #85889e;
               strong {
                 font-weight: 400;
                 color: $primary-color;
+              }
+            }
+          }
+        }
+
+        &.money-card {
+          .badge-container {
+            .ant-image {
+              max-width: 85px;
+            }
+          }
+          .prize-img {
+            .ant-image {
+              width: 37%;
+              min-width: 200px;
+            }
+            h1 {
+              font-size: 150px;
+              line-height: 150px;
+              background: linear-gradient(
+                  106.42deg,
+                  #ca8ded 9.26%,
+                  #3c2dcb 102.11%
+                ),
+                radial-gradient(
+                  12.6% 15.82% at 10.43% 16.91%,
+                  #ffffff 0%,
+                  rgba(255, 255, 255, 0) 100%
+                );
+
+              background-size: cover;
+              background-clip: text;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              height: 180px;
+
+              span {
+                color: #85889e;
+                -webkit-text-fill-color: #85889e;
+                font-weight: 500;
+                font-size: 32px;
+              }
+            }
+          }
+        }
+
+        &.extra-card {
+          background-image: url("/gradients/bg-10.png");
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+
+          .prize-info {
+            color: #2c324a !important;
+          }
+
+          .badge-container {
+            .ant-image {
+              max-width: 111px;
+            }
+            h2 {
+              .main-text {
+                color: #fff !important;
+                text-shadow: 0 0 10px #000;
               }
             }
           }

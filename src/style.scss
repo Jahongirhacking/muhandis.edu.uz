@@ -1,21 +1,26 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 
-  font-family: "Archivo", serif;
+  font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
 
+.ant-typography {
+  font-family: "Rubik", sans-serif;
+}
+
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  background-color: #01112b;
 
   #root {
     overflow-x: hidden;
@@ -25,12 +30,12 @@ body {
 .root-layout {
   .padding-box {
     width: 100%;
-    padding: 0 18px;
-    max-width: 1216px;
+    padding: 0 64px;
+    // max-width: 1216px;
   }
 
   .title-text {
-    font-family: "Archivo Black", serif;
+    font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
   }
@@ -43,7 +48,7 @@ body {
       font-size: 16px;
       line-height: 24px;
     }
-    transition: background-color 0.4s ease;
+    transition: all 0.4s ease;
     border: none !important;
 
     @media screen and (max-width: 330px) {
@@ -63,37 +68,47 @@ body {
     }
 
     &.primary-btn {
-      background-color: #1bca92;
-      span {
-        color: #2d324b;
-      }
+      background-color: #053786;
+      transition: background-color 0.4s ease-in-out;
 
-      &:hover {
-        background-color: #2d324b;
-        span {
-          color: #1bca92;
-        }
+      span {
+        color: #ffffff;
       }
     }
   }
 
+  .main-text {
+    color: #10f5ff !important;
+  }
+
   .scalable-card {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform: scale(1);
     &:hover {
       transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      // box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .title-text {
+    .main-text,
+    .secondary-text {
+      text-transform: inherit;
+      font-size: inherit !important;
+      font-family: inherit;
+      line-height: inherit;
     }
   }
 
   .main-logo {
     h2 {
-      font-family: Archivo;
+      font-family: "Rubik", sans-serif;
       font-weight: 800;
       font-style: italic;
       font-size: 32px;
       line-height: 34.82px;
       letter-spacing: 0%;
-      color: #2c324a;
+      color: #10f5ff;
 
       @media screen and (max-width: 330px) {
         font-size: 15px;
