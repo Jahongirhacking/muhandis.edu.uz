@@ -7,7 +7,6 @@
     "node": ">=22.14.0"
   },
   "scripts": {
-    "preinstall": "npx npm@latest install --legacy-peer-deps",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
