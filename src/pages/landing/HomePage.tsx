@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Flex, FloatButton, Image, Typography } from "antd";
+import { Button, Card, Divider, Flex, FloatButton, Image, Modal, Typography } from "antd";
 import { useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -7,6 +7,7 @@ import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import BallsScene from "./BallsScene";
 import Statistics from "./Statistics";
 import './style.scss';
+import PdfViewer from "../../components/PdfViwer";
 
 const Logo = () => (
     <Flex className="logo main-logo" gap={8} align="center">
@@ -19,6 +20,7 @@ const HomePage = () => {
     // const [isExploding, setIsExploding] = useState(false);
     const prizeRef = useRef<HTMLDivElement | null>(null);
     const [isCarActivated, setIsCarActivated] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { width, height } = useWindowSize();
 
@@ -29,11 +31,31 @@ const HomePage = () => {
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
         { title: "Yangiliklar", href: '#news' },
-        { title: "Nizom", href: '#home' },
+        { title: "Nizom", href: '#rules' },
     ];
 
     return (
         <Flex vertical className="home-page">
+            <Modal
+                open={isModalOpen}
+                closable
+                onCancel={() => setIsModalOpen(false)}
+                footer={false}
+            >
+                <Flex vertical gap={12}>
+                    <Typography.Text>
+                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
+                    </Typography.Text>
+                    <Typography.Text strong>
+                        Ariza topshirish uchun namuna fayllarini yuklab oling:
+                    </Typography.Text>
+                    <Flex vertical gap={8}>
+                        <a href="/documents/idea.rar" download target="_blank">G'oya uchun namunaviy fayl</a>
+                        <a href="/documents/project.rar" download target="_blank">Loyiha uchun namunaviy fayl</a>
+                        <a href="/documents/invention.rar" download target="_blank">Ixtiro uchun namunaviy fayl</a>
+                    </Flex>
+                </Flex>
+            </Modal>
             {/* Header section */}
             <Flex className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
@@ -46,7 +68,13 @@ const HomePage = () => {
                                 ))
                             }
                         </Flex>
-                        <Button type='primary' className="main-btn primary-btn">Ro‘yxatdan o‘tish</Button>
+                        <Button
+                            type='primary'
+                            className="main-btn primary-btn"
+                            onClick={() => setIsModalOpen(true)}
+                        >
+                            Ro‘yxatdan o‘tish
+                        </Button>
                     </Flex>
                 </Flex>
             </Flex>
@@ -234,7 +262,7 @@ const HomePage = () => {
             <Statistics />
 
             {/* News */}
-            <Flex vertical className="news" id="news">
+            {/* <Flex vertical className="news" id="news">
                 <Flex vertical className="padding-box" align="center" gap={42}>
                     <Typography.Title level={1} className="title-text">
                         Yangiliklar
@@ -260,6 +288,16 @@ const HomePage = () => {
                             ))
                         }
                     </Flex>
+                </Flex>
+            </Flex> */}
+
+            {/* Rules section */}
+            <Flex vertical className="rules" id="rules">
+                <Flex vertical className="padding-box" align="center" gap={42}>
+                    <Typography.Title level={1} className="title-text">
+                        Nizom
+                    </Typography.Title>
+                    <PdfViewer fileUrl="/documents/rules.pdf" />
                 </Flex>
             </Flex>
 

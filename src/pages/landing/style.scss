@@ -1182,6 +1182,39 @@ $original_width: 1728;
     }
   }
 
+  .rules {
+    padding-top: 120px;
+    padding-bottom: 40px;
+
+    iframe {
+      height: 100dvh !important;
+    }
+
+    h1 {
+      width: 100%;
+      color: #fff;
+      font-size: 120px;
+      line-height: 120px;
+
+      @media screen and (max-width: 330px) {
+        font-size: 40px;
+        line-height: 45px;
+      }
+      @media (min-width: 331px) and (max-width: 599px) {
+        font-size: 55px;
+        line-height: 60px;
+      }
+      @media (min-width: 600px) and (max-width: 1380px) {
+        font-size: 65px;
+        line-height: 73px;
+      }
+    }
+
+    * {
+      color: #fff;
+    }
+  }
+
   .motto {
     width: 100%;
     aspect-ratio: 12 / 5;
