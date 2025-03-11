@@ -31,7 +31,7 @@ const HomePage = () => {
         { title: "Sovrinlar", href: '#prizes' },
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
-        { title: "Yangiliklar", href: '#news' },
+        // { title: "Yangiliklar", href: '#news' },
         { title: "Nizom", href: '/documents/rules.pdf' },
     ];
 
