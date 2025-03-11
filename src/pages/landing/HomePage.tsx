@@ -1,4 +1,4 @@
-import { CaretRightOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Flex, FloatButton, Image, Modal, Typography } from "antd";
 import { useRef, useState } from "react";
 import Confetti from "react-confetti";
@@ -295,9 +295,19 @@ const HomePage = () => {
             {/* Rules section */}
             <Flex vertical className="rules" id="rules">
                 <Flex vertical className="padding-box" align="center" gap={42}>
-                    <Typography.Title level={1} className="title-text">
-                        Nizom
-                    </Typography.Title>
+                    <Flex gap={8} align="center" justify="space-between" style={{ width: "100%" }} wrap>
+                        <Typography.Title level={1} className="title-text" style={{ margin: 0 }}>
+                            Nizom
+                        </Typography.Title>
+                        <Button
+                            className="main-btn primary-btn"
+                            href="/documents/rules.pdf"
+                            icon={<FilePdfOutlined />}
+                            type="primary"
+                        >
+                            Yuklash
+                        </Button>
+                    </Flex>
                     <PdfViewer fileUrl="https://muhandis.edu.uz/documents/rules.pdf" />
                 </Flex>
             </Flex>
