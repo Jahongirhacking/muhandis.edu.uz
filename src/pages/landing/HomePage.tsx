@@ -238,7 +238,7 @@ const HomePage = () => {
                             [
                                 { label: "Talabalar", info: "Bakalavriat hamda magistratura bosqichida tahsil olayotgan talabalar", video: "./videos/student.mp4", animation: "fade-up-right" },
                                 { label: "Amaliyotchi muhandislar", info: "Doktorantlar, tadqiqotchilar, sanoat va texnopark mutaxassislari ishtirok etadi.", video: "./videos/engineer.mp4", animation: "fade-up" },
-                                { label: "Professor-O‘qituvchilar", info: "Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar", video: "./videos/teacher.mp4", animation: "fade-up-left" }
+                                { label: "Professor-o‘qituvchilar", info: "Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar", video: "./videos/teacher.mp4", animation: "fade-up-left" }
                             ].map((participant, index) => (
                                 <Card key={index} data-aos={participant.animation} className="participant-card scalable-card">
                                     <Flex vertical gap={24}>

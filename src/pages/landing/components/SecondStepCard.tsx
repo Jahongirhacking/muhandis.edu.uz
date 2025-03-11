@@ -33,7 +33,7 @@ const SecondStepCard = ({ img, name, ...props }: ISecondStepCard) => {
                     <Flex gap={8}>
                         <Typography.Text strong>10</Typography.Text>
                         <Image loading="lazy" src="/images/participant_3.svg" preview={false} />
-                        <Typography.Text>O‘qituvchilar va professorlar</Typography.Text>
+                        <Typography.Text>Professor-o‘qituvchilar</Typography.Text>
                     </Flex>
                 </Flex>
             </Flex>

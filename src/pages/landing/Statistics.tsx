@@ -102,7 +102,7 @@ const Statistics = () => {
                                         </Flex>
                                         <Divider style={{ margin: 0 }} />
                                         <Flex vertical gap={12}>
-                                            <Typography.Title level={5} className="stat-teachers">O‘qituvchilar va professorlar</Typography.Title>
+                                            <Typography.Title level={5} className="stat-teachers">Professor-o‘qituvchilar</Typography.Title>
                                             <Typography.Text className="teachers-num stat-num title-text">{elem.teachers}</Typography.Text>
                                         </Flex>
                                     </Flex>
