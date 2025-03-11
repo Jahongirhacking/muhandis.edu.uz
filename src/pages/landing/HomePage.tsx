@@ -50,7 +50,7 @@ const HomePage = () => {
                 footer={false}
             >
                 <Flex vertical gap={12} align="center">
-                    <Image src="/icons/warning.jpg" preview={false} width={100} alt="diqqat" />
+                    <Image src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
                     <Typography.Text>
                         Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
                     </Typography.Text>
