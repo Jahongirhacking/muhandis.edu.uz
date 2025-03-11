@@ -298,7 +298,7 @@ const HomePage = () => {
                     <Typography.Title level={1} className="title-text">
                         Nizom
                     </Typography.Title>
-                    <PdfViewer fileUrl="/documents/rules.pdf" />
+                    <PdfViewer fileUrl="https://muhandis.edu.uz/documents/rules.pdf" />
                 </Flex>
             </Flex>
 
