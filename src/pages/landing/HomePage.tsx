@@ -1,13 +1,12 @@
-import { CaretRightOutlined, FilePdfOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Flex, FloatButton, Image, Modal, Typography } from "antd";
-import { useRef, useState } from "react";
+import { CaretRightOutlined, MenuOutlined } from "@ant-design/icons";
+import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import BallsScene from "./BallsScene";
 import Statistics from "./Statistics";
 import './style.scss';
-import PdfViewer from "../../components/PdfViwer";
 
 const Logo = () => (
     <Flex className="logo main-logo" gap={8} align="center">
@@ -21,6 +20,8 @@ const HomePage = () => {
     const prizeRef = useRef<HTMLDivElement | null>(null);
     const [isCarActivated, setIsCarActivated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const MAX_NAV_WIDTH = 1420;
 
     const { width, height } = useWindowSize();
 
@@ -31,8 +32,14 @@ const HomePage = () => {
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
         { title: "Yangiliklar", href: '#news' },
-        { title: "Nizom", href: '#rules' },
+        { title: "Nizom", href: '/documents/rules.pdf' },
     ];
+
+    useEffect(() => {
+        if (width >= MAX_NAV_WIDTH) {
+            setIsDrawerOpen(false);
+        }
+    }, [width])
 
     return (
         <Flex vertical className="home-page">
@@ -57,6 +64,18 @@ const HomePage = () => {
                     </Flex>
                 </Flex>
             </Modal>
+
+            {/* Mobile nav */}
+            <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} placement="left">
+                <Flex vertical gap={24} align="center" justify="center" style={{ width: '100%' }}>
+                    {
+                        navbar.map((el, index) => (
+                            <a href={el.href} key={index} onClick={() => setIsDrawerOpen(false)}>{el.title}</a>
+                        ))
+                    }
+                </Flex>
+            </Drawer>
+
             {/* Header section */}
             <Flex className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
@@ -69,13 +88,25 @@ const HomePage = () => {
                                 ))
                             }
                         </Flex>
-                        <Button
-                            type='primary'
-                            className="main-btn primary-btn"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            Ro‘yxatdan o‘tish
-                        </Button>
+                        <Flex gap={12} align="center">
+                            <Button
+                                type='primary'
+                                className="main-btn primary-btn"
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                Ro‘yxatdan o‘tish
+                            </Button>
+
+                            {
+                                width < MAX_NAV_WIDTH && (
+                                    <Button
+                                        icon={<MenuOutlined />}
+                                        className="burger-menu"
+                                        onClick={() => { setIsDrawerOpen(prev => !prev) }}
+                                    />
+                                )
+                            }
+                        </Flex>
                     </Flex>
                 </Flex>
             </Flex>
@@ -293,7 +324,7 @@ const HomePage = () => {
             </Flex> */}
 
             {/* Rules section */}
-            <Flex vertical className="rules" id="rules">
+            {/* <Flex vertical className="rules" id="rules">
                 <Flex vertical className="padding-box" align="center" gap={42}>
                     <Flex gap={8} align="center" justify="space-between" style={{ width: "100%" }} wrap>
                         <Typography.Title level={1} className="title-text" style={{ margin: 0 }}>
@@ -310,7 +341,7 @@ const HomePage = () => {
                     </Flex>
                     <PdfViewer fileUrl="https://muhandis.edu.uz/documents/rules.pdf" />
                 </Flex>
-            </Flex>
+            </Flex> */}
 
             {/* Motto section */}
             <Flex vertical className="motto" align="center" justify="center">

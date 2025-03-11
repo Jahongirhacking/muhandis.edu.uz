@@ -38,6 +38,14 @@ $original_width: 1728;
       }
     }
 
+    .burger-menu {
+      background-color: transparent !important;
+      color: #fff !important;
+      outline: none !important;
+      border: none !important;
+      font-size: 25px;
+    }
+
     .links {
       a {
         transition: 0.4s ease;
