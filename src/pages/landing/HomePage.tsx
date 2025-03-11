@@ -42,17 +42,18 @@ const HomePage = () => {
                 onCancel={() => setIsModalOpen(false)}
                 footer={false}
             >
-                <Flex vertical gap={12}>
+                <Flex vertical gap={12} align="center">
+                    <Image src="/icons/warning.jpg" preview={false} width={100} alt="diqqat" />
                     <Typography.Text>
                         Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
                     </Typography.Text>
                     <Typography.Text strong>
                         Ariza topshirish uchun namuna fayllarini yuklab oling:
                     </Typography.Text>
-                    <Flex vertical gap={8}>
-                        <a href="/documents/idea.rar" download target="_blank">G'oya uchun namunaviy fayl</a>
-                        <a href="/documents/project.rar" download target="_blank">Loyiha uchun namunaviy fayl</a>
-                        <a href="/documents/invention.rar" download target="_blank">Ixtiro uchun namunaviy fayl</a>
+                    <Flex vertical gap={8} style={{ textAlign: 'center' }}>
+                        <a href="/documents/idea.rar" target="_blank">G'oya uchun namunaviy fayl</a>
+                        <a href="/documents/project.rar" target="_blank">Loyiha uchun namunaviy fayl</a>
+                        <a href="/documents/invention.rar" target="_blank">Ixtiro uchun namunaviy fayl</a>
                     </Flex>
                 </Flex>
             </Modal>
