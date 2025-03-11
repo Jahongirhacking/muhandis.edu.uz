@@ -1,53 +1,44 @@
 import { Divider, Flex, Select, Switch, Typography } from "antd";
 import { useState } from "react";
-import { SVGMap } from 'react-svg-map';
 import Uzbekistan from '../../assets/map';
+import SVGMap from "../../components/SVGMap";
 
 type PointedLocation = {
     name: null | string;
     count?: number;
 };
 
-interface IEvent {
-    target: { attributes: { name: { value: string } } };
-}
-
 const Statistics = () => {
     const [pointedLocation, setPointedLocation] = useState<PointedLocation>({
         name: null
     });
     const [selectedLocation, setSelectedLocation] = useState('Toshkent shahri');
-    const [tooltipStyle, setTooltipStyle] = useState({
+    const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({
         display: "none",
     });
 
-    const getLocationName = (event: IEvent) => {
-        return event.target.attributes.name.value;
-    }
+    const getLocationName = (event: React.MouseEvent<SVGPathElement>) => {
+        return (event.target as SVGPathElement).getAttribute("name") || "";
+    };
 
-    const handleLocationMouseOver = (event: IEvent) => {
-        const pointedLocation = getLocationName(event);
+    const handleLocationMouseOver = (event: React.MouseEvent<SVGPathElement>) => {
         setPointedLocation({
-            name: pointedLocation,
+            name: getLocationName(event),
         });
     };
 
-    function handleLocationMouseOut() {
+    const handleLocationMouseOut = () => {
         setPointedLocation({ name: null });
         setTooltipStyle({ display: "none" });
-    }
+    };
 
-    function handleLocationMouseMove(event: {
-        clientY: number;
-        clientX: number;
-    }) {
-        const tooltipStyle = {
+    const handleLocationMouseMove = (event: React.MouseEvent<SVGPathElement>) => {
+        setTooltipStyle({
             display: "block",
             top: event.clientY - 80,
             left: event.clientX - 100,
-        };
-        setTooltipStyle(tooltipStyle);
-    }
+        });
+    };
 
     return (
         <Flex vertical className="statistics" id="stats">
@@ -121,7 +112,6 @@ const Statistics = () => {
                     </Flex>
                 </Flex>
             </Flex>
-
         </Flex>
     )
 }
