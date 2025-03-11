@@ -237,7 +237,7 @@ const HomePage = () => {
             <Flex vertical className="news" id="news">
                 <Flex vertical className="padding-box" align="center" gap={42}>
                     <Typography.Title level={1} className="title-text">
-                        Yangliklar
+                        Yangiliklar
                     </Typography.Title>
                     <Flex className="cards-container" justify="center" align="stretch" gap={32} data-aos="fade-up" wrap>
                         {

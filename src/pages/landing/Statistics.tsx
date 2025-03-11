@@ -90,9 +90,9 @@ const Statistics = () => {
                         <Flex gap={17} wrap>
                             {
                                 [
-                                    { title: 'Eng yaxshi g’oya arizalar soni', total: 6000, students: 3000, engineers: 2000, teachers: 1000 },
-                                    { title: 'Eng yaxshi loyiha arizalar soni', total: 6000, students: 3000, engineers: 2000, teachers: 1000 },
-                                    { title: 'Eng yaxshi ixtiro arizalar soni', total: 6000, students: 3000, engineers: 2000, teachers: 1000 },
+                                    { title: 'Eng yaxshi g’oya arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
+                                    { title: 'Eng yaxshi loyiha arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
+                                    { title: 'Eng yaxshi ixtiro arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
                                 ].map((elem, index) => (
                                     <Flex vertical gap={24} key={index} className="stat-item">
                                         <Flex vertical gap={12}>
