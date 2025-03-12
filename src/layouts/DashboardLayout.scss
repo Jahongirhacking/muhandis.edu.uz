@@ -1,7 +1,7 @@
 .dashboard-layout {
   background-color: #f8f9fb;
-  min-height: 100dvh;
-  max-height: 100dvh;
+  width: 100%;
+  height: 100%;
 
   .logo.main-logo {
     svg {
@@ -14,8 +14,79 @@
     }
   }
 
+  .dashboard-layout-navbar {
+    padding: 30px;
+    height: 100%;
+
+    .navbar {
+      .profile-card {
+        min-width: 298px;
+
+        .ant-card-body {
+          padding: 16px;
+
+          .status {
+            span {
+              color: #068eff !important;
+            }
+          }
+
+          button {
+            border: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+      .navbar-links {
+        a {
+          width: 100%;
+          outline: none;
+          position: relative;
+          border: 1px solid transparent;
+
+          &::after {
+            content: "";
+            position: absolute;
+            left: -31px;
+            top: 0;
+            background-color: transparent;
+            width: 4px;
+            height: 100%;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            transition: 0.4s ease;
+          }
+
+          &.active {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            &::after {
+              background-color: #068eff;
+            }
+          }
+
+          button {
+            & > div {
+              display: none;
+            }
+
+            justify-content: flex-start;
+            width: 100%;
+            height: 48px;
+            background-color: transparent;
+            border: 1px solid transparent;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+
   .dashboard-layout-main {
-    height: calc(100dvh - 117px);
+    height: 100dvh;
+    overflow: hidden;
 
     .dashboard-layout-content {
       width: 100%;
@@ -24,9 +95,9 @@
       border-radius: 24px;
       border-width: 1px;
       border: 1px solid #f0f0f0;
-      margin: 32px;
-      height: 100%;
-      overflow-x: hidden;
+      margin: 32px 32px 32px 2px;
+      height: calc(100% - 64px);
+      overflow-x: auto;
       overflow-y: auto;
 
       .applications-page {

@@ -26,8 +26,6 @@ body {
   min-height: 95dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
   &:has(.home-page) {
     background-color: #01112b;
@@ -35,6 +33,8 @@ body {
 
   &:has(.anticon.anticon-loading) {
     background-color: #01112b;
+    align-items: center;
+    justify-content: center;
   }
 
   .anticon.anticon-loading {
