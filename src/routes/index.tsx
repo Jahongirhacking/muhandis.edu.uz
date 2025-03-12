@@ -1,13 +1,13 @@
 import { LoadingOutlined } from "@ant-design/icons"
 import { Suspense } from "react"
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import DashboardLayout from "../layouts/DashboardLayout"
 import RootLayout from "../layouts/RootLayout"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
 import ApplicationsPage from "../pages/dashboard/ApplicationsPage"
 import MainPage from "../pages/dashboard/MainPage"
 import NotificationsPage from "../pages/dashboard/NotificationsPage"
-import PersonalInfoPage from "../pages/dashboard/PersonalInfoPage"
 import HomePage from "../pages/landing/HomePage"
 import { buildRoutes, IRoute } from "../utils/routeUtils"
 import NotFoundPage from "./NotFoundPage"
@@ -24,11 +24,11 @@ const publicRoutes: IRoute[] = [
 const privateRoutes: IRoute[] = [
     {
         path: "dashboard",
+        element: <DashboardLayout />,
         children: [
             { path: 'main', element: <MainPage /> },
             { path: 'applications', element: <ApplicationsPage /> },
             { path: 'notifications', element: <NotificationsPage /> },
-            { path: 'personal-info', element: <PersonalInfoPage /> },
         ]
     }
 ]

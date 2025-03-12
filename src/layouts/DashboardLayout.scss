@@ -1,0 +1,26 @@
+.dashboard-layout {
+  background-color: #f8f9fb;
+  min-height: 100dvh;
+  max-height: 100dvh;
+
+  .dashboard-layout-main {
+    height: calc(100dvh - 117px);
+
+    .dashboard-layout-content {
+      width: 100%;
+      padding: 32px;
+      background-color: #fff;
+      border-radius: 24px;
+      border-width: 1px;
+      border: 1px solid #f0f0f0;
+      margin: 32px;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      .applications-page {
+        width: 100%;
+      }
+    }
+  }
+}
