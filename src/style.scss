@@ -23,12 +23,28 @@ a {
 
 body {
   overflow-x: hidden;
+  min-height: 95dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   &:has(.home-page) {
     background-color: #01112b;
   }
 
+  &:has(.anticon.anticon-loading) {
+    background-color: #01112b;
+  }
+
+  .anticon.anticon-loading {
+    font-size: 70px;
+    color: #10f3ff;
+  }
+
   #root {
     overflow-x: hidden;
+    width: 100%;
   }
 
   .ant-drawer-content-wrapper {

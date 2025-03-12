@@ -3,6 +3,17 @@
   min-height: 100dvh;
   max-height: 100dvh;
 
+  .logo.main-logo {
+    svg {
+      path {
+        fill: #2c324a;
+      }
+    }
+    h2 {
+      color: #2c324a;
+    }
+  }
+
   .dashboard-layout-main {
     height: calc(100dvh - 117px);
 

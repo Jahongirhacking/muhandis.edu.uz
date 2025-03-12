@@ -12,7 +12,7 @@ const ApplicationsPage = () => {
                     <Button variant="outlined" icon={<FileDoneOutlined />}>Ariza yuborildi</Button>
                     <Button variant="outlined" icon={<FileDoneOutlined />}>Ariza yuborildi</Button>
                 </Flex>
-                <Button variant="filled" color="cyan" icon={<PlusOutlined />}>Ariza yuborildi</Button>
+                <Button type="primary" icon={<PlusOutlined />}>Ariza yaratish</Button>
             </Flex>
         </Flex>
     )

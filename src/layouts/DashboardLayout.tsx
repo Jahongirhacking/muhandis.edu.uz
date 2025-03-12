@@ -1,5 +1,6 @@
 import { Flex } from "antd"
 import { Outlet } from "react-router-dom"
+import Navbar from "../components/Navbar"
 import "./DashboardLayout.scss"
 
 const DashboardLayout = () => {
@@ -7,7 +8,7 @@ const DashboardLayout = () => {
         <Flex vertical className="dashboard-layout">
             <Flex className="dashboard-layout-main">
                 <Flex className="dashboard-layout-navbar">
-                    Navbar
+                    <Navbar />
                 </Flex>
                 <Flex className="dashboard-layout-content">
                     <Outlet />

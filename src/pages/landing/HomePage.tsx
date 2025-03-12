@@ -4,16 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
+import Logo from "../../components/Logo";
 import BallsScene from "./BallsScene";
 import Statistics from "./Statistics";
 import './style.scss';
-
-const Logo = () => (
-    <Flex className="logo main-logo" gap={8} align="center">
-        <Image loading="lazy" src="/icon.svg" preview={false} width={32} alt="logo" />
-        <Typography.Title level={2} style={{ margin: 0 }}>Muhandis edu</Typography.Title>
-    </Flex>
-)
 
 const HomePage = () => {
     // const [isExploding, setIsExploding] = useState(false);
@@ -50,7 +44,7 @@ const HomePage = () => {
                 footer={false}
             >
                 <Flex vertical gap={12} align="center">
-                    <Image src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
+                    <Image loading="lazy" src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
                     <Typography.Text>
                         Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
                     </Typography.Text>
@@ -206,7 +200,7 @@ const HomePage = () => {
                             <Flex vertical gap={32} data-aos="fade-up" data-aos-duration="3000">
                                 <Flex vertical gap={32}>
                                     <Flex className="badge-container" align="center" justify="center" gap={24}>
-                                        <Image src="/icons/badge_2.svg" preview={false} alt="2-o'rin" />
+                                        <Image loading="lazy" src="/icons/badge_2.svg" preview={false} alt="2-o'rin" />
                                         <Typography.Title level={2} className="title-text">
                                             <span className="main-text">2-O‘RIN</span> Rivojlangan davlatlarga <span className="secondary-text">malaka oshirish</span>
                                         </Typography.Title>
@@ -223,7 +217,7 @@ const HomePage = () => {
                                 <Flex vertical gap={32} data-aos="fade-up" data-aos-duration="3000">
                                     <Flex vertical gap={32}>
                                         <Flex className="badge-container" align="center" justify="center" gap={24}>
-                                            <Image src="/icons/badge_3.svg" preview={false} alt="3-o'rin" />
+                                            <Image loading="lazy" src="/icons/badge_3.svg" preview={false} alt="3-o'rin" />
                                             <Typography.Title level={2} className="title-text">
                                                 <span className="main-text">3-O‘RIN </span>BHM 100 baravari <span className="secondary-text">miqdorida bir martalik</span> pul mufokotlari
                                             </Typography.Title>
@@ -243,7 +237,7 @@ const HomePage = () => {
                             <Card className="extra-card prize-card scalable-card" data-aos="fade-left" data-aos-duration="2000">
                                 <Flex vertical gap={24} data-aos="fade-up" data-aos-duration="3000">
                                     <Flex className="badge-container" align="center" justify="center" gap={24}>
-                                        <Image src="/icons/badge_4.svg" preview={false} alt="eng yaxshi" />
+                                        <Image loading="lazy" src="/icons/badge_4.svg" preview={false} alt="eng yaxshi" />
                                         <Typography.Title level={2} className="title-text">
                                             “Barqaror rivojlanish <span className="main-text">uchun eng yaxshi gʻoya/loyiha/ixtiro”</span>
                                         </Typography.Title>
@@ -309,7 +303,7 @@ const HomePage = () => {
                                 <Card key={index} className="news-card scalable-card">
                                     <Flex vertical gap={24} className="card-box">
                                         <Flex className="video-box" vertical>
-                                            <Image src={news.image} />
+                                            <Image loading="lazy" src={news.image} />
                                         </Flex>
                                         <Flex vertical gap={12} justify="space-between">
                                             <Typography.Title level={2} style={{ margin: 0 }}>{news.title}</Typography.Title>
