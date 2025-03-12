@@ -1,6 +1,6 @@
-import { CaretRightOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Flex, FloatButton, Image, Typography } from "antd";
-import { useRef, useState } from "react";
+import { CaretRightOutlined, MenuOutlined } from "@ant-design/icons";
+import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
@@ -19,6 +19,9 @@ const HomePage = () => {
     // const [isExploding, setIsExploding] = useState(false);
     const prizeRef = useRef<HTMLDivElement | null>(null);
     const [isCarActivated, setIsCarActivated] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const MAX_NAV_WIDTH = 1420;
 
     const { width, height } = useWindowSize();
 
@@ -28,12 +31,51 @@ const HomePage = () => {
         { title: "Sovrinlar", href: '#prizes' },
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
-        { title: "Yangiliklar", href: '#news' },
-        { title: "Nizom", href: '#home' },
+        // { title: "Yangiliklar", href: '#news' },
+        { title: "Nizom", href: '/documents/rules.pdf' },
     ];
+
+    useEffect(() => {
+        if (width >= MAX_NAV_WIDTH) {
+            setIsDrawerOpen(false);
+        }
+    }, [width])
 
     return (
         <Flex vertical className="home-page">
+            <Modal
+                open={isModalOpen}
+                closable
+                onCancel={() => setIsModalOpen(false)}
+                footer={false}
+            >
+                <Flex vertical gap={12} align="center">
+                    <Image src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
+                    <Typography.Text>
+                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
+                    </Typography.Text>
+                    <Typography.Text strong>
+                        Ariza topshirish uchun namuna fayllarini yuklab oling:
+                    </Typography.Text>
+                    <Flex vertical gap={8} style={{ textAlign: 'center' }}>
+                        <a href="/documents/idea.rar" target="_blank">G'oya uchun namunaviy fayl</a>
+                        <a href="/documents/project.rar" target="_blank">Loyiha uchun namunaviy fayl</a>
+                        <a href="/documents/invention.rar" target="_blank">Ixtiro uchun namunaviy fayl</a>
+                    </Flex>
+                </Flex>
+            </Modal>
+
+            {/* Mobile nav */}
+            <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} placement="left">
+                <Flex vertical gap={24} align="center" justify="center" style={{ width: '100%' }}>
+                    {
+                        navbar.map((el, index) => (
+                            <a href={el.href} key={index} onClick={() => setIsDrawerOpen(false)}>{el.title}</a>
+                        ))
+                    }
+                </Flex>
+            </Drawer>
+
             {/* Header section */}
             <Flex className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
@@ -46,7 +88,25 @@ const HomePage = () => {
                                 ))
                             }
                         </Flex>
-                        <Button type='primary' className="main-btn primary-btn">Ro‘yxatdan o‘tish</Button>
+                        <Flex gap={12} align="center">
+                            <Button
+                                type='primary'
+                                className="main-btn primary-btn"
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                Ro‘yxatdan o‘tish
+                            </Button>
+
+                            {
+                                width < MAX_NAV_WIDTH && (
+                                    <Button
+                                        icon={<MenuOutlined />}
+                                        className="burger-menu"
+                                        onClick={() => { setIsDrawerOpen(prev => !prev) }}
+                                    />
+                                )
+                            }
+                        </Flex>
                     </Flex>
                 </Flex>
             </Flex>
@@ -209,7 +269,7 @@ const HomePage = () => {
                             [
                                 { label: "Talabalar", info: "Bakalavriat hamda magistratura bosqichida tahsil olayotgan talabalar", video: "./videos/student.mp4", animation: "fade-up-right" },
                                 { label: "Amaliyotchi muhandislar", info: "Doktorantlar, tadqiqotchilar, sanoat va texnopark mutaxassislari ishtirok etadi.", video: "./videos/engineer.mp4", animation: "fade-up" },
-                                { label: "Professor-O‘qituvchilar", info: "Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar", video: "./videos/teacher.mp4", animation: "fade-up-left" }
+                                { label: "Professor-o‘qituvchilar", info: "Oliy ta’lim tashkilotlarida faoliyat yurituvchi professor-o‘qituvchilar", video: "./videos/teacher.mp4", animation: "fade-up-left" }
                             ].map((participant, index) => (
                                 <Card key={index} data-aos={participant.animation} className="participant-card scalable-card">
                                     <Flex vertical gap={24}>
@@ -234,7 +294,7 @@ const HomePage = () => {
             <Statistics />
 
             {/* News */}
-            <Flex vertical className="news" id="news">
+            {/* <Flex vertical className="news" id="news">
                 <Flex vertical className="padding-box" align="center" gap={42}>
                     <Typography.Title level={1} className="title-text">
                         Yangiliklar
@@ -261,7 +321,27 @@ const HomePage = () => {
                         }
                     </Flex>
                 </Flex>
-            </Flex>
+            </Flex> */}
+
+            {/* Rules section */}
+            {/* <Flex vertical className="rules" id="rules">
+                <Flex vertical className="padding-box" align="center" gap={42}>
+                    <Flex gap={8} align="center" justify="space-between" style={{ width: "100%" }} wrap>
+                        <Typography.Title level={1} className="title-text" style={{ margin: 0 }}>
+                            Nizom
+                        </Typography.Title>
+                        <Button
+                            className="main-btn primary-btn"
+                            href="/documents/rules.pdf"
+                            icon={<FilePdfOutlined />}
+                            type="primary"
+                        >
+                            Yuklash
+                        </Button>
+                    </Flex>
+                    <PdfViewer fileUrl="https://muhandis.edu.uz/documents/rules.pdf" />
+                </Flex>
+            </Flex> */}
 
             {/* Motto section */}
             <Flex vertical className="motto" align="center" justify="center">

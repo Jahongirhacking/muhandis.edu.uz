@@ -81,29 +81,29 @@ const Statistics = () => {
                         <Flex gap={17} wrap>
                             {
                                 [
-                                    { title: 'Eng yaxshi g’oya arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
-                                    { title: 'Eng yaxshi loyiha arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
-                                    { title: 'Eng yaxshi ixtiro arizalar soni', total: 0, students: 0, engineers: 0, teachers: 0 },
+                                    { title: `"Eng yaxshi g’oya" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
+                                    { title: `"Eng yaxshi loyiha" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
+                                    { title: `"Eng yaxshi ixtiro" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
                                 ].map((elem, index) => (
                                     <Flex vertical gap={24} key={index} className="stat-item">
                                         <Flex vertical gap={12}>
                                             <Typography.Title level={4} className="stat-total">{elem.title}</Typography.Title>
-                                            <Typography.Text className="total-num title-text">{elem.total} ta</Typography.Text>
+                                            <Typography.Text className="total-num title-text">{elem.total}</Typography.Text>
                                         </Flex>
                                         <Divider style={{ margin: 0 }} />
                                         <Flex vertical gap={12}>
                                             <Typography.Title level={5} className="stat-students">Talabalar</Typography.Title>
-                                            <Typography.Text className="students-num stat-num title-text">{elem.students} ta</Typography.Text>
+                                            <Typography.Text className="students-num stat-num title-text">{elem.students}</Typography.Text>
                                         </Flex>
                                         <Divider style={{ margin: 0 }} />
                                         <Flex vertical gap={12}>
                                             <Typography.Title level={5} className="stat-engineers">Amaliyotchi muhandislar</Typography.Title>
-                                            <Typography.Text className="engineers-num stat-num title-text">{elem.engineers} ta</Typography.Text>
+                                            <Typography.Text className="engineers-num stat-num title-text">{elem.engineers}</Typography.Text>
                                         </Flex>
                                         <Divider style={{ margin: 0 }} />
                                         <Flex vertical gap={12}>
-                                            <Typography.Title level={5} className="stat-teachers">O‘qituvchilar va professorlar</Typography.Title>
-                                            <Typography.Text className="teachers-num stat-num title-text">{elem.teachers} ta</Typography.Text>
+                                            <Typography.Title level={5} className="stat-teachers">Professor-o‘qituvchilar</Typography.Title>
+                                            <Typography.Text className="teachers-num stat-num title-text">{elem.teachers}</Typography.Text>
                                         </Flex>
                                     </Flex>
                                 ))

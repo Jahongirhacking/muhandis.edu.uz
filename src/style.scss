@@ -30,4 +30,14 @@ body {
   #root {
     overflow-x: hidden;
   }
+
+  .ant-drawer-content-wrapper {
+    .ant-drawer-content {
+      background-color: #01112b;
+
+      * {
+        color: #fff;
+      }
+    }
+  }
 }
