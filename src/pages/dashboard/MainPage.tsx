@@ -4,9 +4,12 @@ import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../assets/icons"
 import { Gender } from "../../services/types"
 import { RootState } from "../../store/store"
+import { base64ToNormalImage } from "../../utils/imageUtils"
+import { getLocalStorage, localStorageNames } from "../../utils/storageUtils"
 
 const MainPage = () => {
     const profile = useSelector((store: RootState) => store.user?.profile);
+    // const {data} = useGetStudentListQuery();
 
     return (
         <Flex vertical className="main-page" gap={24} style={{ paddingBottom: 40 }}>
@@ -15,7 +18,12 @@ const MainPage = () => {
                 <Flex vertical gap={24}>
                     <Card className="profile-card">
                         <Flex gap={24} align="flex-start" justify="center" wrap>
-                            <Avatar shape="square" src={"https://i.pravatar.cc/300"} />
+                            <Avatar
+                                shape="square"
+                                src={base64ToNormalImage(getLocalStorage(localStorageNames.photo))}
+                            >
+                                {profile?.first_name && profile?.last_name && `${profile?.first_name[0]}${profile?.last_name[0]}`}
+                            </Avatar>
                             <Flex vertical gap={16}>
                                 <Typography.Title className="fullname" level={3} style={{ margin: 0 }}>{`${profile?.last_name} ${profile?.first_name} ${profile?.middle_name}`}</Typography.Title>
                                 <Flex vertical gap={12}>

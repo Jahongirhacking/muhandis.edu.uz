@@ -48,9 +48,9 @@ const Statistics = () => {
                         <span className="main-text">Statistik</span> ma’lumotlar
                     </Typography.Title>
 
-                    <video autoPlay loop muted playsInline className="background-video" width={120}>
+                    {/* <video autoPlay loop muted playsInline className="background-video" width={120}>
                         <source src="/videos/speaking_ball.mp4" />
-                    </video>
+                    </video> */}
                 </Flex>
 
                 <Flex className="map" gap={32} wrap data-aos="fade-up" data-aos-duration="2000">
@@ -70,7 +70,7 @@ const Statistics = () => {
                         <Flex gap={12} align="center" justify="space-between" wrap>
                             <Typography.Title level={2} style={{ margin: 0 }} className="selected-location">{selectedLocation}</Typography.Title>
                             <Flex gap={12} align="center">
-                                <Typography.Text>O‘zbekiston Respublikasi</Typography.Text>
+                                <Typography.Text>Respublika bo’yicha</Typography.Text>
                                 <Switch />
                             </Flex>
                         </Flex>

@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { RootState } from "../store/store"
-import { getLocalStorage, localStorageNames } from "../utils/storageUtils"
+import { getLocalStorage, localStorageNames, setLocalStorage } from "../utils/storageUtils"
 import "./DashboardLayout.scss"
 
 const DashboardLayout = () => {
@@ -24,8 +24,11 @@ const DashboardLayout = () => {
     useEffect(() => {
         if (!getLocalStorage(localStorageNames.photo) && profile?.pinfl) {
             ((async () => {
-                const photo = await getPhoto({ pinfl: profile.pinfl! });
-                console.log(photo);
+                const { data } = await getPhoto({ pinfl: profile.pinfl! });
+                const photo = data?.photo;
+                if (photo) {
+                    setLocalStorage(localStorageNames.photo, photo)
+                }
             })())
         }
     }, [getPhoto, profile?.pinfl])

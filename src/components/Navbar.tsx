@@ -1,10 +1,13 @@
 import { FileTextOutlined, HomeOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Flex, Typography } from 'antd';
 import { ReactElement } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { LogoutIcon, VerifiedIcon } from '../assets/icons';
 import { logout } from '../store/slices/userSlice';
+import { RootState } from '../store/store';
+import { base64ToNormalImage } from '../utils/imageUtils';
+import { getLocalStorage, localStorageNames } from '../utils/storageUtils';
 import Logo from './Logo';
 
 interface INavbarItem {
@@ -15,6 +18,7 @@ interface INavbarItem {
 
 const Navbar = () => {
     const dispatch = useDispatch();
+    const profile = useSelector((store: RootState) => store.user?.profile);
     const navbar: INavbarItem[] = [
         {
             icon: <HomeOutlined />,
@@ -45,9 +49,15 @@ const Navbar = () => {
                     <Card className='profile-card'>
                         <Flex gap={8} align='center' justify="space-between">
                             <Flex gap={8} className="profile-card-avatar" align='center'>
-                                <Avatar size={64} src="https://i.pravatar.cc/300" shape='square' />
+                                <Avatar
+                                    size={64}
+                                    src={base64ToNormalImage(getLocalStorage(localStorageNames.photo))}
+                                    shape='square'
+                                >
+                                    {profile?.first_name && profile?.last_name && `${profile?.first_name[0]}${profile?.last_name[0]}`}
+                                </Avatar>
                                 <Flex vertical gap={4}>
-                                    <Typography.Text strong>John Doe</Typography.Text>
+                                    <Typography.Text strong>{profile?.first_name} {profile?.last_name}</Typography.Text>
                                     <Flex gap={4} align='center' className='status'>
                                         <VerifiedIcon />
                                         <Typography.Text type="secondary">Tasdiqlangan</Typography.Text>

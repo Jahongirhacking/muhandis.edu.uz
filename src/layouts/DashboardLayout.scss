@@ -153,6 +153,11 @@
                   border-width: 1.4px;
                   background-color: #068eff;
                   border: 1.4px solid rgba(255, 255, 255, 0.1);
+                  transition: background-color 0.4s ease;
+
+                  &:hover {
+                    background-color: #068fffc5;
+                  }
                 }
               }
             }
@@ -209,6 +214,13 @@
                     &:first-child {
                       min-width: min(100%, 178px);
                       max-width: min(100%, 178px);
+                      height: auto;
+                      aspect-ratio: 3 / 4;
+
+                      span {
+                        font-size: 30pt;
+                        color: #fff;
+                      }
                     }
 
                     &:last-child {

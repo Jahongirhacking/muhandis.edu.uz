@@ -34,6 +34,7 @@ const userSlice = createSlice({
       state.token = "";
       localStorage.removeItem(localStorageNames.token);
       localStorage.removeItem(localStorageNames.role);
+      localStorage.removeItem(localStorageNames.photo);
     },
   },
   extraReducers: (builder) => {

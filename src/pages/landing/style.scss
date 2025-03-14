@@ -101,6 +101,18 @@ $original_width: 1728;
       min-width: 35px;
       transition: 0.4s ease;
 
+      &:nth-child(2) > img {
+        visibility: hidden;
+      }
+
+      &:nth-child(5) > img {
+        visibility: hidden;
+      }
+
+      &:nth-child(7) > img {
+        visibility: hidden;
+      }
+
       @keyframes scalable_ball {
         from {
           transform: scale(1);
@@ -202,17 +214,14 @@ $original_width: 1728;
         @media screen and (max-width: 330px) {
           font-size: 20px;
           line-height: 23px;
-          margin-top: 20px !important;
         }
         @media (min-width: 331px) and (max-width: 599px) {
           font-size: 37px;
           line-height: 42px;
-          margin-top: 25px !important;
         }
         @media (min-width: 600px) and (max-width: 1380px) {
           font-size: 52px;
           line-height: 58px;
-          margin-top: 25px !important;
         }
       }
 
@@ -297,7 +306,7 @@ $original_width: 1728;
         font-size: 120px;
         line-height: 120px;
         text-transform: uppercase;
-        max-width: 830px;
+        max-width: fit-content;
         width: 100%;
 
         @media screen and (max-width: 330px) {
@@ -380,6 +389,55 @@ $original_width: 1728;
 
         .ant-card-body {
           padding: 0;
+        }
+      }
+    }
+  }
+
+  .video-section {
+    padding-top: 30px;
+    padding-bottom: 90px;
+
+    .padding-box {
+      & > div {
+        width: 100% !important;
+        max-width: 1400px;
+        margin: auto;
+        height: auto !important;
+        aspect-ratio: 1280 / 720;
+        overflow: hidden;
+        border-radius: 8px;
+
+        .react-player__play-icon {
+          border-width: 50px 0 50px 100px !important;
+
+          @media screen and (max-width: 800px) {
+            border-width: 25px 0 25px 50px !important;
+          }
+        }
+      }
+
+      .title-text {
+        width: 100% !important;
+        margin: auto !important;
+        font-weight: 400;
+        font-size: 90px;
+        line-height: 90px;
+        text-transform: uppercase;
+        max-width: fit-content;
+        width: 100%;
+
+        @media screen and (max-width: 330px) {
+          font-size: 20px;
+          line-height: 23px;
+        }
+        @media screen and (max-width: 599px) {
+          font-size: 30px;
+          line-height: 35px;
+        }
+        @media (min-width: 600px) and (max-width: 1380px) {
+          font-size: 50px;
+          line-height: 58px;
         }
       }
     }
@@ -1053,7 +1111,7 @@ $original_width: 1728;
     .region_map {
       width: 100%;
       height: auto;
-      stroke: #666;
+      stroke: #ffffff;
       stroke-width: 1;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -1061,13 +1119,13 @@ $original_width: 1728;
     }
 
     .region_map__location {
-      fill: #d6f2ff;
+      fill: #2b3974;
       cursor: pointer;
     }
 
     .region_map__location:focus,
     .region_map__location:hover {
-      fill: #068eff;
+      fill: #0164b4;
       outline: 0;
     }
 

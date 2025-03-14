@@ -1,7 +1,8 @@
-import { CaretRightOutlined, MenuOutlined } from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
+import ReactPlayer from "react-player";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import Logo from "../../components/Logo";
@@ -26,7 +27,7 @@ const HomePage = () => {
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
         // { title: "Yangiliklar", href: '#news' },
-        { title: "Nizom", href: '/documents/rules.pdf' },
+        { title: "Nizom", target: "_blank", href: '/documents/rules.pdf' },
     ];
 
     useEffect(() => {
@@ -46,7 +47,7 @@ const HomePage = () => {
                 <Flex vertical gap={12} align="center">
                     <Image loading="lazy" src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
                     <Typography.Text>
-                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish tez kunda ochiladi.
+                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish <strong>15.03.2025</strong> sanasidan boshlanadi.
                     </Typography.Text>
                     <Typography.Text strong>
                         Ariza topshirish uchun namuna fayllarini yuklab oling:
@@ -64,7 +65,7 @@ const HomePage = () => {
                 <Flex vertical gap={24} align="center" justify="center" style={{ width: '100%' }}>
                     {
                         navbar.map((el, index) => (
-                            <a href={el.href} key={index} onClick={() => setIsDrawerOpen(false)}>{el.title}</a>
+                            <a href={el.href} key={index} onClick={() => setIsDrawerOpen(false)} target={el.target || ''}>{el.title}</a>
                         ))
                     }
                 </Flex>
@@ -78,7 +79,7 @@ const HomePage = () => {
                         <Flex gap={24} align="center" className="links">
                             {
                                 navbar.map((el, index) => (
-                                    <a href={el.href} key={index}>{el.title}</a>
+                                    <a href={el.href} key={index} target={el.target || ''}>{el.title}</a>
                                 ))
                             }
                         </Flex>
@@ -110,13 +111,13 @@ const HomePage = () => {
             <Flex vertical className="video-container" id="home">
                 <BallsScene />
                 <Flex vertical gap={12} className="video-text-content padding-box">
-                    <Flex vertical className="view-video-btn">
+                    {/* <Flex vertical className="view-video-btn">
                         <video autoPlay loop muted playsInline className="view-video-btn__background-video">
                             <source src="/videos/bg-1.mp4" type="video/mp4" />
                         </video>
                         <Button icon={<CaretRightOutlined />} color="default" variant="filled">Promo videoni ko’rish</Button>
-                    </Flex>
-                    <Typography.Title level={1} className="title-text" data-aos-offset="-500" style={{ margin: 0, marginTop: 86 }} data-aos="fade-up">
+                    </Flex> */}
+                    <Typography.Title level={1} className="title-text" data-aos-offset="-500" style={{ margin: 0 }} data-aos="fade-up">
                         <span className="main-text">Muhandislik</span> yo‘nalishlari bo‘yicha respublika tanlovi
                     </Typography.Title>
                     <Typography.Text className="info-text" data-aos="fade-up" data-aos-offset="-500">
@@ -159,6 +160,21 @@ const HomePage = () => {
                             ))
                         }
                     </Flex>
+                </Flex>
+            </Flex>
+
+
+            {/* Video section*/}
+            <Flex vertical className="video-section" align="center" id="video">
+                <Flex vertical className="padding-box" gap={56}>
+                    <Typography.Title level={1} className="title-text" style={{ margin: 0, color: '#fff', textAlign: "center" }}>Muhandislik yo‘nalishlari bo‘yicha respublika tanlovi</Typography.Title>
+                    <ReactPlayer
+                        playing
+                        url={'/videos/video.mp4'}
+                        controls
+                        light="/images/cover.jpg"
+                    // playIcon={<img src="/images/video.png" width={100} />}
+                    />
                 </Flex>
             </Flex>
 
