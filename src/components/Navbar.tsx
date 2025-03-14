@@ -1,8 +1,10 @@
 import { FileTextOutlined, HomeOutlined, NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Flex, Typography } from 'antd';
 import { ReactElement } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { ProfileExpandIcon, VerifiedIcon } from '../assets/icons';
+import { LogoutIcon, ProfileExpandIcon, VerifiedIcon } from '../assets/icons';
+import { logout } from '../store/slices/userSlice';
 import Logo from './Logo';
 
 interface INavbarItem {
@@ -12,6 +14,7 @@ interface INavbarItem {
 }
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const navbar: INavbarItem[] = [
         {
             icon: <HomeOutlined />,
@@ -29,6 +32,10 @@ const Navbar = () => {
             href: '/dashboard/notifications'
         }
     ];
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <Flex vertical className="navbar">
@@ -50,14 +57,24 @@ const Navbar = () => {
                             <Button variant="outlined" icon={<ProfileExpandIcon />} />
                         </Flex>
                     </Card>
-                    <Flex vertical gap={12} className="navbar-links">
-                        {
-                            navbar.map((item, index) => (
-                                <NavLink to={item.href} key={index}>
-                                    <Button type='default' icon={item.icon}>{item.title}</Button>
-                                </NavLink>
-                            ))
-                        }
+                    <Flex vertical gap={24} justify='space-between'>
+                        <Flex vertical gap={12} className="navbar-links">
+                            {
+                                navbar.map((item, index) => (
+                                    <NavLink to={item.href} key={index}>
+                                        <Button type='default' icon={item.icon}>{item.title}</Button>
+                                    </NavLink>
+                                ))
+                            }
+                        </Flex>
+                        <Button
+                            className='logout-btn'
+                            type='default'
+                            icon={<LogoutIcon />}
+                            onClick={handleLogout}
+                        >
+                            Tizimdan chiqish
+                        </Button>
                     </Flex>
                 </Flex>
             </Flex>

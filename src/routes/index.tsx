@@ -5,10 +5,14 @@ import DashboardLayout from "../layouts/DashboardLayout"
 import RootLayout from "../layouts/RootLayout"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
-import ApplicationsPage from "../pages/dashboard/ApplicationsPage"
+import ApplicationsPage from "../pages/dashboard/applications"
+import CreateApplicationsPage from "../pages/dashboard/applications/CreateApplicationsPage"
+import ViewApplicationsPage from "../pages/dashboard/applications/ViewApplicationsPage"
 import MainPage from "../pages/dashboard/MainPage"
 import NotificationsPage from "../pages/dashboard/NotificationsPage"
 import HomePage from "../pages/landing/HomePage"
+import CallbackPage from "../pages/utils/CallbackPage"
+import ErrorPage from "../pages/utils/ErrorPage"
 import { buildRoutes, IRoute } from "../utils/routeUtils"
 import NotFoundPage from "./NotFoundPage"
 
@@ -19,6 +23,8 @@ const publicRoutes: IRoute[] = [
     },
     { path: "auth/login", element: <LoginPage /> },
     { path: "auth/register", element: <RegisterPage /> },
+    { path: "auth/callback", element: <CallbackPage /> },
+    { path: "error", element: <ErrorPage /> }
 ];
 
 const privateRoutes: IRoute[] = [
@@ -27,7 +33,14 @@ const privateRoutes: IRoute[] = [
         element: <DashboardLayout />,
         children: [
             { path: 'main', element: <MainPage /> },
-            { path: 'applications', element: <ApplicationsPage /> },
+            {
+                path: 'applications',
+                element: <ApplicationsPage />,
+                children: [
+                    { path: '', element: <ViewApplicationsPage /> },
+                    { path: 'create', element: <CreateApplicationsPage /> }
+                ]
+            },
             { path: 'notifications', element: <NotificationsPage /> },
         ]
     }

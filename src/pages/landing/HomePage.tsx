@@ -87,6 +87,7 @@ const HomePage = () => {
                                 type='primary'
                                 className="main-btn primary-btn"
                                 onClick={() => setIsModalOpen(true)}
+                            // href="https://muhandis.edu.uz/api/v1/auth/one-id/"
                             >
                                 Ro‘yxatdan o‘tish
                             </Button>

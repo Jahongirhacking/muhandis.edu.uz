@@ -4,3 +4,9 @@ export interface Post {
   title: string;
   body: string;
 }
+
+export enum Role {
+  Applicant = "applicant",
+  Inspector = "inspector",
+  Ministry = "ministry",
+}

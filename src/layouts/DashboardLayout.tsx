@@ -10,8 +10,10 @@ const DashboardLayout = () => {
                 <Flex className="dashboard-layout-navbar">
                     <Navbar />
                 </Flex>
-                <Flex className="dashboard-layout-content">
-                    <Outlet />
+                <Flex vertical className="dashboard-layout-content-wrapper">
+                    <Flex vertical className="dashboard-layout-content">
+                        <Outlet />
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>

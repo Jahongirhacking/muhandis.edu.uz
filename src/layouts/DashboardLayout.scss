@@ -38,6 +38,32 @@
         }
       }
 
+      @mixin nav_item() {
+        & > div {
+          display: none;
+        }
+
+        justify-content: flex-start;
+        width: 100%;
+        height: 48px;
+        background-color: transparent;
+        border: 1px solid transparent;
+        box-shadow: none;
+
+        &:hover {
+          * {
+            transition: 0.4s ease;
+            color: #068eff;
+
+            svg {
+              path {
+                fill: #068eff;
+              }
+            }
+          }
+        }
+      }
+
       .navbar-links {
         a {
           width: 100%;
@@ -62,24 +88,24 @@
             background-color: #fff;
             border: 1px solid #f0f0f0;
             border-radius: 12px;
+
+            * {
+              color: #068eff;
+            }
+
             &::after {
               background-color: #068eff;
             }
           }
 
           button {
-            & > div {
-              display: none;
-            }
-
-            justify-content: flex-start;
-            width: 100%;
-            height: 48px;
-            background-color: transparent;
-            border: 1px solid transparent;
-            box-shadow: none;
+            @include nav_item();
           }
         }
+      }
+
+      .logout-btn {
+        @include nav_item();
       }
     }
   }
@@ -88,20 +114,118 @@
     height: 100dvh;
     overflow: hidden;
 
-    .dashboard-layout-content {
+    .dashboard-layout-content-wrapper {
       width: 100%;
-      padding: 32px;
+      height: calc(100% - 64px);
+      padding: 12px;
       background-color: #fff;
       border-radius: 24px;
       border-width: 1px;
       border: 1px solid #f0f0f0;
       margin: 32px 32px 32px 2px;
-      height: calc(100% - 64px);
-      overflow-x: auto;
-      overflow-y: auto;
 
-      .applications-page {
-        width: 100%;
+      .dashboard-layout-content {
+        padding: 20px;
+        height: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        scrollbar-color: #d1d3d6 transparent;
+        scrollbar-gutter: stable;
+        container-type: inline-size;
+        container-name: dashboard-content;
+
+        .main-page {
+          .ant-card {
+            .ant-card-head {
+              padding: 24px;
+
+              .ant-card-extra {
+                button {
+                  border-radius: 119px;
+                  border-width: 1.4px;
+                  background-color: #068eff;
+                  border: 1.4px solid rgba(255, 255, 255, 0.1);
+                }
+              }
+            }
+
+            .ant-card-head-title {
+              font-weight: 500;
+              font-size: 24px;
+              line-height: 32px;
+            }
+          }
+
+          @mixin info_text() {
+            .ant-card-body {
+              span {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: -0.12px;
+                color: #85889e;
+
+                strong {
+                  font-weight: 500;
+                  color: #2c324a;
+                }
+              }
+            }
+          }
+
+          .profile-card {
+            background-image: url("/gradients/bg-11.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 24px;
+            @include info_text();
+
+            .ant-avatar {
+              width: 178px;
+              height: auto;
+
+              img {
+                border-radius: 24px;
+              }
+            }
+
+            .fullname {
+              font-weight: 500;
+              font-size: 24px;
+              line-height: 32px;
+              color: #2c324a;
+              margin: 0;
+            }
+          }
+
+          .education-card {
+            border-radius: 24px;
+            @include info_text();
+          }
+
+          .workplace-card {
+            border: 1px solid #f0f0f0;
+            border-top: none;
+            border-radius: 0;
+            @include info_text();
+
+            &.selected {
+              background-color: #f1fcf3;
+            }
+
+            &:first-child {
+              border-top-left-radius: 24px;
+              border-top-right-radius: 24px;
+              border-top: 1px solid #f0f0f0;
+            }
+
+            &:last-child {
+              border-bottom-left-radius: 24px;
+              border-bottom-right-radius: 24px;
+            }
+          }
+        }
       }
     }
   }

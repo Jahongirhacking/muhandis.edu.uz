@@ -1,0 +1,143 @@
+.applications-page {
+  width: 100%;
+  height: 100%;
+
+  .applications-main {
+    height: 100%;
+
+    &.view-application {
+      .steps {
+        button {
+          height: 48px;
+          min-width: 32px;
+          border-radius: 100px;
+          padding: 14px 24px;
+          border: 1px solid var(--border-color-select-input, #d8dce6);
+          cursor: auto;
+
+          &:hover {
+            color: inherit;
+          }
+        }
+      }
+
+      .create-btn {
+        border-radius: 16px;
+        padding: 16px 24px;
+        background-color: #068eff;
+        height: 56px;
+        transition: background-color 0.4s ease;
+
+        &:hover {
+          background-color: #068fffc5;
+        }
+      }
+    }
+
+    &.create-application {
+      @mixin hover_bg() {
+        cursor: pointer;
+        background-color: #f7f7f7;
+        border-radius: 24px;
+        padding: 16px;
+        transition: background-color 0.4s ease;
+
+        &:hover {
+          background-color: #f7f7f765;
+        }
+      }
+
+      form {
+        padding-bottom: 50px;
+
+        .select-role {
+          min-height: 120px;
+          @include hover_bg();
+
+          span {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            color: #85889e;
+
+            strong {
+              font-weight: 600;
+              font-size: 18px;
+              color: #2c324a;
+            }
+          }
+        }
+
+        .select-speciality {
+          min-width: min(100%, 200px);
+          @include hover_bg();
+
+          strong {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            color: #2c324a;
+          }
+        }
+
+        .ant-divider {
+          &::before {
+            display: none;
+          }
+
+          span {
+            padding: 0 1em 0 0;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: 0%;
+            color: #2c324a;
+          }
+        }
+
+        .ant-input {
+          height: 56px;
+          border-radius: 16px;
+          border-width: 1px;
+          padding: 16px 12px;
+          border-color: #d8dce6;
+        }
+        textarea.ant-input {
+          min-height: 170px;
+        }
+      }
+
+      .step1 {
+        .ant-form-item {
+          flex: 1;
+          min-width: calc(50% - 30px);
+
+          @container dashboard-content (max-width: 600px) {
+            min-width: 100%;
+          }
+        }
+      }
+
+      .ant-form-item {
+        margin: 0;
+
+        .ant-col {
+          flex: none;
+        }
+      }
+
+      .continue-btn {
+        margin-top: 8px;
+        min-height: 56px;
+        border-radius: 16px;
+        padding: 16px 24px;
+      }
+    }
+
+    .applications-container {
+      height: 100%;
+    }
+  }
+}
