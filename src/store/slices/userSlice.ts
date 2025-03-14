@@ -11,12 +11,14 @@ import {
 interface IProps {
   token: string;
   role: Role;
+  photo: string;
   profile: Partial<IUser>;
 }
 
 const initialState: IProps = {
   token: getLocalStorage(localStorageNames.token) ?? "",
   role: getLocalStorage(localStorageNames.role) ?? "",
+  photo: getLocalStorage(localStorageNames.photo) ?? "",
   profile: {},
 };
 
@@ -35,6 +37,10 @@ const userSlice = createSlice({
       localStorage.removeItem(localStorageNames.token);
       localStorage.removeItem(localStorageNames.role);
       localStorage.removeItem(localStorageNames.photo);
+    },
+    setPhoto: (state, action: PayloadAction<string>) => {
+      state.photo = action.payload;
+      setLocalStorage(localStorageNames.photo, action.payload);
     },
   },
   extraReducers: (builder) => {

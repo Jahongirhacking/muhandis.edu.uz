@@ -1,6 +1,6 @@
 import { Flex } from "antd"
 import { useEffect, useRef } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
@@ -13,6 +13,7 @@ const DashboardLayout = () => {
     const [getMe] = useLazyGetMeQuery();
     const [getPhoto] = useLazyGetPhotoQuery();
     const hasFetched = useRef(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!hasFetched.current) {
@@ -27,6 +28,7 @@ const DashboardLayout = () => {
                 const { data } = await getPhoto({ pinfl: profile.pinfl! });
                 const photo = data?.photo;
                 if (photo) {
+                    dis
                     setLocalStorage(localStorageNames.photo, photo)
                 }
             })())
