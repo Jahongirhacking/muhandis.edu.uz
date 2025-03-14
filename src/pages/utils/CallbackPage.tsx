@@ -1,12 +1,21 @@
-import { Flex } from "antd";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { Role } from "../../services/types";
+import { login } from "../../store/slices/userSlice";
 
 const CallbackPage = () => {
-    console.log(Cookies.get("token"), Cookies.get('role'));
+    const token = Cookies.get("token");
+    const role = Cookies.get('role') as Role;
+    const dispatch = useDispatch();
+
+    if (token && role) {
+        dispatch(login({ token, role }))
+        return <Navigate to={'/dashboard/main'} replace />
+    }
+
     return (
-        <Flex vertical>
-            Hello
-        </Flex>
+        <Navigate to={'/error'} replace />
     )
 }
 
