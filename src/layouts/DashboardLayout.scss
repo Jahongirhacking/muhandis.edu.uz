@@ -19,6 +19,14 @@
     height: 100%;
 
     .navbar {
+      .navbar-content {
+        height: 100%;
+
+        .ant-flex {
+          height: 100%;
+        }
+      }
+
       .profile-card {
         min-width: 298px;
 
@@ -38,7 +46,7 @@
         }
       }
 
-      @mixin nav_item() {
+      @mixin nav_item($color) {
         & > div {
           display: none;
         }
@@ -53,11 +61,11 @@
         &:hover {
           * {
             transition: 0.4s ease;
-            color: #068eff;
+            color: $color;
 
             svg {
               path {
-                fill: #068eff;
+                fill: $color;
               }
             }
           }
@@ -99,13 +107,13 @@
           }
 
           button {
-            @include nav_item();
+            @include nav_item(#068eff);
           }
         }
       }
 
       .logout-btn {
-        @include nav_item();
+        @include nav_item(red);
       }
     }
   }
@@ -169,60 +177,94 @@
                   font-weight: 500;
                   color: #2c324a;
                 }
+
+                &.undefined {
+                  strong {
+                    color: rgb(151, 0, 63);
+                  }
+                }
               }
             }
           }
 
-          .profile-card {
-            background-image: url("/gradients/bg-11.png");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            border-radius: 24px;
-            @include info_text();
+          .card-container {
+            & > * {
+              flex: 1;
+              min-width: min(100%, 300px);
+            }
 
-            .ant-avatar {
-              width: 178px;
-              height: auto;
+            .profile-card {
+              background-image: url("/gradients/bg-11.png");
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+              border-radius: 24px;
+              @include info_text();
 
-              img {
-                border-radius: 24px;
+              .ant-card-body {
+                & > .ant-flex {
+                  & > * {
+                    flex: 1;
+
+                    &:first-child {
+                      min-width: min(100%, 178px);
+                      max-width: min(100%, 178px);
+                    }
+
+                    &:last-child {
+                      min-width: min(100%, 250px);
+                    }
+                  }
+                }
+              }
+
+              .contact-field {
+                column-gap: 32px !important;
+              }
+
+              .ant-avatar {
+                width: 178px;
+                height: auto;
+
+                img {
+                  border-radius: 24px;
+                }
+              }
+
+              .fullname {
+                font-weight: 500;
+                font-size: 24px;
+                line-height: 32px;
+                color: #2c324a;
+                margin: 0;
               }
             }
 
-            .fullname {
-              font-weight: 500;
-              font-size: 24px;
-              line-height: 32px;
-              color: #2c324a;
-              margin: 0;
-            }
-          }
-
-          .education-card {
-            border-radius: 24px;
-            @include info_text();
-          }
-
-          .workplace-card {
-            border: 1px solid #f0f0f0;
-            border-top: none;
-            border-radius: 0;
-            @include info_text();
-
-            &.selected {
-              background-color: #f1fcf3;
+            .education-card {
+              border-radius: 24px;
+              @include info_text();
             }
 
-            &:first-child {
-              border-top-left-radius: 24px;
-              border-top-right-radius: 24px;
-              border-top: 1px solid #f0f0f0;
-            }
+            .workplace-card {
+              border: 1px solid #f0f0f0;
+              border-top: none;
+              border-radius: 0;
+              @include info_text();
 
-            &:last-child {
-              border-bottom-left-radius: 24px;
-              border-bottom-right-radius: 24px;
+              &.selected {
+                background-color: #f1fcf3;
+              }
+
+              &:first-child {
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+                border-top: 1px solid #f0f0f0;
+              }
+
+              &:last-child {
+                border-bottom-left-radius: 24px;
+                border-bottom-right-radius: 24px;
+              }
             }
           }
         }

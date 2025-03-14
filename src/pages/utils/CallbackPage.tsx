@@ -11,7 +11,12 @@ const CallbackPage = () => {
 
     if (token && role) {
         dispatch(login({ token, role }))
-        return <Navigate to={'/dashboard/main'} replace />
+        // student
+        if (role === Role.Applicant) return <Navigate to={'/dashboard/main'} replace />
+        // inspector
+        if (role === Role.Inspector) return <Navigate to={'/admin'} replace />
+        // ministry
+        if (role === Role.Ministry) return <Navigate to={'/ministry'} replace />
     }
 
     return (

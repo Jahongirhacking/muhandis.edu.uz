@@ -3,7 +3,7 @@ import { Avatar, Button, Card, Flex, Typography } from 'antd';
 import { ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { LogoutIcon, ProfileExpandIcon, VerifiedIcon } from '../assets/icons';
+import { LogoutIcon, VerifiedIcon } from '../assets/icons';
 import { logout } from '../store/slices/userSlice';
 import Logo from './Logo';
 
@@ -54,7 +54,7 @@ const Navbar = () => {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            <Button variant="outlined" icon={<ProfileExpandIcon />} />
+                            {/* <Button variant="outlined" icon={<ProfileExpandIcon />} /> */}
                         </Flex>
                     </Card>
                     <Flex vertical gap={24} justify='space-between'>

@@ -1,9 +1,35 @@
 import { Flex } from "antd"
+import { useEffect, useRef } from "react"
+import { useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
+import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
+import { RootState } from "../store/store"
+import { getLocalStorage, localStorageNames } from "../utils/storageUtils"
 import "./DashboardLayout.scss"
 
 const DashboardLayout = () => {
+    const profile = useSelector((store: RootState) => store.user?.profile);
+    const [getMe] = useLazyGetMeQuery();
+    const [getPhoto] = useLazyGetPhotoQuery();
+    const hasFetched = useRef(false);
+
+    useEffect(() => {
+        if (!hasFetched.current) {
+            getMe();
+            hasFetched.current = true;
+        }
+    }, [getMe])
+
+    useEffect(() => {
+        if (!getLocalStorage(localStorageNames.photo) && profile?.pinfl) {
+            ((async () => {
+                const photo = await getPhoto({ pinfl: profile.pinfl! });
+                console.log(photo);
+            })())
+        }
+    }, [getPhoto, profile?.pinfl])
+
     return (
         <Flex vertical className="dashboard-layout">
             <Flex className="dashboard-layout-main">
