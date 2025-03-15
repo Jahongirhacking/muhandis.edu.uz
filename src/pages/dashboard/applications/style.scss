@@ -19,6 +19,68 @@
           // }
 
           color: #b3b8cc;
+
+          &.active {
+            background-color: #2c324a;
+            * {
+              color: #fff;
+              fill: #fff;
+            }
+          }
+        }
+      }
+
+      .application-card {
+        background-color: #f8f9fb;
+        border-radius: 24px;
+
+        .ant-card-head {
+          &-wrapper {
+            padding: 10px 0;
+            gap: 12px;
+            flex-wrap: wrap;
+
+            & > * {
+              min-width: 100px;
+            }
+          }
+          .ant-card-head-title {
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 24px;
+          }
+
+          .ant-tag {
+            display: flex;
+            align-items: center;
+            border-radius: 16px;
+            padding: 8px 12px;
+            gap: 4px;
+            border: 1px solid #bae0ff;
+            background-color: #eff8ff;
+
+            * {
+              color: #0062cc;
+              fill: #0062cc;
+              font-size: 12px;
+              line-height: 18px;
+            }
+          }
+        }
+
+        .application-info {
+          span.ant-typography {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.2px;
+            color: #85889e;
+
+            strong {
+              font-weight: 500;
+              color: #1d1d1f;
+            }
+          }
         }
       }
 
@@ -28,6 +90,11 @@
         background-color: #068eff;
         height: 56px;
         transition: background-color 0.4s ease;
+        color: #fff !important;
+
+        &[disabled] {
+          opacity: 0.5;
+        }
 
         &:hover {
           background-color: #068fffc5;

@@ -6,7 +6,7 @@ import ControlledFlow from "../../../components/ControlledFlow"
 import Step1 from "./components/Step1"
 import Step2 from "./components/Step2"
 
-const CreateApplicationsPage = () => {
+const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) => {
     const [data, setData] = useState<object>({});
     const [current, setCurrent] = useState<number>(0);
 
@@ -29,7 +29,7 @@ const CreateApplicationsPage = () => {
                 <ControlledFlow
                     {...{ current, setCurrent, data, setData }}
                 >
-                    <Step1 />
+                    <Step1 editable={editable} />
                     <Step2 />
                 </ControlledFlow>
 

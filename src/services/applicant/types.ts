@@ -76,3 +76,16 @@ export interface IApplication {
   indicator_metric_file: string | null;
   foreign_passport_file: string | null;
 }
+
+export type IBasicApplication = Pick<
+  IApplication,
+  | "id"
+  | "user"
+  | "admission"
+  | "application_type"
+  | "submit_as"
+  | "name"
+  | "category"
+  | "short_description"
+  | "problem_and_solution"
+>;

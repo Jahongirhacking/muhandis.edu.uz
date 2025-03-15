@@ -36,8 +36,10 @@ export enum ApplicationStatusChoice {
   PASSED = 2,
   EVALUATED = 3,
   SELECTED = 4,
-  WON = 5,
   REJECTED = 10,
+  PLACE_1 = 11,
+  PLACE_2 = 12,
+  PLACE_3 = 13,
 }
 
 export enum ApplicationTypeChoice {
@@ -67,3 +69,26 @@ export enum ExampleFileFieldNameChoices {
   INDICATOR_METRIC_FILE = "indicator_metric_file",
   FOREIGN_PASSPORT_FILE = "foreign_passport_file",
 }
+
+export const getApplicationStatusName = (value: ApplicationStatusChoice) => {
+  switch (value) {
+    case ApplicationStatusChoice.CREATED:
+      return "Yaratilgan";
+    case ApplicationStatusChoice.SENT:
+      return "Yuborilgan";
+    case ApplicationStatusChoice.PASSED:
+      return "Texnik ekspertizadan o'tgan";
+    case ApplicationStatusChoice.EVALUATED:
+      return "Komissiya kotibi baholagan";
+    case ApplicationStatusChoice.SELECTED:
+      return "Baholanganlarni ichidan tanlangan (10 nafardan)";
+    case ApplicationStatusChoice.REJECTED:
+      return "Texnik ekspertizadan qaytgan";
+    case ApplicationStatusChoice.PLACE_1:
+      return "1-o'rin";
+    case ApplicationStatusChoice.PLACE_2:
+      return "2-o'rin";
+    case ApplicationStatusChoice.PLACE_3:
+      return "3-o'rin";
+  }
+};

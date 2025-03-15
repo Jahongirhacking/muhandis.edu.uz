@@ -40,7 +40,8 @@ const privateRoutes: IRoute[] = [
                 element: <ApplicationsPage />,
                 children: [
                     { path: '', element: <ViewApplicationsPage /> },
-                    { path: 'create', element: <CreateApplicationsPage /> }
+                    { path: 'create', element: <CreateApplicationsPage /> },
+                    { path: 'edit', element: <CreateApplicationsPage editable={true} /> }
                 ]
             },
             { path: 'notifications', element: <NotificationsPage /> },

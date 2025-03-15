@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { applicantApi } from "../../services/applicant";
 import { IWorkplace } from "../../services/applicant/types";
+import { classifierApi } from "../../services/classifier";
+import { IAdmission } from "../../services/classifier/types";
 import { Role } from "../../services/types";
 import { userApi } from "../../services/user";
 import { IUser } from "../../services/user/types";
@@ -16,6 +18,7 @@ interface IProps {
   photo: string;
   workplaceList: IWorkplace[];
   profile: Partial<IUser>;
+  currentAdmission: IAdmission | null;
 }
 
 const initialState: IProps = {
@@ -24,6 +27,7 @@ const initialState: IProps = {
   photo: getLocalStorage(localStorageNames.photo) ?? "",
   workplaceList: [],
   profile: {},
+  currentAdmission: null,
 };
 
 const userSlice = createSlice({
@@ -62,6 +66,14 @@ const userSlice = createSlice({
         applicantApi.endpoints.getWorkplaceList.matchFulfilled,
         (state, { payload }) => {
           state.workplaceList = payload;
+        }
+      )
+      .addMatcher(
+        classifierApi.endpoints.getAdmission.matchFulfilled,
+        (state, { payload }) => {
+          state.currentAdmission = payload
+            ? payload?.find((el) => el?.is_active) ?? null
+            : null;
         }
       );
   },
