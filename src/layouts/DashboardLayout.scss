@@ -27,6 +27,58 @@
   height: 100%;
   position: relative;
 
+  .status-card {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: 24px;
+      background: linear-gradient(
+        102.54deg,
+        #00d0ff 0%,
+        #0099ff 20%,
+        #c95eff 42%,
+        #ff2569 63%,
+        #ff8300 83%,
+        #ffb000 100%
+      );
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      z-index: -1;
+    }
+
+    .ant-card-body {
+      border-radius: 24px;
+      background-color: #fff;
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.2px;
+      color: #2c324a;
+    }
+    .ant-flex {
+      span {
+        font-size: 16px;
+        line-height: 24px;
+        white-space: normal;
+        text-align: left;
+      }
+    }
+    .ant-btn-link {
+      justify-content: flex-start;
+      padding: 0;
+      height: auto;
+    }
+  }
+
   .logo.main-logo {
     svg {
       path {
@@ -131,58 +183,6 @@
         .navbar-main-container {
           flex: 1;
           height: 100%;
-
-          .status-card {
-            position: relative;
-            z-index: 1;
-            border-radius: 24px;
-
-            &::before {
-              content: "";
-              position: absolute;
-              border-radius: 24px;
-              background: linear-gradient(
-                102.54deg,
-                #00d0ff 0%,
-                #0099ff 20%,
-                #c95eff 42%,
-                #ff2569 63%,
-                #ff8300 83%,
-                #ffb000 100%
-              );
-              top: -2px;
-              left: -2px;
-              right: -2px;
-              bottom: -2px;
-              z-index: -1;
-            }
-
-            .ant-card-body {
-              border-radius: 24px;
-              background-color: #fff;
-            }
-
-            .title {
-              font-weight: 600;
-              font-size: 18px;
-              line-height: 24px;
-              letter-spacing: 0.2px;
-              color: #2c324a;
-            }
-            .ant-flex {
-              span {
-                font-size: 16px;
-                line-height: 24px;
-                white-space: normal;
-                text-align: left;
-              }
-            }
-            .ant-btn-link {
-              justify-content: flex-start;
-              padding: 0;
-              height: auto;
-            }
-          }
         }
       }
 
@@ -333,6 +333,12 @@
         container-name: dashboard-content;
 
         .main-page {
+          .status-card {
+            @media screen and (min-width: 800px) {
+              display: none;
+            }
+          }
+
           .ant-card {
             .ant-card-head {
               padding: 24px;
@@ -371,7 +377,8 @@
             }
 
             .profile-card {
-              background-image: url("/gradients/bg-11.png");
+              // background-image: url("/gradients/bg-11.png");
+              background-color: #f0fcff;
               background-position: center;
               background-repeat: no-repeat;
               background-size: cover;

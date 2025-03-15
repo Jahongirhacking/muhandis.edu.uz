@@ -26,6 +26,15 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
         <Flex gap={8} align='stretch' className='upload-file'>
             <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
+                {templateUrl && <Button icon={<UploadFileIcon />} href={templateUrl} target='_blank' type='link'>Namunani yuklab oling</Button>}
+                {
+                    fileUrl && (
+                        <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
+                    )
+                }
+            </Flex>
+            <Flex vertical gap={8} justify='space-between' className='download'>
+                <Typography.Text strong>{uploadLabel}</Typography.Text>
                 <Upload
                     name='file'
                     beforeUpload={(file) => {
@@ -35,22 +44,10 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                     maxCount={1}
                     onRemove={() => { handleUpload(null) }}
                 >
-                    <Button icon={<UploadFileIcon />} type='link'>{uploadLabel}</Button>
+                    <Button icon={<DownloadFileIcon />} />
                 </Upload>
-                {
-                    fileUrl && (
-                        <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
-                    )
-                }
+
             </Flex>
-            {
-                templateUrl && (
-                    <Flex vertical gap={8} justify='space-between' className='download'>
-                        <Typography.Text strong>Namunani yuklab oling</Typography.Text>
-                        <Button icon={<DownloadFileIcon />} href={templateUrl} target='_blank' />
-                    </Flex>
-                )
-            }
         </Flex>
     )
 }

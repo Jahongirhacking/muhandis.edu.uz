@@ -166,3 +166,31 @@ export const SuccessIcon = () => (
     <path fillRule="evenodd" clipRule="evenodd" d="M57.7702 110.625C28.5796 110.625 4.91602 86.9614 4.91602 57.7707C4.91602 28.5801 28.5796 4.9165 57.7702 4.9165C86.9609 4.9165 110.624 28.5801 110.624 57.7707C110.624 86.9614 86.9609 110.625 57.7702 110.625ZM81.2138 46.1682C82.9524 44.0822 82.6706 40.9819 80.5845 39.2435C78.4984 37.5052 75.3979 37.787 73.6599 39.8731L52.5231 65.2371L41.5801 54.2941C39.66 52.3741 36.547 52.3741 34.6269 54.2941C32.7068 56.2141 32.7068 59.3273 34.6269 61.2472L49.3769 75.9973C50.3539 76.9742 51.6961 77.4949 53.0762 77.4324C54.4563 77.3695 55.7465 76.7293 56.6305 75.6683L81.2138 46.1682Z" fill="#34C759" />
   </svg>
 )
+
+export const NotificationBigIcon = () => (
+  <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_3211_10546)">
+      <circle cx="64" cy="64" r="64" fill="#F5F5F5" />
+      <g filter="url(#filter0_d_3211_10546)">
+        <path d="M94.6646 95.9999H33.3354C30.4337 95.9999 28 93.7879 28 91.1505V50.1408C28 48.8035 28.6721 47.5552 29.7899 46.8163L61.7899 25.664C63.1295 24.7786 64.8705 24.7786 66.2101 25.664L98.2101 46.8163C99.3279 47.5552 100 48.8034 100 50.1408V91.1505C100 93.7879 97.6599 95.9999 94.6646 95.9999Z" fill="white" />
+      </g>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M62.3967 69.2986C63.4188 69.7457 64.5812 69.7457 65.6033 69.2986L96 56H32L62.3967 69.2986Z" fill="#F5F5F5" />
+      <path d="M65.6032 69.2986C64.5811 69.7457 63.4188 69.7458 62.3968 69.2987L42 60.3763V48.8632C42 46.133 44.4337 44 47.3354 44H80.6646C83.5663 44 86 46.2183 86 48.8632V60.375L65.6032 69.2986Z" fill="#1677FF" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M75 57C75.507 57 76 57.4925 76 58C76 58.5075 75.507 59 75 59H53C52.5211 59 52 58.5102 52 58C52 57.4898 52.5064 57 53 57H75ZM75 51C75.5151 51 76 51.4765 76 52.0052C76 52.534 75.5151 53 75 53H53C52.4984 53 52.0212 52.5267 52.0212 52.0092C52.0212 51.4918 52.516 51 53 51H75Z" fill="white" />
+    </g>
+    <defs>
+      <filter id="filter0_d_3211_10546" x="18" y="15" width="92" height="90.9999" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+        <feOffset />
+        <feGaussianBlur stdDeviation="5" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0.121569 0 0 0 0 0.121569 0 0 0 0 0.133333 0 0 0 0.1 0" />
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3211_10546" />
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3211_10546" result="shape" />
+      </filter>
+      <clipPath id="clip0_3211_10546">
+        <rect width="128" height="128" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+)
