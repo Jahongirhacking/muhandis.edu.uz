@@ -29,7 +29,7 @@ const ViewApplicationsPage = () => {
                         <Button variant="outlined" icon={<CurrentApplicationsIcon />} className={isCurrent ? 'active' : ''} onClick={() => setIsCurrent(true)}>Arizalar</Button>
                         <Button variant="outlined" icon={<ArchiveIcon />} className={!isCurrent ? 'active' : ''} onClick={() => setIsCurrent(false)}>Arxiv</Button>
                     </Flex>
-                    <Link to={`${hasPermissionToCreate ? "/dashboard/applications/create" : ''}`}>
+                    <Link to={`${hasPermissionToCreate ? "/dashboard/applications/create" : ''}`} style={{ marginLeft: 'auto' }}>
                         <Button disabled={!hasPermissionToCreate} className="create-btn" type="primary" icon={<PlusOutlined />}>Ariza yaratish</Button>
                     </Link>
                 </Flex>
