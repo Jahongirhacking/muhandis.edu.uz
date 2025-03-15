@@ -72,6 +72,18 @@ export const applicantApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Applications"],
     }),
+
+    editApplicationWithFormData: build.mutation<
+      IApplication,
+      { id: IApplication["id"]; formData: FormData }
+    >({
+      query: ({ id, formData }) => ({
+        url: `/applicant/application/${id}/`,
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Applications"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -86,4 +98,5 @@ export const {
   useGetApplicationListQuery,
   useCreateApplicationMutation,
   useEditApplicationMutation,
+  useEditApplicationWithFormDataMutation,
 } = applicantApi;

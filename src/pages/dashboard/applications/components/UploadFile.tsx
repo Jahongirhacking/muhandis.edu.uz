@@ -1,12 +1,13 @@
 import { Button, Flex, message, Typography, Upload } from 'antd';
 import { FC } from 'react';
 import { DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
+import { ExampleFileFieldNameChoices } from '../../../../services/types';
 import { IFile } from './Step2';
 
 type IFileType = 'pdf' | 'mp4' | 'pptx'
 
-interface IUploadFileProps {
-    id: string;
+export interface IUploadFileProps {
+    id: ExampleFileFieldNameChoices;
     typeChoice: IFileType[];
     title: string;
     uploadLabel: string;
@@ -15,7 +16,6 @@ interface IUploadFileProps {
 }
 
 const UploadFile: FC<IUploadFileProps> = ({ id, typeChoice, title, uploadLabel, templateUrl, handleSubmit }) => {
-
     const handleUpload = async (file: IFile) => {
         await handleSubmit(id, file);
         if (!file) {
@@ -28,11 +28,10 @@ const UploadFile: FC<IUploadFileProps> = ({ id, typeChoice, title, uploadLabel, 
         } else {
             message.warning(`Fayl formati quyidagi formatda bo'lishi talab etiladi: ${typeChoice.map(el => el.toUpperCase()).join(', ')}`)
         }
-        console.log(file);
     }
 
     return (
-        <Flex gap={8} wrap align='stretch' className='upload-file'>
+        <Flex gap={8} align='stretch' className='upload-file'>
             <Flex vertical gap={8} className='upload-container'>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
                 <Upload

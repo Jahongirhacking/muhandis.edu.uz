@@ -17,7 +17,7 @@ const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) =>
                     <Button icon={<ArrowLeftOutlined />} shape="circle" />
                 </Link>
                 <Typography.Title level={2} style={{ margin: 0 }}>Ariza topshirish</Typography.Title>
-                <Flex gap={16} align="center" style={{ marginLeft: 16 }}>
+                <Flex gap={16} align="center" style={{ marginLeft: 16 }} className="progress-container">
                     <Progress type="circle" size="small" percent={current / 2 * 100} />
                     <Flex vertical>
                         <Typography.Text strong>Qadam 1</Typography.Text>

@@ -1,3 +1,5 @@
+import { ApplicationTypeChoice, ExampleFileFieldNameChoices } from "../types";
+
 export interface IAdmission {
   id: number;
   name: string;
@@ -9,4 +11,14 @@ export interface IAdmission {
   applicant_can_modify_until: string;
   is_visible: boolean;
   is_active: boolean;
+}
+
+export interface IExampleFile {
+  id: number;
+  field_name: ExampleFileFieldNameChoices;
+  file: string;
+  file_type: ApplicationTypeChoice;
+  for_idea: boolean;
+  for_project: boolean;
+  for_invention: boolean;
 }

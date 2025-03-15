@@ -2,6 +2,14 @@
   width: 100%;
   height: 100%;
 
+  .progress-container {
+    @container dashboard-content (max-width: 500px) {
+      .ant-typography {
+        display: none;
+      }
+    }
+  }
+
   .applications-main {
     height: 100%;
 
@@ -198,57 +206,75 @@
       }
 
       .step-2 {
-        .upload-file {
-          flex: 1;
+        padding-bottom: 80px;
+        .required-files {
+          .upload-file {
+            width: 100%;
+            min-width: calc(50% - 25px);
+            max-width: calc(50% - 25px);
+            flex-wrap: wrap;
 
-          & > * {
-            background-color: #f8f9fb;
-            border-radius: 16px;
-          }
-
-          .upload-container {
-            padding: 24px;
-            text-align: left;
-
-            .upload-title {
-              font-weight: 400;
-              font-size: 18px;
-              line-height: 24px;
-              letter-spacing: 0.2px;
-              color: #2c324a;
+            @container dashboard-content (max-width: 500px) {
+              min-width: 100%;
+              max-width: 100%;
             }
 
-            button {
-              padding: 0;
-              span {
-                font-family: Rubik;
+            & > * {
+              background-color: #f8f9fb;
+              border-radius: 16px;
+            }
+
+            .upload-container {
+              padding: 24px;
+              text-align: left;
+              width: 100%;
+              max-width: 500px;
+
+              * {
+                white-space: unset;
+              }
+
+              .upload-title {
                 font-weight: 400;
-                font-size: 16px;
+                font-size: 18px;
                 line-height: 24px;
-                letter-spacing: 0%;
-                text-decoration: underline;
-                text-decoration-style: solid;
+                letter-spacing: 0.2px;
+                color: #2c324a;
+              }
+
+              button {
+                padding: 0;
+                span {
+                  font-family: Rubik;
+                  font-weight: 400;
+                  font-size: 16px;
+                  line-height: 24px;
+                  letter-spacing: 0%;
+                  text-decoration: underline;
+                  text-decoration-style: solid;
+                }
               }
             }
-          }
 
-          .download {
-            padding: 8px;
-            max-width: 128px;
+            .download {
+              padding: 8px;
+              max-width: 120px;
+              min-width: 80px;
 
-            strong {
-              font-weight: 500;
-              font-size: 14px;
-              line-height: 16px;
-              letter-spacing: 0.2px;
-            }
+              strong {
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 16px;
+                letter-spacing: 0.2px;
+              }
 
-            a {
-              min-height: 32px;
-              width: 100%;
-              background-color: #ffec41;
-              border: none;
-              border-radius: 119px;
+              a {
+                min-height: 32px;
+                width: 100%;
+                background-color: #ffec41;
+                border: none;
+                border-radius: 119px;
+              }
             }
           }
         }
