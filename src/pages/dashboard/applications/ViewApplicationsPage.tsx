@@ -24,7 +24,7 @@ const ViewApplicationsPage = () => {
         <>
             <Typography.Title level={2} style={{ margin: 0 }}>Ariza topshirish</Typography.Title>
             <Flex vertical gap={24} className="view-application applications-main">
-                <Flex gap={12} justify="space-between" style={{ width: "100%" }} wrap>
+                <Flex gap={24} justify="space-between" style={{ width: "100%" }} wrap>
                     <Flex gap={12} align="center" wrap className="sort-container">
                         <Button variant="outlined" icon={<CurrentApplicationsIcon />} className={isCurrent ? 'active' : ''} onClick={() => setIsCurrent(true)}>Arizalar</Button>
                         <Button variant="outlined" icon={<ArchiveIcon />} className={!isCurrent ? 'active' : ''} onClick={() => setIsCurrent(false)}>Arxiv</Button>
