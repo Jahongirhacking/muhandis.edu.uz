@@ -32,55 +32,65 @@ interface SVGMapProps {
     childrenAfter?: React.ReactNode;
 }
 
-const SVGMap = (props: SVGMapProps) => {
+const SVGMap = ({
+    map,
+    className = 'svg-map',
+    role = 'none',
+    locationClassName = 'svg-map__location',
+    locationTabIndex = '0',
+    locationRole = 'none',
+    locationAriaLabel,
+    onLocationMouseOver,
+    onLocationMouseOut,
+    onLocationMouseMove,
+    onLocationClick,
+    onLocationKeyDown,
+    onLocationFocus,
+    onLocationBlur,
+    isLocationSelected,
+    childrenBefore,
+    childrenAfter,
+}: SVGMapProps) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={props.map.viewBox}
-            className={props.className}
-            role={props.role}
-            aria-label={props.map.label}
+            viewBox={map.viewBox}
+            className={className}
+            role={role}
+            aria-label={map.label}
         >
-            {props.childrenBefore}
-            {props.map.locations.map((location, index) => (
+            {childrenBefore}
+            {map.locations.map((location, index) => (
                 <path
                     key={location.id}
                     id={location.id}
                     name={location.name}
                     d={location.path}
                     className={
-                        typeof props.locationClassName === 'function'
-                            ? props.locationClassName(location, index)
-                            : props.locationClassName
+                        typeof locationClassName === 'function'
+                            ? locationClassName(location, index)
+                            : locationClassName
                     }
                     tabIndex={
-                        typeof props.locationTabIndex === 'function'
-                            ? Number(props.locationTabIndex(location, index))
-                            : Number(props.locationTabIndex)
+                        typeof locationTabIndex === 'function'
+                            ? Number(locationTabIndex(location, index))
+                            : Number(locationTabIndex)
                     }
-                    role={props.locationRole}
-                    aria-label={props.locationAriaLabel ? props.locationAriaLabel(location, index) : location.name}
-                    aria-checked={props.isLocationSelected ? props.isLocationSelected(location, index) : undefined}
-                    onMouseOver={(event) => props.onLocationMouseOver?.(event, location, index)}
-                    onMouseOut={(event) => props.onLocationMouseOut?.(event, location, index)}
-                    onMouseMove={(event) => props.onLocationMouseMove?.(event, location, index)}
-                    onClick={(event) => props.onLocationClick?.(event, location, index)}
-                    onKeyDown={(event) => props.onLocationKeyDown?.(event, location, index)}
-                    onFocus={(event) => props.onLocationFocus?.(event, location, index)}
-                    onBlur={(event) => props.onLocationBlur?.(event, location, index)}
+                    role={locationRole}
+                    aria-label={locationAriaLabel ? locationAriaLabel(location, index) : location.name}
+                    aria-checked={isLocationSelected ? isLocationSelected(location, index) : undefined}
+                    onMouseOver={(event) => onLocationMouseOver?.(event, location, index)}
+                    onMouseOut={(event) => onLocationMouseOut?.(event, location, index)}
+                    onMouseMove={(event) => onLocationMouseMove?.(event, location, index)}
+                    onClick={(event) => onLocationClick?.(event, location, index)}
+                    onKeyDown={(event) => onLocationKeyDown?.(event, location, index)}
+                    onFocus={(event) => onLocationFocus?.(event, location, index)}
+                    onBlur={(event) => onLocationBlur?.(event, location, index)}
                 />
             ))}
-            {props.childrenAfter}
+            {childrenAfter}
         </svg>
     );
-};
-
-SVGMap.defaultProps = {
-    className: 'svg-map',
-    role: 'none',
-    locationClassName: 'svg-map__location',
-    locationTabIndex: '0',
-    locationRole: 'none',
 };
 
 export default SVGMap;
