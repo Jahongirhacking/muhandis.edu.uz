@@ -32,7 +32,6 @@ const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) =>
                     <Step1 editable={editable} />
                     <Step2 />
                 </ControlledFlow>
-
             </Flex>
 
         </>

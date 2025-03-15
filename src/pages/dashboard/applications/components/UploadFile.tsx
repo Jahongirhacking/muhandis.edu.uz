@@ -32,7 +32,7 @@ const UploadFile: FC<IUploadFileProps> = ({ id, typeChoice, title, uploadLabel, 
 
     return (
         <Flex gap={8} align='stretch' className='upload-file'>
-            <Flex vertical gap={8} className='upload-container'>
+            <Flex vertical gap={16} className='upload-container'>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
                 <Upload
                     name='file'

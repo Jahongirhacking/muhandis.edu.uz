@@ -60,8 +60,8 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
             } catch (err: unknown) {
                 console.error(err);
                 if (err && typeof err === 'object' && 'data' in err) {
-                    const errorData = err as { data: { non_field_errors: string[] } };
-                    message.error(errorData.data.non_field_errors[0] || "Ariza yaratishda xatolik yuz berdi");
+                    const errorData = err as { data: { non_field_errors: string[] | null } };
+                    message.error((errorData.data.non_field_errors && errorData.data.non_field_errors[0]) || "Ariza yaratishda xatolik yuz berdi");
                 } else {
                     message.error("Ariza yaratishda xatolik yuz berdi");
                 }
