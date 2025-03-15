@@ -1,15 +1,28 @@
 import { Button, Divider, Flex, Form, Input, Radio, Typography } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { ContinueIcon } from "../../../../assets/icons";
 import { roles, specialities } from "../../../../assets/objects";
+import { ControlledFlowContext } from "../../../../components/ControlledFlow";
+import { useGetStudentListQuery } from "../../../../services/applicant";
+import { ApplicationSubmitAsChoice, ApplicationTypeChoice } from "../../../../services/types";
+import { RootState } from "../../../../store/store";
 
 const Step1 = () => {
-    const [selectedRole, setSelectedRole] = useState<number>(0);
-    const [selectedSpeciality, setSelectedSpeciality] = useState<number>(0);
+    const [selectedRole, setSelectedRole] = useState<ApplicationSubmitAsChoice>(ApplicationSubmitAsChoice.STUDENT);
+    const [selectedSpeciality, setSelectedSpeciality] = useState<ApplicationTypeChoice>(ApplicationTypeChoice.Idea);
     const [form] = Form.useForm();
+    const context = useContext(ControlledFlowContext);
+    const { workplaceList } = useSelector((store: RootState) => store.user);
+    const { data: studentData } = useGetStudentListQuery();
+    const currentStudentData = studentData && studentData[0];
+    const currentWorkplace = workplaceList.find(el => el?.is_selected);
 
     const onFinish = () => {
-        console.log(form.getFieldsValue());
+        console.log(form.getFieldsValue(), selectedRole, selectedSpeciality);
+        if (context.setNextIndex) {
+            context.setNextIndex(1);
+        }
     }
 
     return (
@@ -17,7 +30,7 @@ const Step1 = () => {
             form={form}
             onFinish={onFinish}
             autoComplete="off"
-            className="step1"
+            className="step-1"
         >
             <Flex vertical gap={32}>
                 <Flex gap={24} wrap>
@@ -27,7 +40,14 @@ const Step1 = () => {
                                 <Radio checked={selectedRole === role.value} />
                                 <Flex vertical gap={6}>
                                     <Typography.Text strong>{role.label}</Typography.Text>
-                                    <Typography.Text>Toshkent Axborot Texnologiyalari Universiteti</Typography.Text>
+                                    <Typography.Text>
+                                        {role.value === ApplicationSubmitAsChoice.STUDENT
+                                            ? (currentStudentData?.university.name_uz || currentStudentData?.university.name_ru || currentStudentData?.university.name_en || "Topilmadi")
+                                            : role.value === ApplicationSubmitAsChoice.PROFESSOR_TEACHER
+                                                ? (currentWorkplace?.exists_in_hemis ? currentWorkplace?.organization : 'Topilmadi')
+                                                : currentWorkplace?.organization || "Topilmadi"
+                                        }
+                                    </Typography.Text>
                                 </Flex>
                             </Flex>
                         ))

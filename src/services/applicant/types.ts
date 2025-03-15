@@ -1,3 +1,10 @@
+import {
+  ApplicationStatusChoice,
+  ApplicationSubmitAsChoice,
+  ApplicationTypeChoice,
+} from "../types";
+import { IUser } from "../user/types";
+
 export interface IStudent {
   id: number;
   admission: number;
@@ -34,4 +41,38 @@ export interface IWorkplace {
   begin_date: string;
   is_selected: boolean;
   exists_in_hemis: boolean;
+}
+
+export interface IApplication {
+  id: number;
+  user: IUser["id"];
+  admission: number;
+  application_type: ApplicationTypeChoice;
+  submit_as: ApplicationSubmitAsChoice;
+  status: ApplicationStatusChoice;
+  rejected_reason: string;
+  completeness_grade: number;
+  conceptual_grade: number;
+  relevance_grade: number;
+  funds_calculated_grade: number;
+  effectiveness_grade: number;
+  competitiveness_grade: number;
+  commission_final_grade: number;
+  name: string;
+  category: string;
+  short_description: string;
+  problem_and_solution: string;
+  appeal_file: string | null;
+  table1_file: string | null;
+  table2_file: string | null;
+  table2_1_file: string | null;
+  table2_2_file: string | null;
+  table3_file: string | null;
+  presentation_file: string | null;
+  video_clip_file: string | null;
+  calendar_plan_file: string | null;
+  technical_document_file: string | null;
+  expert_conclusion_file: string | null;
+  indicator_metric_file: string | null;
+  foreign_passport_file: string | null;
 }

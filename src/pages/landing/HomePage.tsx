@@ -27,7 +27,7 @@ const HomePage = () => {
         { title: "Ishtirokchilar", href: '#participants' },
         { title: "Statistika", href: '#stats' },
         // { title: "Yangiliklar", href: '#news' },
-        { title: "Nizom", target: "_blank", href: '/documents/rules.pdf' },
+        { title: "Nizom", target: "_blank", href: '/documents/final_rules.docx' },
     ];
 
     useEffect(() => {

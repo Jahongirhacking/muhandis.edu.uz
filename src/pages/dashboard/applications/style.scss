@@ -6,18 +6,19 @@
     height: 100%;
 
     &.view-application {
-      .steps {
+      .sort-container {
         button {
           height: 48px;
           min-width: 32px;
           border-radius: 100px;
           padding: 14px 24px;
           border: 1px solid var(--border-color-select-input, #d8dce6);
-          cursor: auto;
 
-          &:hover {
-            color: inherit;
-          }
+          // &:hover {
+          //   color: inherit;
+          // }
+
+          color: #b3b8cc;
         }
       }
 
@@ -36,13 +37,18 @@
 
     &.create-application {
       @mixin hover_bg() {
+        &:has(.ant-radio-checked) {
+          background-color: #edfaff;
+          border: 1px solid #068eff !important;
+        }
+
         cursor: pointer;
         background-color: #f7f7f7;
         border-radius: 24px;
         padding: 16px;
         transition: background-color 0.4s ease;
 
-        &:hover {
+        &:not(:has(.ant-radio-checked)):hover {
           background-color: #f7f7f765;
         }
       }
@@ -51,13 +57,15 @@
         padding-bottom: 50px;
 
         .select-role {
+          flex: 1;
           min-height: 120px;
+          min-width: min(100%, 250px);
           @include hover_bg();
 
           span {
             font-weight: 400;
             font-size: 14px;
-            line-height: 100%;
+            line-height: 120%;
             letter-spacing: 0%;
             color: #85889e;
 
@@ -70,7 +78,9 @@
         }
 
         .select-speciality {
-          min-width: min(100%, 200px);
+          min-width: min(100%, 150px);
+          max-width: 300px;
+          flex: 1;
           @include hover_bg();
 
           strong {
@@ -109,13 +119,70 @@
         }
       }
 
-      .step1 {
+      .step-1 {
         .ant-form-item {
           flex: 1;
           min-width: calc(50% - 30px);
 
           @container dashboard-content (max-width: 600px) {
             min-width: 100%;
+          }
+        }
+      }
+
+      .step-2 {
+        .upload-file {
+          flex: 1;
+
+          & > * {
+            background-color: #f8f9fb;
+            border-radius: 16px;
+          }
+
+          .upload-container {
+            padding: 24px;
+            text-align: left;
+
+            .upload-title {
+              font-weight: 400;
+              font-size: 18px;
+              line-height: 24px;
+              letter-spacing: 0.2px;
+              color: #2c324a;
+            }
+
+            button {
+              padding: 0;
+              span {
+                font-family: Rubik;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: 0%;
+                text-decoration: underline;
+                text-decoration-style: solid;
+              }
+            }
+          }
+
+          .download {
+            padding: 8px;
+            max-width: 128px;
+
+            strong {
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 16px;
+              letter-spacing: 0.2px;
+            }
+
+            a {
+              min-height: 32px;
+              width: 100%;
+              background-color: #ffec41;
+              border: none;
+              border-radius: 119px;
+            }
           }
         }
       }

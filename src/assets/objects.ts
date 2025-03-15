@@ -1,29 +1,34 @@
-export const roles = [
+import {
+  ApplicationSubmitAsChoice,
+  ApplicationTypeChoice,
+} from "../services/types";
+
+export const roles: { label: string; value: ApplicationSubmitAsChoice }[] = [
   {
     label: "Talaba",
-    value: 0,
+    value: ApplicationSubmitAsChoice.STUDENT,
   },
   {
     label: "Amaliyotchi muhandis",
-    value: 1,
+    value: ApplicationSubmitAsChoice.PRACTICAL_ENGINEER,
   },
   {
     label: "Professor-o‘qituvchi",
-    value: 2,
+    value: ApplicationSubmitAsChoice.PROFESSOR_TEACHER,
   },
 ];
 
-export const specialities = [
+export const specialities: { label: string; value: ApplicationTypeChoice }[] = [
   {
     label: "G’oya",
-    value: 0,
+    value: ApplicationTypeChoice.Idea,
   },
   {
     label: "Loyiha",
-    value: 1,
+    value: ApplicationTypeChoice.Project,
   },
   {
     label: "Ixtiro",
-    value: 2,
+    value: ApplicationTypeChoice.Invention,
   },
 ];
