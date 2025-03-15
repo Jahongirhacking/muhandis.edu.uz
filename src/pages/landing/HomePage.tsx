@@ -47,7 +47,7 @@ const HomePage = () => {
                 <Flex vertical gap={12} align="center">
                     <Image loading="lazy" src="/icons/warning.jpg" preview={false} width={240} alt="diqqat" />
                     <Typography.Text>
-                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish <strong>15.03.2025</strong> sanasidan boshlanadi.
+                        Muhandislik yo‘nalishlari bo‘yicha respublika tanloviga ariza topshirish <strong>16.03.2025</strong> sanasidan boshlanadi.
                     </Typography.Text>
                     <Typography.Text strong>
                         Ariza topshirish uchun namuna fayllarini yuklab oling:

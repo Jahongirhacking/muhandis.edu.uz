@@ -1,14 +1,18 @@
-import { Avatar, Button, Card, Flex, Switch, Typography } from "antd"
+import { Avatar, Button, Card, Empty, Flex, Switch, Typography } from "antd"
 import moment from "moment"
 import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../assets/icons"
+import CardSkeleton from "../../components/Skeletons/CardSkeleton"
+import { useGetStudentListQuery } from "../../services/applicant"
 import { Gender } from "../../services/types"
 import { RootState } from "../../store/store"
 import { base64ToNormalImage } from "../../utils/imageUtils"
 
 const MainPage = () => {
     const { profile, photo } = useSelector((store: RootState) => store.user);
-    // const {data} = useGetStudentListQuery();
+
+    const { data: dataStudent, isLoading: isLoadingStudent, isSuccess: isSuccessStudent } = useGetStudentListQuery();
+    const currentDataStudent = dataStudent && dataStudent.length > 0 ? dataStudent[0] : null;
 
     return (
         <Flex vertical className="main-page" gap={24} style={{ paddingBottom: 40 }}>
@@ -52,26 +56,40 @@ const MainPage = () => {
                             </Flex>
                         </Flex>
                     </Card>
-                    <Card className="education-card" title="Ta’lim ma’lumoti">
-                        <Flex vertical gap={12}>
-                            <Flex vertical gap={4}>
-                                <Typography.Text>O‘quv muassasasi nomi</Typography.Text>
-                                <Typography.Text strong>Toshkent axborot texnologiyalari universiteti</Typography.Text>
-                            </Flex>
-                            <Flex vertical gap={4}>
-                                <Typography.Text>Mutaxasisslik</Typography.Text>
-                                <Typography.Text strong>Kompyuter injiniringi: Kompyuter injiniringi</Typography.Text>
-                            </Flex>
-                            <Flex vertical gap={4}>
-                                <Typography.Text>Daraja</Typography.Text>
-                                <Typography.Text strong>Bakalavr</Typography.Text>
-                            </Flex>
-                            <Flex vertical gap={4}>
-                                <Typography.Text>Ta’lim bosqichi</Typography.Text>
-                                <Typography.Text strong>1-kurs</Typography.Text>
-                            </Flex>
-                        </Flex>
-                    </Card>
+                    {
+                        isLoadingStudent
+                            ? (
+                                <CardSkeleton />
+                            )
+                            : (
+                                <Card className="education-card" title="Ta’lim ma’lumoti">
+                                    {
+                                        isSuccessStudent && currentDataStudent ? (
+                                            <Flex vertical gap={12}>
+                                                <Flex vertical gap={4}>
+                                                    <Typography.Text>O‘quv muassasasi nomi</Typography.Text>
+                                                    <Typography.Text strong>{currentDataStudent?.university?.name_uz || currentDataStudent?.university?.name_ru || currentDataStudent?.university?.name_en}</Typography.Text>
+                                                </Flex>
+                                                <Flex vertical gap={4}>
+                                                    <Typography.Text>Mutaxasisslik</Typography.Text>
+                                                    <Typography.Text strong>{currentDataStudent?.speciality}</Typography.Text>
+                                                </Flex>
+                                                <Flex vertical gap={4}>
+                                                    <Typography.Text>Daraja</Typography.Text>
+                                                    <Typography.Text strong>{currentDataStudent?.education_type}</Typography.Text>
+                                                </Flex>
+                                                <Flex vertical gap={4}>
+                                                    <Typography.Text>Ta’lim bosqichi</Typography.Text>
+                                                    <Typography.Text strong>{currentDataStudent?.course}-kurs</Typography.Text>
+                                                </Flex>
+                                            </Flex>
+                                        ) : (
+                                            <Empty description="Ta’lim ma’lumoti topilmadi" />
+                                        )
+                                    }
+                                </Card>
+                            )
+                    }
                 </Flex>
                 <Flex vertical>
                     <Card className="workplace-card" title="Mehnat ma’lumoti" extra={<Button type="primary" icon={<UpdateIcon />}>Ma’lumotni yangilash</Button>}>
