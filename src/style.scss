@@ -48,7 +48,7 @@ body {
   }
 
   .ant-drawer-content-wrapper {
-    .ant-drawer-content {
+    .ant-drawer-content:not(.dashboard-drawer) {
       background-color: #01112b;
 
       * {

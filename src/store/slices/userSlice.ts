@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { applicantApi } from "../../services/applicant";
+import { IWorkplace } from "../../services/applicant/types";
 import { Role } from "../../services/types";
 import { userApi } from "../../services/user";
 import { IUser } from "../../services/user/types";
@@ -12,6 +14,7 @@ interface IProps {
   token: string;
   role: Role;
   photo: string;
+  workplaceList: IWorkplace[];
   profile: Partial<IUser>;
 }
 
@@ -19,6 +22,7 @@ const initialState: IProps = {
   token: getLocalStorage(localStorageNames.token) ?? "",
   role: getLocalStorage(localStorageNames.role) ?? "",
   photo: getLocalStorage(localStorageNames.photo) ?? "",
+  workplaceList: [],
   profile: {},
 };
 
@@ -53,7 +57,13 @@ const userSlice = createSlice({
       )
       .addMatcher(userApi.endpoints.getMe.matchRejected, (state) => {
         userSlice.caseReducers.logout(state);
-      });
+      })
+      .addMatcher(
+        applicantApi.endpoints.getWorkplaceList.matchFulfilled,
+        (state, { payload }) => {
+          state.workplaceList = payload;
+        }
+      );
   },
 });
 

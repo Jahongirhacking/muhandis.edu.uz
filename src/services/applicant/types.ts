@@ -22,3 +22,16 @@ export interface IMessage {
   success: boolean;
   message: string;
 }
+
+export interface IWorkplace {
+  id: number;
+  admission: number;
+  organization: string;
+  organization_tin: string;
+  department: string;
+  position: string;
+  rate: string;
+  begin_date: string;
+  is_selected: boolean;
+  exists_in_hemis: boolean;
+}

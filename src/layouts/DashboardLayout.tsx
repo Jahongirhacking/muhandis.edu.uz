@@ -2,7 +2,9 @@ import { Flex } from "antd"
 import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
+import CustomDrawer from "../components/CustomDrawer"
 import Navbar from "../components/Navbar"
+import { useLazyGetWorkplaceListQuery } from "../services/applicant"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { setPhoto } from "../store/slices/userSlice"
 import { RootState } from "../store/store"
@@ -13,6 +15,7 @@ const DashboardLayout = () => {
     const profile = useSelector((store: RootState) => store.user?.profile);
     const [getMe] = useLazyGetMeQuery();
     const [getPhoto] = useLazyGetPhotoQuery();
+    const [getWorkplace] = useLazyGetWorkplaceListQuery();
     const hasFetched = useRef(false);
     const dispatch = useDispatch();
 
@@ -35,6 +38,10 @@ const DashboardLayout = () => {
         }
     }, [getPhoto, profile?.pinfl, dispatch])
 
+    useEffect(() => {
+        getWorkplace();
+    }, [getWorkplace])
+
     return (
         <Flex vertical className="dashboard-layout">
             <Flex className="dashboard-layout-main">
@@ -47,6 +54,7 @@ const DashboardLayout = () => {
                     </Flex>
                 </Flex>
             </Flex>
+            <CustomDrawer className="dashboard-drawer" />
         </Flex>
     )
 }

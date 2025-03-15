@@ -1,5 +1,5 @@
 import { baseApi } from "../api";
-import { IMessage, IStudent } from "./types";
+import { IMessage, IStudent, IWorkplace } from "./types";
 
 export const applicantApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -9,9 +9,19 @@ export const applicantApi = baseApi.injectEndpoints({
     getStudentReload: build.query<IMessage, void>({
       query: () => `/applicant/student/reload`,
     }),
+    getWorkplaceList: build.query<IWorkplace[], void>({
+      query: () => "/applicant/workplace",
+    }),
+    getWorkplaceReload: build.query<IMessage, void>({
+      query: () => `/applicant/workplace/reload`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetStudentListQuery, useGetStudentReloadQuery } =
-  applicantApi;
+export const {
+  useGetStudentListQuery,
+  useLazyGetStudentReloadQuery,
+  useLazyGetWorkplaceReloadQuery,
+  useLazyGetWorkplaceListQuery,
+} = applicantApi;
