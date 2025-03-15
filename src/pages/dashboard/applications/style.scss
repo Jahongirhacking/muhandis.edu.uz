@@ -10,10 +10,23 @@
     }
   }
 
+  h2 {
+    @container dashboard-content (max-width: 500px) {
+      font-size: 15pt;
+    }
+  }
+
   .applications-main {
     height: 100%;
 
     &.view-application {
+      .ant-btn-primary {
+        @container dashboard-content (max-width: 500px) {
+          padding: 10px 12px !important;
+          height: auto !important;
+        }
+      }
+
       .sort-container {
         button {
           height: 48px;
@@ -21,6 +34,11 @@
           border-radius: 100px;
           padding: 14px 24px;
           border: 1px solid var(--border-color-select-input, #d8dce6);
+
+          @container dashboard-content (max-width: 500px) {
+            padding: 8px 12px !important;
+            height: auto;
+          }
 
           // &:hover {
           //   color: inherit;
@@ -206,6 +224,30 @@
       }
 
       .step-2 {
+        .ant-divider {
+          &::before {
+            display: none;
+          }
+
+          @container dashboard-content (max-width: 500px) {
+            &::after {
+              display: none;
+            }
+          }
+
+          span {
+            padding: 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+            color: #2c324a;
+            min-width: min(500px, 100%);
+          }
+        }
+
         padding-bottom: 80px;
         .required-files {
           .upload-file {
@@ -234,11 +276,31 @@
               text-align: left;
               width: calc(100% - 130px);
               min-width: 200px;
+              overflow: hidden;
+
+              &.only-item {
+                width: 100%;
+              }
+
+              &:has(.file-url) {
+                background-color: rgb(231, 255, 228);
+
+                & + .download {
+                  background-color: rgb(231, 255, 228);
+                }
+              }
 
               * {
-                white-space: unset;
                 height: auto;
                 text-align: left;
+              }
+
+              a,
+              button > span:not(.ant-btn-icon) {
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
               }
 
               .upload-title {

@@ -325,7 +325,7 @@
       .dashboard-layout-content {
         padding: 20px;
         height: 100%;
-        overflow-x: auto;
+        overflow-x: hidden;
         overflow-y: auto;
         scrollbar-color: #d1d3d6 transparent;
         scrollbar-gutter: stable;

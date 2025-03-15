@@ -14,7 +14,6 @@ import NotificationsPage from "../pages/dashboard/NotificationsPage"
 import HomePage from "../pages/landing/HomePage"
 import MinistryPage from "../pages/ministry"
 import CallbackPage from "../pages/utils/CallbackPage"
-import ErrorPage from "../pages/utils/ErrorPage"
 import { buildRoutes, IRoute } from "../utils/routeUtils"
 import NotFoundPage from "./NotFoundPage"
 
@@ -26,7 +25,7 @@ const publicRoutes: IRoute[] = [
     { path: "auth/login", element: <LoginPage /> },
     { path: "auth/register", element: <RegisterPage /> },
     { path: "auth/callback", element: <CallbackPage /> },
-    { path: "error", element: <ErrorPage /> }
+    // { path: "error", element: <ErrorPage /> }
 ];
 
 const privateRoutes: IRoute[] = [

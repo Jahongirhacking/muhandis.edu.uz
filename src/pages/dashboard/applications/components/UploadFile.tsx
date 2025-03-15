@@ -4,35 +4,27 @@ import { DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
 import { ExampleFileFieldNameChoices } from '../../../../services/types';
 import { IFile } from './Step2';
 
-type IFileType = 'pdf' | 'mp4' | 'pptx'
-
 export interface IUploadFileProps {
     id: ExampleFileFieldNameChoices;
-    typeChoice: IFileType[];
     title: string;
     uploadLabel: string;
-    templateUrl: string;
+    templateUrl?: string;
+    fileUrl?: string;
     handleSubmit: (id: string, file: IFile) => Promise<void>
 }
 
-const UploadFile: FC<IUploadFileProps> = ({ id, typeChoice, title, uploadLabel, templateUrl, handleSubmit }) => {
+const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl = "", fileUrl = "", handleSubmit }) => {
     const handleUpload = async (file: IFile) => {
         await handleSubmit(id, file);
         if (!file) {
             message.info("Fayl o'chirildi");
             return;
         }
-        const token = file.name.split('.');
-        if (typeChoice.includes(token[token.length - 1] as IFileType)) {
-            message.success("Muvaffaqiyatli yuklandi");
-        } else {
-            message.warning(`Fayl formati quyidagi formatda bo'lishi talab etiladi: ${typeChoice.map(el => el.toUpperCase()).join(', ')}`)
-        }
     }
 
     return (
         <Flex gap={8} align='stretch' className='upload-file'>
-            <Flex vertical gap={16} className='upload-container'>
+            <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
                 <Upload
                     name='file'
@@ -45,11 +37,20 @@ const UploadFile: FC<IUploadFileProps> = ({ id, typeChoice, title, uploadLabel, 
                 >
                     <Button icon={<UploadFileIcon />} type='link'>{uploadLabel}</Button>
                 </Upload>
+                {
+                    fileUrl && (
+                        <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
+                    )
+                }
             </Flex>
-            <Flex vertical gap={8} justify='space-between' className='download'>
-                <Typography.Text strong>Namunani yuklab oling</Typography.Text>
-                <Button icon={<DownloadFileIcon />} href={templateUrl} target='_blank' />
-            </Flex>
+            {
+                templateUrl && (
+                    <Flex vertical gap={8} justify='space-between' className='download'>
+                        <Typography.Text strong>Namunani yuklab oling</Typography.Text>
+                        <Button icon={<DownloadFileIcon />} href={templateUrl} target='_blank' />
+                    </Flex>
+                )
+            }
         </Flex>
     )
 }

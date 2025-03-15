@@ -52,7 +52,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                     message.success("Ariza muvaffaqiyatli yaratildi");
                 } else {
                     await editApplication({ ...data, id: currentApplication?.id }).unwrap();
-                    message.success("Ariza muvaffaqiyatli tahrirlandi");
+                    // message.success("Ariza muvaffaqiyatli tahrirlandi");
                 }
                 if (context.setNextIndex) {
                     context.setNextIndex(1);
