@@ -1,4 +1,5 @@
 import { baseApi } from "../api";
+import { IUser } from "../user/types";
 import { IMessage, IStudent, IWorkplace } from "./types";
 
 export const applicantApi = baseApi.injectEndpoints({
@@ -15,6 +16,25 @@ export const applicantApi = baseApi.injectEndpoints({
     getWorkplaceReload: build.query<IMessage, void>({
       query: () => `/applicant/workplace/reload`,
     }),
+    getWorkplaceSelect: build.query<
+      { detail: string },
+      { id: IWorkplace["id"] }
+    >({
+      query: (body) => `/applicant/workplace/${body?.id}/select/`,
+    }),
+    updateContact: build.mutation<
+      Pick<IUser, "phone_number" | "email">,
+      Pick<IUser, "phone_number" | "email" | "id">
+    >({
+      query: (body) => ({
+        url: `/applicant/contact/${body?.id}/`,
+        body: {
+          phone_number: body?.phone_number,
+          email: body?.email,
+        },
+        method: "PUT",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -24,4 +44,6 @@ export const {
   useLazyGetStudentReloadQuery,
   useLazyGetWorkplaceReloadQuery,
   useLazyGetWorkplaceListQuery,
+  useUpdateContactMutation,
+  useLazyGetWorkplaceSelectQuery,
 } = applicantApi;

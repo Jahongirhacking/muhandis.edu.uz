@@ -1,9 +1,11 @@
 import { Button, Card, Empty, Flex, message, Switch, Typography } from "antd"
 import moment from "moment"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
-import { useLazyGetWorkplaceListQuery, useLazyGetWorkplaceReloadQuery } from "../../../services/applicant"
+import { useLazyGetWorkplaceListQuery, useLazyGetWorkplaceReloadQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
+import { IWorkplace } from "../../../services/applicant/types"
 import { RootState } from "../../../store/store"
 
 const WorkplaceList = () => {
@@ -11,6 +13,25 @@ const WorkplaceList = () => {
 
     const [getWorkplace, { isLoading: isLoadingWorkplace }] = useLazyGetWorkplaceListQuery();
     const [reloadWorkplaceList] = useLazyGetWorkplaceReloadQuery();
+    const [selectedList, setSelectedList] = useState<Pick<IWorkplace, 'id' | 'is_selected'>[]>([]);
+    const [selectWorkplace] = useLazyGetWorkplaceSelectQuery();
+
+    useEffect(() => {
+        if (workplaceList?.length) {
+            setSelectedList(
+                workplaceList?.map(el => ({ id: el?.id, is_selected: el?.is_selected }))
+            )
+        }
+    }, [workplaceList])
+
+    const handleSelect = async (id: IWorkplace['id']) => {
+        const { data } = await selectWorkplace({ id });
+        setSelectedList(prev => prev.map(el => ({
+            id: el?.id,
+            is_selected: el?.id === id,
+        })))
+        message.success(data?.detail);
+    }
 
     const handleReloadWorkplace = async () => {
         const { data } = await reloadWorkplaceList();
@@ -64,7 +85,10 @@ const WorkplaceList = () => {
                                                 <Typography.Text strong>{moment(workplaceList[0]?.begin_date, "YYYY-MM-DD").format("DD.MM.YYYY")} - hozirgacha</Typography.Text>
                                             </Flex>
                                             <Flex gap={6} align="center">
-                                                <Switch />
+                                                <Switch
+                                                    onClick={() => handleSelect(workplaceList[0].id)}
+                                                    value={selectedList.find(el => el?.id === workplaceList[0]?.id)?.is_selected}
+                                                />
                                                 <Typography.Text>Asosiy qilib tanlash</Typography.Text>
                                             </Flex>
                                         </Flex>
@@ -96,7 +120,10 @@ const WorkplaceList = () => {
                                                 <Typography.Text strong>2023-07-13 - hozirgacha</Typography.Text>
                                             </Flex>
                                             <Flex gap={6} align="center">
-                                                <Switch />
+                                                <Switch
+                                                    onClick={() => handleSelect(workplace?.id)}
+                                                    value={selectedList.find(el => el?.id === workplace?.id)?.is_selected}
+                                                />
                                                 <Typography.Text>Asosiy qilib tanlash</Typography.Text>
                                             </Flex>
                                         </Flex>

@@ -1,3 +1,26 @@
+@mixin info_text() {
+  .ant-card-body {
+    span {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.12px;
+      color: #85889e;
+
+      strong {
+        font-weight: 500;
+        color: #2c324a;
+      }
+
+      &.undefined {
+        strong {
+          color: rgb(151, 0, 63);
+        }
+      }
+    }
+  }
+}
+
 .dashboard-layout {
   background-color: #f8f9fb;
   width: 100%;
@@ -244,7 +267,7 @@
                   border-radius: 119px;
                   border-width: 1.4px;
                   background-color: #068eff;
-                  border: 1.4px solid rgba(255, 255, 255, 0.1);
+                  border: none;
                   transition: background-color 0.4s ease;
 
                   &:hover {
@@ -258,29 +281,6 @@
               font-weight: 500;
               font-size: 24px;
               line-height: 32px;
-            }
-          }
-
-          @mixin info_text() {
-            .ant-card-body {
-              span {
-                font-weight: 400;
-                font-size: 16px;
-                line-height: 24px;
-                letter-spacing: -0.12px;
-                color: #85889e;
-
-                strong {
-                  font-weight: 500;
-                  color: #2c324a;
-                }
-
-                &.undefined {
-                  strong {
-                    color: rgb(151, 0, 63);
-                  }
-                }
-              }
             }
           }
 
@@ -348,31 +348,42 @@
               border-radius: 24px;
               @include info_text();
             }
-
-            .workplace-card {
-              border: 1px solid #f0f0f0;
-              border-top: none;
-              border-radius: 0;
-              @include info_text();
-
-              &.selected {
-                background-color: #f1fcf3;
-              }
-
-              &:first-child {
-                border-top-left-radius: 24px;
-                border-top-right-radius: 24px;
-                border-top: 1px solid #f0f0f0;
-              }
-
-              &:last-child {
-                border-bottom-left-radius: 24px;
-                border-bottom-right-radius: 24px;
-              }
-            }
           }
         }
       }
+    }
+  }
+}
+
+.workplace-card {
+  border: 1px solid #f0f0f0;
+  border-top: none;
+  border-radius: 0;
+  @include info_text();
+
+  &.selected {
+    background-color: #f1fcf3;
+  }
+
+  &:first-child {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+
+  .ant-card-head-title {
+    font-size: 14pt;
+    font-weight: 500;
+  }
+
+  .ant-card-extra {
+    button {
+      height: 32px !important;
     }
   }
 }

@@ -55,5 +55,22 @@ body {
         color: #fff;
       }
     }
+
+    .dashboard-drawer {
+      .ant-input {
+        height: 48px;
+        border-radius: 16px;
+        border-width: 1px;
+        padding: 16px 12px;
+      }
+
+      .ant-btn-primary {
+        height: 48px;
+        border-radius: 16px;
+        padding: 16px 24px;
+        background-color: #068eff;
+        margin-left: auto;
+      }
+    }
   }
 }

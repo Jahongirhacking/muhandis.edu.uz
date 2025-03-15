@@ -4,4 +4,5 @@ export const enum SearchParams {
 
 export const enum DrawerChildTypes {
   RequiredContact = "required-contact",
+  WorkplaceList = "workplace-list",
 }
