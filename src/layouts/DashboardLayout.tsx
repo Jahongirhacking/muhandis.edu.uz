@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
+import { setPhoto } from "../store/slices/userSlice"
 import { RootState } from "../store/store"
-import { getLocalStorage, localStorageNames, setLocalStorage } from "../utils/storageUtils"
+import { getLocalStorage, localStorageNames } from "../utils/storageUtils"
 import "./DashboardLayout.scss"
 
 const DashboardLayout = () => {
@@ -28,12 +29,11 @@ const DashboardLayout = () => {
                 const { data } = await getPhoto({ pinfl: profile.pinfl! });
                 const photo = data?.photo;
                 if (photo) {
-                    dis
-                    setLocalStorage(localStorageNames.photo, photo)
+                    dispatch(setPhoto(photo));
                 }
             })())
         }
-    }, [getPhoto, profile?.pinfl])
+    }, [getPhoto, profile?.pinfl, dispatch])
 
     return (
         <Flex vertical className="dashboard-layout">

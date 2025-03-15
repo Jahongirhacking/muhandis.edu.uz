@@ -5,10 +5,9 @@ import { UpdateIcon } from "../../assets/icons"
 import { Gender } from "../../services/types"
 import { RootState } from "../../store/store"
 import { base64ToNormalImage } from "../../utils/imageUtils"
-import { getLocalStorage, localStorageNames } from "../../utils/storageUtils"
 
 const MainPage = () => {
-    const profile = useSelector((store: RootState) => store.user?.profile);
+    const { profile, photo } = useSelector((store: RootState) => store.user);
     // const {data} = useGetStudentListQuery();
 
     return (
@@ -20,7 +19,7 @@ const MainPage = () => {
                         <Flex gap={24} align="flex-start" justify="center" wrap>
                             <Avatar
                                 shape="square"
-                                src={base64ToNormalImage(getLocalStorage(localStorageNames.photo))}
+                                src={base64ToNormalImage(photo)}
                             >
                                 {profile?.first_name && profile?.last_name && `${profile?.first_name[0]}${profile?.last_name[0]}`}
                             </Avatar>
@@ -36,7 +35,7 @@ const MainPage = () => {
                                         <Typography.Text strong>{profile?.pinfl}</Typography.Text>
                                     </Flex>
                                     <Flex vertical gap={4}>
-                                        <Typography.Text>Doimiy yashash manzili (vIloyat,tuman)</Typography.Text>
+                                        <Typography.Text>Doimiy yashash manzili (viloyat,tuman)</Typography.Text>
                                         <Typography.Text strong>{profile?.mip_address}</Typography.Text>
                                     </Flex>
                                     <Flex className="contact-field" gap={12} align="center" wrap>
