@@ -94,6 +94,23 @@
               font-size: 12px;
               line-height: 18px;
             }
+
+            @mixin status_style($bg-color, $border-color, $color) {
+              background-color: $bg-color;
+              border-color: $border-color;
+              * {
+                color: $color;
+                fill: $color;
+              }
+            }
+
+            &.status-1 {
+              @include status_style(#baffdc, #9bffcd, #036835);
+            }
+
+            &.status-10 {
+              @include status_style(#ffbaba, #ff9f9f, #690b0b);
+            }
           }
         }
 
