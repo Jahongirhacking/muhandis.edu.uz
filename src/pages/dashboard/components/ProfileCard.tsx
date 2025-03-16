@@ -1,8 +1,8 @@
-import { EditOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Flex, Typography } from 'antd';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { EditIcon } from '../../../assets/icons';
 import CardSkeleton from '../../../components/Skeletons/CardSkeleton';
 import { Gender } from '../../../services/types';
 import { RootState } from '../../../store/store';
@@ -58,7 +58,7 @@ const ProfileCard = () => {
                                     <Button
                                         onClick={handleOpenContactDrawer}
                                         type='text'
-                                        icon={<EditOutlined style={{ color: '#068eff' }} />}
+                                        icon={<EditIcon />}
                                         variant='text'
                                     />
                                 </Flex>
@@ -75,7 +75,7 @@ const ProfileCard = () => {
                                     <Button
                                         onClick={handleOpenContactDrawer}
                                         type='text'
-                                        icon={<EditOutlined style={{ color: '#068eff' }} />}
+                                        icon={<EditIcon />}
                                         variant='text'
                                     />
                                 </Flex>

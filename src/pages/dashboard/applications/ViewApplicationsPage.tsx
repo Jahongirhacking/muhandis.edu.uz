@@ -1,10 +1,10 @@
-import { EditOutlined, PlusOutlined } from "@ant-design/icons"
+import { PlusOutlined } from "@ant-design/icons"
 import { Button, Card, Empty, Flex, Tag, Typography } from "antd"
 import moment from "moment"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { ArchiveIcon, CurrentApplicationsIcon, EmptyIcon } from "../../../assets/icons"
+import { ArchiveIcon, CurrentApplicationsIcon, EditIcon, EmptyIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
 import { useGetApplicationListQuery } from "../../../services/applicant"
 import { ApplicationStatusChoice, getApplicationChoiceName, getApplicationStatusName } from "../../../services/types"
@@ -74,7 +74,7 @@ const ViewApplicationsPage = () => {
                                                         application?.status === ApplicationStatusChoice.REJECTED) && (
                                                         <Flex gap={8} wrap>
                                                             <Link to={"/dashboard/applications/edit"}>
-                                                                <Button icon={<EditOutlined />} variant="text" color="primary">Tahrirlash</Button>
+                                                                <Button icon={<EditIcon />} variant="text" color="primary">Tahrirlash</Button>
                                                             </Link>
                                                         </Flex>
                                                     )

@@ -261,6 +261,10 @@
             line-height: 24px;
             color: #2c324a;
             min-width: min(500px, 100%);
+
+            @container dashboard-content (max-width: 500px) {
+              font-size: 16px;
+            }
           }
 
           @container dashboard-content (max-width: 500px) {
@@ -325,12 +329,21 @@
                 line-height: 24px;
                 letter-spacing: 0.2px;
                 color: #2c324a;
+
+                @container dashboard-content (max-width: 500px) {
+                  font-size: 16px;
+                  line-height: 22px;
+                }
               }
 
               .template-file {
                 display: flex;
                 gap: 4px;
                 align-items: center;
+
+                @container dashboard-content (max-width: 500px) {
+                  font-size: 14px;
+                }
               }
 
               a {
@@ -342,6 +355,10 @@
                 text-decoration-style: solid;
                 justify-content: flex-start;
                 padding: 0;
+              }
+
+              @container dashboard-content (max-width: 500px) {
+                padding: 10px;
               }
             }
 

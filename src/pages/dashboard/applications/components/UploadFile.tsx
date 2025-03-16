@@ -1,4 +1,5 @@
-import { Button, Flex, message, Typography, Upload } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Flex, Typography, Upload } from 'antd';
 import { FC } from 'react';
 import { DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
 import { ExampleFileFieldNameChoices } from '../../../../services/types';
@@ -16,10 +17,6 @@ export interface IUploadFileProps {
 const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl = "", fileUrl = "", handleSubmit }) => {
     const handleUpload = async (file: IFile) => {
         await handleSubmit(id, file);
-        if (!file) {
-            message.info("Fayl o'chirildi");
-            return;
-        }
     }
 
     return (
@@ -27,13 +24,6 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
             <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
                 {templateUrl && (
-                    //     <DownloadFile
-                    //     fileName={id}
-                    //     fileUrl={templateUrl}
-                    //     className='template-file'
-                    //     icon={<UploadFileIcon />}
-                    //     buttonLabel='Namunani yuklab oling'
-                    // />
                     <a download href={templateUrl} target='_blank' className='template-file'>
                         <UploadFileIcon />
                         <span>Namunani yuklab oling</span>
@@ -41,7 +31,10 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                 )}
                 {
                     fileUrl && (
-                        <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
+                        <Flex gap={4}>
+                            <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
+                            <Button variant='filled' color='red' icon={<DeleteOutlined />} onClick={() => handleUpload(null)} />
+                        </Flex>
                     )
                 }
             </Flex>
@@ -53,6 +46,7 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                         handleUpload(file);
                         return false;
                     }}
+                    showUploadList={false}
                     maxCount={1}
                     onRemove={() => { handleUpload(null) }}
                 >

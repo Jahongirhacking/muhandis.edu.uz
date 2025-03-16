@@ -29,7 +29,11 @@ const Step2 = () => {
             const formData = new FormData();
             formData.append(id, file || '');
             await editApplication({ id: currentApplication?.id, formData }).unwrap();
-            message.success("Muvaffaqiyatli yuklandi");
+            if (file) {
+                message.success("Muvaffaqiyatli yuklandi");
+            } else {
+                message.info("Fayl o'chirildi");
+            }
         } catch (err) {
             const errObj = err as { data: { [key: string]: string } }
             console.log(errObj);

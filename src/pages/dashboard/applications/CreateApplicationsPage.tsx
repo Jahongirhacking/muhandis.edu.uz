@@ -1,7 +1,7 @@
-import { ArrowLeftOutlined } from "@ant-design/icons"
 import { Button, Flex, Progress, Typography } from "antd"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { ReturnIcon } from "../../../assets/icons"
 import ControlledFlow from "../../../components/ControlledFlow"
 import Step1 from "./components/Step1"
 import Step2 from "./components/Step2"
@@ -14,7 +14,7 @@ const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) =>
         <>
             <Flex gap={16} align="center">
                 <Link to={"/dashboard/applications"}>
-                    <Button icon={<ArrowLeftOutlined />} shape="circle" />
+                    <Button icon={<ReturnIcon />} variant="solid" shape="circle" />
                 </Link>
                 <Typography.Title level={2} style={{ margin: 0 }}>Ariza topshirish</Typography.Title>
                 <Flex gap={16} align="center" style={{ marginLeft: 16 }} className="progress-container">
