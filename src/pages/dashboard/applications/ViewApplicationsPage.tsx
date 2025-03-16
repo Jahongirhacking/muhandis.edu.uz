@@ -1,12 +1,13 @@
 import { EditOutlined, PlusOutlined } from "@ant-design/icons"
 import { Button, Card, Empty, Flex, Tag, Typography } from "antd"
+import moment from "moment"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { ArchiveIcon, CurrentApplicationsIcon, EmptyIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
 import { useGetApplicationListQuery } from "../../../services/applicant"
-import { getApplicationStatusName } from "../../../services/types"
+import { ApplicationStatusChoice, getApplicationChoiceName, getApplicationStatusName } from "../../../services/types"
 import { RootState } from "../../../store/store"
 
 const ViewApplicationsPage = () => {
@@ -29,9 +30,13 @@ const ViewApplicationsPage = () => {
                         <Button variant="outlined" icon={<CurrentApplicationsIcon />} className={isCurrent ? 'active' : ''} onClick={() => setIsCurrent(true)}>Arizalar</Button>
                         <Button variant="outlined" icon={<ArchiveIcon />} className={!isCurrent ? 'active' : ''} onClick={() => setIsCurrent(false)}>Arxiv</Button>
                     </Flex>
-                    <Link to={`${hasPermissionToCreate ? "/dashboard/applications/create" : ''}`} style={{ marginLeft: 'auto' }}>
-                        <Button disabled={!hasPermissionToCreate} className="create-btn" type="primary" icon={<PlusOutlined />}>Ariza yaratish</Button>
-                    </Link>
+                    {
+                        hasPermissionToCreate && (
+                            <Link to={`${hasPermissionToCreate ? "/dashboard/applications/create" : ''}`} style={{ marginLeft: 'auto' }}>
+                                <Button disabled={!hasPermissionToCreate} className="create-btn" type="primary" icon={<PlusOutlined />}>Ariza yaratish</Button>
+                            </Link>
+                        )
+                    }
                 </Flex>
                 <Flex vertical gap={12} className="applications-container">
                     {
@@ -43,27 +48,30 @@ const ViewApplicationsPage = () => {
                                         className="application-card"
                                         title={`Ariza ID: ${application?.id}`}
                                         extra={(
-                                            <Tag icon={<CurrentApplicationsIcon />}>
+                                            <Tag icon={<CurrentApplicationsIcon />} className={`status-${application?.status || ''}`}>
                                                 {getApplicationStatusName(application?.status)}
                                             </Tag>
                                         )}
                                     >
                                         <Flex vertical gap={24} className="application-info">
                                             <Flex vertical gap={4}>
-                                                <Typography.Text>Loyiha nomi</Typography.Text>
+                                                <Typography.Text>{getApplicationChoiceName(application?.application_type)} nomi</Typography.Text>
                                                 <Typography.Text strong>{application?.name}</Typography.Text>
                                             </Flex>
                                             <Flex vertical gap={4}>
-                                                <Typography.Text>Loyiha maqsadi</Typography.Text>
+                                                <Typography.Text>{getApplicationChoiceName(application?.application_type)} maqsadi</Typography.Text>
                                                 <Typography.Text strong>{application?.short_description}</Typography.Text>
                                             </Flex>
                                             <Flex gap={32} justify="space-between" align="center" wrap>
                                                 <Flex vertical gap={4}>
-                                                    <Typography.Text>Loyihani qo’llanilish sohasi</Typography.Text>
+                                                    <Typography.Text>{getApplicationChoiceName(application?.application_type)} qo’llanilish sohasi</Typography.Text>
                                                     <Typography.Text strong>{application?.category}</Typography.Text>
                                                 </Flex>
                                                 {
-                                                    isCurrent && (
+                                                    moment().isBefore(moment(currentAdmission?.applicant_can_modify_until)) &&
+                                                    isCurrent &&
+                                                    (application?.status === ApplicationStatusChoice.CREATED ||
+                                                        application?.status === ApplicationStatusChoice.REJECTED) && (
                                                         <Flex gap={8} wrap>
                                                             <Link to={"/dashboard/applications/edit"}>
                                                                 <Button icon={<EditOutlined />} variant="text" color="primary">Tahrirlash</Button>
@@ -71,7 +79,6 @@ const ViewApplicationsPage = () => {
                                                         </Flex>
                                                     )
                                                 }
-
                                             </Flex>
                                         </Flex>
                                     </Card>

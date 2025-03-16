@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ContinueIcon, SuccessIcon } from "../../../../assets/icons";
-import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useLazySendApplicationQuery } from "../../../../services/applicant";
+import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useSendApplicationMutation } from "../../../../services/applicant";
 import { useGetExampleFilesQuery } from "../../../../services/classifier";
 import { ApplicationTypeChoice, ExampleFileFieldNameChoices } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
@@ -16,7 +16,7 @@ const Step2 = () => {
     const [editApplication] = useEditApplicationWithFormDataMutation();
     const { data: applicationsData } = useGetApplicationListQuery();
     const { data: exampleFilesData } = useGetExampleFilesQuery();
-    const [sendApplication] = useLazySendApplicationQuery();
+    const [sendApplication] = useSendApplicationMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const APPLICATIONS_PAGE = '/dashboard/applications';
@@ -86,27 +86,21 @@ const Step2 = () => {
             title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash.",
             uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
         },
-        ...(currentApplication?.application_type === ApplicationTypeChoice.Invention ||
-            currentApplication?.application_type === ApplicationTypeChoice.Project
-            ? [
-                {
-                    id: ExampleFileFieldNameChoices.INDICATOR_METRIC_FILE,
-                    title: "Indikator ko‘rsatkichlari",
-                    uploadLabel: 'Faylni yuklang (PDF)',
-                },
-            ]
-            : []
-        ),
         ...(currentApplication?.application_type === ApplicationTypeChoice.Project
             ? [
                 {
                     id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
-                    title: "Kalendar reja",
+                    title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim",
                     uploadLabel: 'Faylni yuklang (PDF)',
                 },
             ]
             : []
         ),
+        {
+            id: ExampleFileFieldNameChoices.PRESENTATION_FILE,
+            title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar",
+            uploadLabel: 'Faylni yuklang (PDF yoki PowerPoint)',
+        }
     ]
 
     const optionalUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [

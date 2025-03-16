@@ -8,10 +8,10 @@ const MainPage = () => {
     return (
         <Flex vertical className="main-page" gap={24} style={{ paddingBottom: 40 }}>
             <Typography.Title level={2} style={{ margin: 0 }}>Asosiy sahifa</Typography.Title>
+            <CompleteStatus />
             <Flex gap={24} wrap className="card-container">
                 <Flex vertical gap={24}>
                     <ProfileCard />
-                    <CompleteStatus />
                     <StudentList />
                 </Flex>
                 <WorkplaceList />

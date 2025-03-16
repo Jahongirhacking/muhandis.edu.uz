@@ -26,7 +26,12 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
         <Flex gap={8} align='stretch' className='upload-file'>
             <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
-                {templateUrl && <Button icon={<UploadFileIcon />} href={templateUrl} target='_blank' type='link'>Namunani yuklab oling</Button>}
+                {templateUrl && (
+                    <a href={templateUrl} target='_blank' className='template-file'>
+                        <UploadFileIcon />
+                        <span>Namunani yuklab oling</span>
+                    </a>
+                )}
                 {
                     fileUrl && (
                         <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
@@ -46,7 +51,6 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                 >
                     <Button icon={<DownloadFileIcon />} />
                 </Upload>
-
             </Flex>
         </Flex>
     )

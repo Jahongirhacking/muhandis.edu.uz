@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux';
 import { Gender } from '../../../services/types';
 import { RootState } from '../../../store/store';
 import { base64ToNormalImage } from '../../../utils/imageUtils';
+import CardSkeleton from '../../../components/Skeletons/CardSkeleton';
 
 const ProfileCard = () => {
     const { profile, photo } = useSelector((store: RootState) => store.user);
+
+    if (!profile?.id) return <CardSkeleton className='profile-card' />
 
     return (
         <Card className="profile-card">

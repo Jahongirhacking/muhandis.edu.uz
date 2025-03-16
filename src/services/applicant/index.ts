@@ -85,11 +85,12 @@ export const applicantApi = baseApi.injectEndpoints({
       invalidatesTags: ["Applications"],
     }),
 
-    sendApplication: build.query<
+    sendApplication: build.mutation<
       { detail: string },
       { id: IApplication["id"] }
     >({
       query: (body) => `/applicant/application/${body.id}/sent/`,
+      invalidatesTags: ["Applications"],
     }),
   }),
   overrideExisting: false,
@@ -106,5 +107,5 @@ export const {
   useCreateApplicationMutation,
   useEditApplicationMutation,
   useEditApplicationWithFormDataMutation,
-  useLazySendApplicationQuery,
+  useSendApplicationMutation,
 } = applicantApi;

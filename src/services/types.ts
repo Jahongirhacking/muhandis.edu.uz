@@ -92,3 +92,14 @@ export const getApplicationStatusName = (value: ApplicationStatusChoice) => {
       return "3-o'rin";
   }
 };
+
+export const getApplicationChoiceName = (value: ApplicationTypeChoice) => {
+  switch (value) {
+    case ApplicationTypeChoice.Idea:
+      return "G‘oya";
+    case ApplicationTypeChoice.Project:
+      return "Loyiha";
+    case ApplicationTypeChoice.Invention:
+      return "Ixtiro";
+  }
+};
