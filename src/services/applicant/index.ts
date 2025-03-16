@@ -12,18 +12,22 @@ export const applicantApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getStudentList: build.query<IStudent[], void>({
       query: () => "/applicant/student",
+      providesTags: ["Education"],
     }),
 
-    getStudentReload: build.query<IMessage, void>({
+    getStudentReload: build.mutation<IMessage, void>({
       query: () => `/applicant/student/reload`,
+      invalidatesTags: ["Education"],
     }),
 
     getWorkplaceList: build.query<IWorkplace[], void>({
       query: () => "/applicant/workplace",
+      providesTags: ["Workplace"],
     }),
 
-    getWorkplaceReload: build.query<IMessage, void>({
+    getWorkplaceReload: build.mutation<IMessage, void>({
       query: () => `/applicant/workplace/reload`,
+      invalidatesTags: ["Workplace"],
     }),
 
     getWorkplaceSelect: build.query<
@@ -98,8 +102,8 @@ export const applicantApi = baseApi.injectEndpoints({
 
 export const {
   useGetStudentListQuery,
-  useLazyGetStudentReloadQuery,
-  useLazyGetWorkplaceReloadQuery,
+  useGetStudentReloadMutation,
+  useGetWorkplaceReloadMutation,
   useLazyGetWorkplaceListQuery,
   useUpdateContactMutation,
   useLazyGetWorkplaceSelectQuery,

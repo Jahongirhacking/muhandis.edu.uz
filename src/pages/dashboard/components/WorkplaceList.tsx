@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
-import { useLazyGetWorkplaceListQuery, useLazyGetWorkplaceReloadQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
+import { useGetWorkplaceReloadMutation, useLazyGetWorkplaceListQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
 import { IWorkplace } from "../../../services/applicant/types"
 import { RootState } from "../../../store/store"
 
@@ -12,7 +12,7 @@ const WorkplaceList = () => {
     const { workplaceList } = useSelector((store: RootState) => store.user);
 
     const [getWorkplace, { isLoading: isLoadingWorkplace }] = useLazyGetWorkplaceListQuery();
-    const [reloadWorkplaceList] = useLazyGetWorkplaceReloadQuery();
+    const [reloadWorkplaceList] = useGetWorkplaceReloadMutation();
     const [selectedList, setSelectedList] = useState<Pick<IWorkplace, 'id' | 'is_selected'>[]>([]);
     const [selectWorkplace] = useLazyGetWorkplaceSelectQuery();
 

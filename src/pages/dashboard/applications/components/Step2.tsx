@@ -139,7 +139,7 @@ const Step2 = () => {
                     <SuccessIcon />
                     <Typography.Title level={4} style={{ textAlign: 'center' }}>Arizangiz muvaffaqiyatli topshirildi!</Typography.Title>
                     <Link to={APPLICATIONS_PAGE}>
-                        <Button variant="solid" color="cyan">
+                        <Button variant="solid" color="primary">
                             Arizalarim
                         </Button>
                     </Link>

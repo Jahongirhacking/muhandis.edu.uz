@@ -1,11 +1,11 @@
 import { Button, Card, Empty, Flex, message, Typography } from "antd";
 import { UpdateIcon } from "../../../assets/icons";
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton";
-import { useGetStudentListQuery, useLazyGetStudentReloadQuery } from "../../../services/applicant";
+import { useGetStudentListQuery, useGetStudentReloadMutation } from "../../../services/applicant";
 
 const StudentList = () => {
     const { data: dataStudent, isLoading: isLoadingStudent, isSuccess: isSuccessStudent, refetch: refetchStudent } = useGetStudentListQuery();
-    const [reloadStudentList] = useLazyGetStudentReloadQuery();
+    const [reloadStudentList] = useGetStudentReloadMutation();
 
     const currentDataStudent = dataStudent && dataStudent.length > 0 ? dataStudent[0] : null;
 
