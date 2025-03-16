@@ -1,6 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons"
 import { Suspense } from "react"
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import TestComponent from "../components/TestComponent"
 import DashboardLayout from "../layouts/DashboardLayout"
 import RootLayout from "../layouts/RootLayout"
 import AdminPage from "../pages/admin"
@@ -25,6 +26,7 @@ const publicRoutes: IRoute[] = [
     { path: "auth/login", element: <LoginPage /> },
     { path: "auth/register", element: <RegisterPage /> },
     { path: "auth/callback", element: <CallbackPage /> },
+    { path: "test/component", element: <TestComponent /> },
     // { path: "error", element: <ErrorPage /> }
 ];
 
