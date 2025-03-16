@@ -1,7 +1,6 @@
-import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography, Upload } from 'antd';
 import { FC } from 'react';
-import { DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
+import { DeleteIcon, DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
 import { ExampleFileFieldNameChoices } from '../../../../services/types';
 import { IFile } from './Step2';
 
@@ -33,7 +32,7 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                     fileUrl && (
                         <Flex gap={4}>
                             <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
-                            <Button variant='filled' color='red' icon={<DeleteOutlined />} onClick={() => handleUpload(null)} />
+                            <Button variant='filled' color='red' icon={<DeleteIcon />} onClick={() => handleUpload(null)} />
                         </Flex>
                     )
                 }
