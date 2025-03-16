@@ -11,7 +11,6 @@ import Statistics from "./Statistics";
 import './style.scss';
 
 const HomePage = () => {
-    // const [isExploding, setIsExploding] = useState(false);
     const prizeRef = useRef<HTMLDivElement | null>(null);
     const [isCarActivated, setIsCarActivated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,10 +86,9 @@ const HomePage = () => {
                             <Button
                                 type='primary'
                                 className="main-btn primary-btn"
-                                onClick={() => setIsModalOpen(true)}
-                            // href="https://muhandis.edu.uz/api/v1/auth/one-id/"
+                                href="https://muhandis.edu.uz/api/v1/auth/one-id/"
                             >
-                                Ro‘yxatdan o‘tish
+                                Ariza yuborish
                             </Button>
 
                             {
