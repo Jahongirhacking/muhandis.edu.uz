@@ -112,7 +112,13 @@
         backdrop-filter: blur(8px);
         padding: 10px;
 
+        .mobile-nav-item {
+          outline: none !important;
+        }
+
         a {
+          outline: none !important;
+
           &.active * {
             color: #068eff !important;
           }
@@ -319,7 +325,8 @@
         margin: 0;
         border-radius: 0;
         height: 100%;
-        padding-bottom: 80px;
+        padding: 0;
+        padding-bottom: 72px;
       }
 
       .dashboard-layout-content {

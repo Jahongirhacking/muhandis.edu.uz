@@ -108,7 +108,7 @@ const Navbar = () => {
                     {
                         navbar.map((item, index) => (
                             <NavLink to={item.href} key={index}>
-                                <Button type='default' icon={(
+                                <Button className='mobile-nav-item' type='default' icon={(
                                     <Flex>
                                         <span className='filled-icon' style={{ display: `${item?.isActive ? "block" : "none"}` }}>{item.activeIcon}</span>
                                         <span className='outlined-icon' style={{ display: `${!item?.isActive ? "block" : "none"}` }}>{item.icon}</span>
