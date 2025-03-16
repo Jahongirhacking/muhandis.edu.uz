@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { SaveFilled } from "@ant-design/icons";
 import { Button, Flex, Input, message, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -72,7 +72,7 @@ const RequiredContact = () => {
                     {!isValidEmail && <Typography.Text style={{ color: 'red' }}>Email to'liq emas</Typography.Text>}
                 </Flex>
             </Flex>
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleSubmit}>Qo'shish</Button>
+            <Button type="primary" icon={<SaveFilled />} onClick={handleSubmit}>Saqlash</Button>
         </Flex >
     )
 }

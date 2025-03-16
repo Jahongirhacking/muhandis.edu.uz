@@ -1,15 +1,25 @@
-import { Avatar, Card, Flex, Typography } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Flex, Typography } from 'antd';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
+import CardSkeleton from '../../../components/Skeletons/CardSkeleton';
 import { Gender } from '../../../services/types';
 import { RootState } from '../../../store/store';
+import { DrawerChildTypes, SearchParams } from '../../../utils/config';
 import { base64ToNormalImage } from '../../../utils/imageUtils';
-import CardSkeleton from '../../../components/Skeletons/CardSkeleton';
 
 const ProfileCard = () => {
     const { profile, photo } = useSelector((store: RootState) => store.user);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     if (!profile?.id) return <CardSkeleton className='profile-card' />
+
+    const handleOpenContactDrawer = () => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set(SearchParams.Drawer, DrawerChildTypes.RequiredContact);
+        setSearchParams(newParams);
+    }
 
     return (
         <Card className="profile-card">
@@ -38,11 +48,37 @@ const ProfileCard = () => {
                         <Flex className="contact-field" gap={12} align="center" wrap>
                             <Flex vertical gap={4}>
                                 <Typography.Text>Telefon raqami</Typography.Text>
-                                <Typography.Text strong className={`${!profile?.phone_number ? "undefined" : ''}`}>{profile?.phone_number || "—"}</Typography.Text>
+                                <Flex gap={4} align='center'>
+                                    <Typography.Text
+                                        strong
+                                        className={`${!profile?.phone_number ? "undefined" : ''}`}
+                                    >
+                                        {profile?.phone_number || "—"}
+                                    </Typography.Text>
+                                    <Button
+                                        onClick={handleOpenContactDrawer}
+                                        type='text'
+                                        icon={<EditOutlined style={{ color: '#068eff' }} />}
+                                        variant='text'
+                                    />
+                                </Flex>
                             </Flex>
                             <Flex vertical gap={4}>
                                 <Typography.Text>Elektron pochta</Typography.Text>
-                                <Typography.Text strong className={`${!profile?.phone_number ? "undefined" : ''}`}>{profile?.email || "—"}</Typography.Text>
+                                <Flex gap={4} align='center'>
+                                    <Typography.Text
+                                        strong
+                                        className={`${!profile?.phone_number ? "undefined" : ''}`}
+                                    >
+                                        {profile?.email || "—"}
+                                    </Typography.Text>
+                                    <Button
+                                        onClick={handleOpenContactDrawer}
+                                        type='text'
+                                        icon={<EditOutlined style={{ color: '#068eff' }} />}
+                                        variant='text'
+                                    />
+                                </Flex>
                             </Flex>
                         </Flex>
                     </Flex>

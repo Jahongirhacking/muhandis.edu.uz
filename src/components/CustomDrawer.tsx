@@ -21,6 +21,9 @@ const CustomDrawer: FC<DrawerProps> = (drawerProps) => {
                 setDrawer({
                     isOpen: true,
                     childType: searchParams.get(SearchParams.Drawer) as DrawerChildTypes,
+                    title: (
+                        searchParams.get(SearchParams.Drawer) === DrawerChildTypes.RequiredContact ? "Ma'lumotlarni kiritish" : ''
+                    )
                 })
             );
         } else {
