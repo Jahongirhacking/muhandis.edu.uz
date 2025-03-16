@@ -27,7 +27,7 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
             <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
                 {templateUrl && (
-                    <a href={templateUrl} target='_blank' className='template-file'>
+                    <a download href={templateUrl} target='_blank' className='template-file'>
                         <UploadFileIcon />
                         <span>Namunani yuklab oling</span>
                     </a>
