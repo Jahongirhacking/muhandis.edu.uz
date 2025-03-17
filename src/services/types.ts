@@ -73,7 +73,7 @@ export enum ExampleFileFieldNameChoices {
 export const getApplicationStatusName = (value: ApplicationStatusChoice) => {
   switch (value) {
     case ApplicationStatusChoice.CREATED:
-      return "Yaratilgan";
+      return "Qoralama (Ariza yuborilmagan)";
     case ApplicationStatusChoice.SENT:
       return "Yuborilgan";
     case ApplicationStatusChoice.PASSED:

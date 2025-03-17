@@ -18,10 +18,11 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
     const [createApplication] = useCreateApplicationMutation();
     const [editApplication] = useEditApplicationMutation();
     const { data: applicationsData } = useGetApplicationListQuery();
+    const UNKNOWN_TEXT = "Topilmadi";
 
     const currentApplication = applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id);
 
-    const [selectedRole, setSelectedRole] = useState<ApplicationSubmitAsChoice>(currentApplication?.submit_as || ApplicationSubmitAsChoice.STUDENT);
+    const [selectedRole, setSelectedRole] = useState<ApplicationSubmitAsChoice | ''>(currentApplication?.submit_as || '');
     const [selectedSpeciality, setSelectedSpeciality] = useState<ApplicationTypeChoice>(currentApplication?.application_type || ApplicationTypeChoice.Idea);
 
     useEffect(() => {
@@ -79,22 +80,25 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
             <Flex vertical gap={32}>
                 <Flex gap={24} wrap>
                     {
-                        roles.map(role => (
-                            <Flex key={role.value} className="select-role" align="flex-start" gap={8} onClick={() => setSelectedRole(role.value)}>
-                                <Radio checked={selectedRole === role.value} />
-                                <Flex vertical gap={6}>
-                                    <Typography.Text strong>{role.label}</Typography.Text>
-                                    <Typography.Text>
-                                        {role.value === ApplicationSubmitAsChoice.STUDENT
-                                            ? (currentStudentData?.university.name_uz || currentStudentData?.university.name_ru || currentStudentData?.university.name_en || "Topilmadi")
-                                            : role.value === ApplicationSubmitAsChoice.PROFESSOR_TEACHER
-                                                ? (currentWorkplace?.exists_in_hemis ? currentWorkplace?.organization : 'Topilmadi')
-                                                : currentWorkplace?.organization || "Topilmadi"
-                                        }
-                                    </Typography.Text>
+                        roles.map(role => {
+                            const roleInfo = role.value === ApplicationSubmitAsChoice.STUDENT
+                                ? (currentStudentData?.university.name_uz || currentStudentData?.university.name_ru || currentStudentData?.university.name_en || UNKNOWN_TEXT)
+                                : role.value === ApplicationSubmitAsChoice.PROFESSOR_TEACHER
+                                    ? (currentWorkplace?.exists_in_hemis ? currentWorkplace?.organization : UNKNOWN_TEXT)
+                                    : currentWorkplace?.organization || UNKNOWN_TEXT
+
+                            return (
+                                <Flex key={role.value} className="select-role" align="flex-start" gap={8} onClick={() => roleInfo !== UNKNOWN_TEXT && setSelectedRole(role.value)}>
+                                    <Radio checked={selectedRole === role.value} disabled={roleInfo === UNKNOWN_TEXT} />
+                                    <Flex vertical gap={6}>
+                                        <Typography.Text strong>{role.label}</Typography.Text>
+                                        <Typography.Text>
+                                            {roleInfo}
+                                        </Typography.Text>
+                                    </Flex>
                                 </Flex>
-                            </Flex>
-                        ))
+                            )
+                        })
                     }
                 </Flex>
                 <Flex vertical gap={24}>

@@ -48,7 +48,7 @@ const ViewApplicationsPage = () => {
                                         className="application-card"
                                         title={`Ariza ID: ${application?.id}`}
                                         extra={(
-                                            <Tag icon={<CurrentApplicationsIcon />} className={`status-${application?.status || ''}`}>
+                                            <Tag icon={<CurrentApplicationsIcon />} className={`status-${application?.status || '0'}`}>
                                                 {getApplicationStatusName(application?.status)}
                                             </Tag>
                                         )}

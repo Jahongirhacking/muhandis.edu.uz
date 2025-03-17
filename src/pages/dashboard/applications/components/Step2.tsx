@@ -37,7 +37,7 @@ const Step2 = () => {
         } catch (err) {
             const errObj = err as { data: { [key: string]: string } }
             console.log(errObj);
-            message.error(errObj.data[id])
+            message.error("Fayl yuklashda xatolik")
         }
     }
 

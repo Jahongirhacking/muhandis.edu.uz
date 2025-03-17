@@ -104,6 +104,10 @@
               }
             }
 
+            &.status-0 {
+              @include status_style(#363636, #2b2b2b, #ffffff);
+            }
+
             &.status-1 {
               @include status_style(#baffdc, #9bffcd, #036835);
             }
@@ -174,6 +178,10 @@
           min-height: 120px;
           min-width: min(100%, 250px);
           @include hover_bg();
+
+          &:has(.ant-radio-input[disabled]) {
+            opacity: 0.5;
+          }
 
           span {
             font-weight: 400;
