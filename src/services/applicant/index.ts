@@ -30,6 +30,14 @@ export const applicantApi = baseApi.injectEndpoints({
       invalidatesTags: ["Workplace"],
     }),
 
+    getWorkplaceExistsInHemis: build.mutation<
+      IMessage,
+      { id: IWorkplace["id"] }
+    >({
+      query: ({ id }) => `/applicant/workplace/${id}/exists-in-hemis/`,
+      invalidatesTags: ["Workplace"],
+    }),
+
     getWorkplaceSelect: build.query<
       { detail: string },
       { id: IWorkplace["id"] }
@@ -107,6 +115,7 @@ export const {
   useLazyGetWorkplaceListQuery,
   useUpdateContactMutation,
   useLazyGetWorkplaceSelectQuery,
+  useGetWorkplaceExistsInHemisMutation,
   useGetApplicationListQuery,
   useCreateApplicationMutation,
   useEditApplicationMutation,

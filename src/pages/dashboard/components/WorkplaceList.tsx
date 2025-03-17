@@ -4,17 +4,17 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
-import { useGetWorkplaceReloadMutation, useLazyGetWorkplaceListQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
+import { useGetWorkplaceExistsInHemisMutation, useGetWorkplaceReloadMutation, useLazyGetWorkplaceListQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
 import { IWorkplace } from "../../../services/applicant/types"
 import { RootState } from "../../../store/store"
 
 const WorkplaceList = () => {
     const { workplaceList } = useSelector((store: RootState) => store.user);
-
     const [getWorkplace, { isLoading: isLoadingWorkplace }] = useLazyGetWorkplaceListQuery();
     const [reloadWorkplaceList] = useGetWorkplaceReloadMutation();
     const [selectedList, setSelectedList] = useState<Pick<IWorkplace, 'id' | 'is_selected'>[]>([]);
     const [selectWorkplace] = useLazyGetWorkplaceSelectQuery();
+    const [getWorkplaceExistsInHemis] = useGetWorkplaceExistsInHemisMutation();
 
     useEffect(() => {
         if (workplaceList?.length) {
@@ -25,22 +25,46 @@ const WorkplaceList = () => {
     }, [workplaceList])
 
     const handleSelect = async (id: IWorkplace['id']) => {
-        const { data } = await selectWorkplace({ id });
-        setSelectedList(prev => prev.map(el => ({
-            id: el?.id,
-            is_selected: el?.id === id,
-        })))
-        message.success(data?.detail);
+        try {
+            await selectWorkplace({ id }).unwrap();
+            setSelectedList(prev => prev.map(el => ({
+                id: el?.id,
+                is_selected: el?.id === id,
+            })))
+            message.success("Tanlagan ish ma'lumotingiz asosiyga o'tkazildi");
+        } catch (err) {
+            console.log(err);
+            message.error("Asosiy ish joyiga o'tkazishda xatolik")
+        }
     }
 
     const handleReloadWorkplace = async () => {
-        const { data } = await reloadWorkplaceList();
-        if (data?.success) {
-            message.success(data?.message);
-        } else {
-            message.warning(data?.message);
+        try {
+            const { success } = await reloadWorkplaceList().unwrap();
+            if (success) {
+                message.success("Muvaffaqiyatli yangilandi");
+            } else {
+                message.warning("Mehnat ma'lumot topilmadi, qaytadan urinib ko'ring");
+            }
+            await getWorkplace();
+        } catch (err) {
+            console.log(err);
+            message.error("Yangilashda xatolik")
         }
-        await getWorkplace();
+    }
+
+    const handleExistsInHemis = async (id: IWorkplace['id']) => {
+        try {
+            const { success } = await getWorkplaceExistsInHemis({ id }).unwrap();
+            if (success) {
+                message.warning("Ish joyingiz Hemis tizimidan topilmadi");
+            } else {
+                message.success("Ish joyingiz Hemis tizimidan topildi")
+            }
+        } catch (err) {
+            console.log(err);
+            message.error("Hemis tizimida tekshirishda xatolik");
+        }
     }
 
     return (
@@ -86,11 +110,29 @@ const WorkplaceList = () => {
                                             </Flex>
                                             <Flex gap={6} align="center">
                                                 <Switch
+                                                    disabled={selectedList.find(el => el?.id === workplaceList[0]?.id)?.is_selected}
                                                     onClick={() => handleSelect(workplaceList[0].id)}
                                                     value={selectedList.find(el => el?.id === workplaceList[0]?.id)?.is_selected}
                                                 />
                                                 <Typography.Text>Asosiy qilib tanlash</Typography.Text>
                                             </Flex>
+                                        </Flex>
+                                        <Flex gap={12} justify="space-between" align="center" wrap>
+                                            <Flex vertical gap={4}>
+                                                <Typography.Text>Hemis tizimida mavjudligi</Typography.Text>
+                                                <Typography.Text strong>{workplaceList[0]?.exists_in_hemis ? 'Mavjud' : 'Mavjud emas'}</Typography.Text>
+                                            </Flex>
+                                            {
+                                                workplaceList[0]?.id && (
+                                                    <Button
+                                                        icon={<UpdateIcon />}
+                                                        type='primary'
+                                                        onClick={() => handleExistsInHemis(workplaceList[0]?.id)}
+                                                    >
+                                                        <span style={{ color: '#fff' }}>Tekshirish</span>
+                                                    </Button>
+                                                )
+                                            }
                                         </Flex>
                                     </Flex>
                                 ) : (
@@ -121,11 +163,29 @@ const WorkplaceList = () => {
                                             </Flex>
                                             <Flex gap={6} align="center">
                                                 <Switch
+                                                    disabled={selectedList.find(el => el?.id === workplace?.id)?.is_selected}
                                                     onClick={() => handleSelect(workplace?.id)}
                                                     value={selectedList.find(el => el?.id === workplace?.id)?.is_selected}
                                                 />
                                                 <Typography.Text>Asosiy qilib tanlash</Typography.Text>
                                             </Flex>
+                                        </Flex>
+                                        <Flex gap={12} justify="space-between" align="center" wrap>
+                                            <Flex vertical gap={4}>
+                                                <Typography.Text>Hemis tizimida mavjudligi</Typography.Text>
+                                                <Typography.Text strong>{workplace?.exists_in_hemis ? 'Mavjud' : 'Mavjud emas'}</Typography.Text>
+                                            </Flex>
+                                            {
+                                                workplace?.id && (
+                                                    <Button
+                                                        icon={<UpdateIcon />}
+                                                        type='primary'
+                                                        onClick={() => handleExistsInHemis(workplace?.id)}
+                                                    >
+                                                        <span style={{ color: '#fff' }}>Tekshirish</span>
+                                                    </Button>
+                                                )
+                                            }
                                         </Flex>
                                     </Flex>
                                 </Card>

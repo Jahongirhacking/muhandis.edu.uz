@@ -49,7 +49,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                 }
                 if (!editable) {
                     await createApplication(data).unwrap();
-                    message.success("Ariza muvaffaqiyatli yaratildi");
+                    // message.success("Ariza muvaffaqiyatli yaratildi");
                 } else {
                     await editApplication({ ...data, id: currentApplication?.id }).unwrap();
                     // message.success("Ariza muvaffaqiyatli tahrirlandi");
@@ -122,7 +122,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 { required: true, message: "Loyiha nomini kiriting" }
                             ]}
                         >
-                            <Input placeholder="Avtonom suv filtrlash tizimi" />
+                            <Input placeholder="Avtonom suv filtrlash tizimi" maxLength={300} />
                         </Form.Item>
                         <Form.Item
                             name={'category'}
@@ -133,7 +133,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 { required: true, message: "Loyiha sohasini kiriting" }
                             ]}
                         >
-                            <Input placeholder="G‘oya muhandislik sohasining qaysi yo‘nalishiga oidligi" />
+                            <Input placeholder="G‘oya muhandislik sohasining qaysi yo‘nalishiga oidligi" maxLength={300} />
                         </Form.Item>
                         <Form.Item
                             name={"short_description"}
@@ -144,7 +144,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 { required: true, message: "Loyiha mazmuni kiriting" }
                             ]}
                         >
-                            <Input.TextArea placeholder="G‘oyaning mazmuni qisqacha tushuntirishi" />
+                            <Input.TextArea placeholder="G‘oyaning mazmuni qisqacha tushuntirishi" maxLength={300} />
                         </Form.Item>
                         <Form.Item
                             name={'problem_and_solution'}
@@ -152,10 +152,10 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                             label="Muammo va yechim"
                             required
                             rules={[
-                                { required: true, message: "Muammo va yechim kiriting" }
+                                { required: true, message: "Muammo va yechim kiriting" },
                             ]}
                         >
-                            <Input.TextArea placeholder="G‘oya qanday muammoni hal qiladi va qanday yechim taklif etadi?" />
+                            <Input.TextArea placeholder="G‘oya qanday muammoni hal qiladi va qanday yechim taklif etadi?" maxLength={300} />
                         </Form.Item>
                     </Flex>
                 </Flex>

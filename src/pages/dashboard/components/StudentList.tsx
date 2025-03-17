@@ -10,13 +10,18 @@ const StudentList = () => {
     const currentDataStudent = dataStudent && dataStudent.length > 0 ? dataStudent[0] : null;
 
     const handleReloadStudent = async () => {
-        const { data } = await reloadStudentList();
-        if (data?.success) {
-            message.success(data?.message);
-        } else {
-            message.warning(data?.message);
+        try {
+            const { success } = await reloadStudentList().unwrap();
+            if (success) {
+                message.success("Muvaffaqiyatli yangilandi");
+            } else {
+                message.warning("Talaba ma'lumoti topilmadi, qaytadan urinib ko'ring");
+            }
+            await refetchStudent();
+        } catch (err) {
+            console.log(err);
+            message.error("Yangilashda xatolik")
         }
-        await refetchStudent();
     }
 
     return (
