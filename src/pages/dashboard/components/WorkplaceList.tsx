@@ -4,13 +4,12 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { UpdateIcon } from "../../../assets/icons"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
-import { useGetWorkplaceExistsInHemisMutation, useGetWorkplaceReloadMutation, useLazyGetWorkplaceListQuery, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
+import { useGetWorkplaceExistsInHemisMutation, useGetWorkplaceReloadMutation, useLazyGetWorkplaceSelectQuery } from "../../../services/applicant"
 import { IWorkplace } from "../../../services/applicant/types"
 import { RootState } from "../../../store/store"
 
 const WorkplaceList = () => {
     const { workplaceList } = useSelector((store: RootState) => store.user);
-    const [getWorkplace, { isLoading: isLoadingWorkplace }] = useLazyGetWorkplaceListQuery();
     const [reloadWorkplaceList] = useGetWorkplaceReloadMutation();
     const [selectedList, setSelectedList] = useState<Pick<IWorkplace, 'id' | 'is_selected'>[]>([]);
     const [selectWorkplace] = useLazyGetWorkplaceSelectQuery();
@@ -33,7 +32,7 @@ const WorkplaceList = () => {
             })))
             message.success("Tanlagan ish ma'lumotingiz asosiyga o'tkazildi");
         } catch (err) {
-            console.log(err);
+            console.error(err);
             message.error("Asosiy ish joyiga o'tkazishda xatolik")
         }
     }
@@ -46,9 +45,8 @@ const WorkplaceList = () => {
             } else {
                 message.warning("Mehnat ma'lumot topilmadi, qaytadan urinib ko'ring");
             }
-            await getWorkplace();
         } catch (err) {
-            console.log(err);
+            console.error(err);
             message.error("Yangilashda xatolik")
         }
     }
@@ -62,7 +60,7 @@ const WorkplaceList = () => {
                 message.warning("Ish joyingiz Hemis tizimidan topilmadi");
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
             message.error("Hemis tizimida tekshirishda xatolik");
         }
     }
@@ -70,7 +68,7 @@ const WorkplaceList = () => {
     return (
         <Flex vertical>
             {
-                isLoadingWorkplace ? (
+                !workplaceList ? (
                     <CardSkeleton />
                 ) : (
                     <>

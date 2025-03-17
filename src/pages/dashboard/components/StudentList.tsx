@@ -4,7 +4,7 @@ import CardSkeleton from "../../../components/Skeletons/CardSkeleton";
 import { useGetStudentListQuery, useGetStudentReloadMutation } from "../../../services/applicant";
 
 const StudentList = () => {
-    const { data: dataStudent, isLoading: isLoadingStudent, isSuccess: isSuccessStudent, refetch: refetchStudent } = useGetStudentListQuery();
+    const { data: dataStudent, isLoading: isLoadingStudent, isSuccess: isSuccessStudent } = useGetStudentListQuery();
     const [reloadStudentList] = useGetStudentReloadMutation();
 
     const currentDataStudent = dataStudent && dataStudent.length > 0 ? dataStudent[0] : null;
@@ -17,9 +17,8 @@ const StudentList = () => {
             } else {
                 message.warning("Talaba ma'lumoti topilmadi, qaytadan urinib ko'ring");
             }
-            await refetchStudent();
         } catch (err) {
-            console.log(err);
+            console.error(err);
             message.error("Yangilashda xatolik")
         }
     }

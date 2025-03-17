@@ -1,12 +1,13 @@
 import { Button, Divider, Flex, message, Modal, Skeleton, Typography } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ContinueIcon, SuccessIcon } from "../../../../assets/icons";
 import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useSendApplicationMutation } from "../../../../services/applicant";
 import { useGetExampleFilesQuery } from "../../../../services/classifier";
 import { ApplicationTypeChoice, ExampleFileFieldNameChoices } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
+import { SearchParams } from "../../../../utils/config";
 import UploadFile, { IUploadFileProps } from "./UploadFile";
 
 export type IFile = File | null;
@@ -19,9 +20,16 @@ const Step2 = () => {
     const [sendApplication] = useSendApplicationMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const APPLICATIONS_PAGE = '/dashboard/applications';
-
     const currentApplication = applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id);
+
+    useEffect(() => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set(SearchParams.Step, '2');
+        setSearchParams(newParams);
+    }, [searchParams, setSearchParams])
+
 
     const handleUploadFile = async (id: string, file: IFile) => {
         if (!currentApplication?.id) return;
@@ -36,14 +44,18 @@ const Step2 = () => {
             }
         } catch (err) {
             const errObj = err as { data: { [key: string]: string } }
-            console.log(errObj);
-            message.error("Fayl yuklashda xatolik")
+            message.error(errObj.data[id])
         }
     }
 
     const handleSubmit = async () => {
         try {
             if (currentApplication?.id) {
+                const isEligible = requiredUploadFiles.reduce((acc, curr) => acc && !!currentApplication[curr.id], true);
+                if (!isEligible) {
+                    message.error("Barcha majburiy fayllarni yuklashingiz shart!");
+                    return;
+                }
                 await sendApplication({ id: currentApplication?.id }).unwrap();
                 setIsModalOpen(true);
             }

@@ -113,6 +113,7 @@ export const {
   useGetStudentReloadMutation,
   useGetWorkplaceReloadMutation,
   useLazyGetWorkplaceListQuery,
+  useGetWorkplaceListQuery,
   useUpdateContactMutation,
   useLazyGetWorkplaceSelectQuery,
   useGetWorkplaceExistsInHemisMutation,

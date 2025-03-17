@@ -1,14 +1,16 @@
 import { Button, Flex, Progress, Typography } from "antd"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { ReturnIcon } from "../../../assets/icons"
 import ControlledFlow from "../../../components/ControlledFlow"
+import { SearchParams } from "../../../utils/config"
 import Step1 from "./components/Step1"
 import Step2 from "./components/Step2"
 
 const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) => {
     const [data, setData] = useState<object>({});
-    const [current, setCurrent] = useState<number>(0);
+    const [searchParams] = useSearchParams();
+    const [current, setCurrent] = useState<number>(Number(searchParams.get(SearchParams.Step) || 1) - 1 || 0);
 
     return (
         <>
