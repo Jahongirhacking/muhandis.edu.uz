@@ -57,9 +57,9 @@ const WorkplaceList = () => {
         try {
             const { success } = await getWorkplaceExistsInHemis({ id }).unwrap();
             if (success) {
-                message.warning("Ish joyingiz Hemis tizimidan topilmadi");
-            } else {
                 message.success("Ish joyingiz Hemis tizimidan topildi")
+            } else {
+                message.warning("Ish joyingiz Hemis tizimidan topilmadi");
             }
         } catch (err) {
             console.log(err);
