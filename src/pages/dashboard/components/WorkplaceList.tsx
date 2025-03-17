@@ -146,20 +146,20 @@ const WorkplaceList = () => {
                                     <Flex vertical gap={12}>
                                         <Flex vertical gap={4}>
                                             <Typography.Text>Tashkilot nomi</Typography.Text>
-                                            <Typography.Text strong>Raqamli ta'lim texnologiyalarini rivojlantirish markazi" davlat muassasasi</Typography.Text>
+                                            <Typography.Text strong>{workplace?.organization}</Typography.Text>
                                         </Flex>
                                         <Flex vertical gap={4}>
                                             <Typography.Text>Bo'lim</Typography.Text>
-                                            <Typography.Text strong>Axborot tizimlarini loyihalashtirish va ishlab chiqish bo‘limi</Typography.Text>
+                                            <Typography.Text strong>{workplace?.department}</Typography.Text>
                                         </Flex>
                                         <Flex vertical gap={4}>
                                             <Typography.Text>Lavozim</Typography.Text>
-                                            <Typography.Text strong>Bosh mutaxassis</Typography.Text>
+                                            <Typography.Text strong>{workplace?.position}</Typography.Text>
                                         </Flex>
                                         <Flex gap={12} justify="space-between" align="center" wrap>
                                             <Flex vertical gap={4}>
                                                 <Typography.Text>Mehnat davri</Typography.Text>
-                                                <Typography.Text strong>2023-07-13 - hozirgacha</Typography.Text>
+                                                <Typography.Text strong>{moment(workplace?.begin_date, "YYYY-MM-DD").format("DD.MM.YYYY")} - hozirgacha</Typography.Text>
                                             </Flex>
                                             <Flex gap={6} align="center">
                                                 <Switch
