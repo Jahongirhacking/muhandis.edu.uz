@@ -369,6 +369,10 @@
                   border: none;
                   transition: background-color 0.4s ease;
 
+                  * {
+                    color: #fff;
+                  }
+
                   &:hover {
                     background-color: #068fffc5;
                   }

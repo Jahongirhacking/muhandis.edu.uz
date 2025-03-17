@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons"
 import { Button, Card, Empty, Flex, message, Switch, Typography } from "antd"
 import moment from "moment"
 import { useEffect, useState } from "react"
@@ -10,7 +11,7 @@ import { RootState } from "../../../store/store"
 
 const WorkplaceList = () => {
     const { workplaceList } = useSelector((store: RootState) => store.user);
-    const [reloadWorkplaceList] = useGetWorkplaceReloadMutation();
+    const [reloadWorkplaceList, { isLoading: isLoadingWorkplace }] = useGetWorkplaceReloadMutation();
     const [selectedList, setSelectedList] = useState<Pick<IWorkplace, 'id' | 'is_selected'>[]>([]);
     const [selectWorkplace] = useLazyGetWorkplaceSelectQuery();
     const [getWorkplaceExistsInHemis] = useGetWorkplaceExistsInHemisMutation();
@@ -77,8 +78,9 @@ const WorkplaceList = () => {
                             title="Mehnat ma’lumoti"
                             extra={(
                                 <Button
+                                    disabled={isLoadingWorkplace}
                                     type="primary"
-                                    icon={<UpdateIcon />}
+                                    icon={isLoadingWorkplace ? <LoadingOutlined /> : <UpdateIcon />}
                                     onClick={handleReloadWorkplace}
                                 >
                                     Yangilash

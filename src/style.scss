@@ -38,7 +38,7 @@ body {
     justify-content: center;
   }
 
-  .anticon.anticon-loading {
+  & > .anticon.anticon-loading {
     font-size: 70px;
     color: #10f3ff;
   }

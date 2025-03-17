@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Card, Empty, Flex, message, Typography } from "antd";
 import { UpdateIcon } from "../../../assets/icons";
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton";
@@ -5,7 +6,7 @@ import { useGetStudentListQuery, useGetStudentReloadMutation } from "../../../se
 
 const StudentList = () => {
     const { data: dataStudent, isLoading: isLoadingStudent, isSuccess: isSuccessStudent } = useGetStudentListQuery();
-    const [reloadStudentList] = useGetStudentReloadMutation();
+    const [reloadStudentList, { isLoading: isLoadingStudentList }] = useGetStudentReloadMutation();
 
     const currentDataStudent = dataStudent && dataStudent.length > 0 ? dataStudent[0] : null;
 
@@ -34,8 +35,9 @@ const StudentList = () => {
                         title="Ta’lim ma’lumoti"
                         extra={(
                             <Button
+                                disabled={isLoadingStudentList}
                                 type="primary"
-                                icon={<UpdateIcon />}
+                                icon={isLoadingStudentList ? <LoadingOutlined /> : <UpdateIcon />}
                                 onClick={handleReloadStudent}
                             >
                                 Yangilash
