@@ -103,3 +103,15 @@ export const getApplicationChoiceName = (value: ApplicationTypeChoice) => {
       return "Ixtiro";
   }
 };
+
+export const getErrorMessage = (text: string): string => {
+  if (text.includes("Modify time is out"))
+    return "O'zgartirish vaqti tugadi. Qabul qilishni tekshiring";
+  if (text.includes("can't select workplace in this application"))
+    return "Bu ariza holatida ish joyini tanlay olmaysiz";
+  if (text.includes("workplace not found in HEMIS"))
+    return "Bu ariza holatida ish joyini tanlay olmaysiz";
+  if (text.includes("need to select a workplace"))
+    return "Siz ish joyini tanlashingiz kerak";
+  return text;
+};

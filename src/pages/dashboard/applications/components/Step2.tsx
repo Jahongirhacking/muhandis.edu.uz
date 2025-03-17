@@ -5,7 +5,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ContinueIcon, SuccessIcon } from "../../../../assets/icons";
 import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useSendApplicationMutation } from "../../../../services/applicant";
 import { useGetExampleFilesQuery } from "../../../../services/classifier";
-import { ApplicationTypeChoice, ExampleFileFieldNameChoices } from "../../../../services/types";
+import { ApplicationTypeChoice, ExampleFileFieldNameChoices, getErrorMessage } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
 import { SearchParams } from "../../../../utils/config";
 import UploadFile, { IUploadFileProps } from "./UploadFile";
@@ -62,7 +62,7 @@ const Step2 = () => {
         } catch (err) {
             const errObj = err as { data: { detail: string } };
             console.error(errObj);
-            message.error(`Ariza topshirishda xatolik. ${errObj.data.detail}`);
+            message.error(`Ariza topshirishda xatolik. ${getErrorMessage(errObj?.data?.detail || "")}`);
         }
     }
 

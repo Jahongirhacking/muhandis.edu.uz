@@ -5,7 +5,7 @@ import { ContinueIcon } from "../../../../assets/icons";
 import { roles, specialities } from "../../../../assets/objects";
 import { ControlledFlowContext } from "../../../../components/ControlledFlow";
 import { useCreateApplicationMutation, useEditApplicationMutation, useGetApplicationListQuery, useGetStudentListQuery } from "../../../../services/applicant";
-import { ApplicationSubmitAsChoice, ApplicationTypeChoice } from "../../../../services/types";
+import { ApplicationSubmitAsChoice, ApplicationTypeChoice, getErrorMessage } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
 
 const Step1 = ({ editable = false }: { editable: boolean }) => {
@@ -62,7 +62,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                 console.error(err);
                 if (err && typeof err === 'object' && 'data' in err) {
                     const errorData = err as { data: { non_field_errors: string[] | null } };
-                    message.error((errorData.data.non_field_errors && errorData.data.non_field_errors[0]) || "Ariza yaratishda xatolik yuz berdi");
+                    message.error(`Ariza yaratishda xatolik yuz berdi, ${getErrorMessage((errorData.data.non_field_errors && errorData.data.non_field_errors[0]) || '')}`);
                 } else {
                     message.error("Ariza yaratishda xatolik yuz berdi");
                 }
@@ -126,7 +126,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 { required: true, message: "Loyiha nomini kiriting" }
                             ]}
                         >
-                            <Input placeholder="Avtonom suv filtrlash tizimi" maxLength={300} />
+                            <Input placeholder="Avtonom suv filtrlash tizimi" maxLength={200} />
                         </Form.Item>
                         <Form.Item
                             name={'category'}
@@ -137,7 +137,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 { required: true, message: "Loyiha sohasini kiriting" }
                             ]}
                         >
-                            <Input placeholder="G‘oya muhandislik sohasining qaysi yo‘nalishiga oidligi" maxLength={300} />
+                            <Input placeholder="G‘oya muhandislik sohasining qaysi yo‘nalishiga oidligi" maxLength={200} />
                         </Form.Item>
                         <Form.Item
                             name={"short_description"}
