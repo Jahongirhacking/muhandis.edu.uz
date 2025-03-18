@@ -534,21 +534,21 @@ $original_width: 1728;
           -webkit-text-fill-color: transparent;
 
           @media screen and (max-width: 330px) {
-            font-size: 20px;
-            line-height: 23px;
+            font-size: 28px;
+            line-height: 28px;
           }
           @media (min-width: 331px) and (max-width: 599px) {
-            font-size: 25px;
-            line-height: 30px;
+            font-size: 38px;
+            line-height: 40px;
           }
           @media (min-width: 600px) and (max-width: 1380px) {
-            font-size: 50px;
+            font-size: 65px;
             line-height: 58px;
           }
         }
 
         h1 {
-          font-size: 48px;
+          font-size: 55px;
           line-height: 48px;
           color: #068eff;
           font-weight: 900;
@@ -668,6 +668,10 @@ $original_width: 1728;
 
     .prize-card-container {
       width: 100%;
+
+      @media screen and (max-width: 900px) {
+        flex-direction: column;
+      }
 
       & > *,
       .other-cards > *:first-child {

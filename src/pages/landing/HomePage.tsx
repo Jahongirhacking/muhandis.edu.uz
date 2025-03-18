@@ -193,7 +193,7 @@ const HomePage = () => {
                                 <Image src="/icons/badge_1.svg" preview={false} alt="1-o'rin" data-aos="fade-up" data-aos-duration="2000" />
                                 <Flex vertical gap={8} className="prize-title">
                                     <Typography.Title level={1} data-aos="fade-up" data-aos-duration="2000" className="title-text">1-O‘RIN</Typography.Title>
-                                    <Typography.Title level={2} className="title-text" data-aos="fade-up" data-aos-duration="3000">Elektromobil</Typography.Title>
+                                    <Typography.Title level={2} className="title-text" data-aos="fade-up" data-aos-duration="3000">Elektromobil 9 ta</Typography.Title>
                                 </Flex>
                             </Flex>
                             <Flex vertical gap={40} className="prize-content" align='center' data-aos="fade-up" data-aos-duration="3000">
@@ -379,17 +379,17 @@ const HomePage = () => {
                             <Flex vertical gap={24}>
                                 <Typography.Title level={3}>Biz ijtimoiy tarmoqlarda</Typography.Title>
                                 <ul>
-                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={InstagramIcon} />} href="#">Instagram</Button></li>
-                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={TelegramIcon} />} href="#">Telegram</Button></li>
-                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={FacebookIcon} />} href="#">Facebook</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={InstagramIcon} />} href="https://www.instagram.com/edu.uz/" target="_blank">Instagram</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={TelegramIcon} />} href="https://t.me/eduuz" target="_blank">Telegram</Button></li>
+                                    <li><Button type="text" icon={<Image loading="lazy" preview={false} src={FacebookIcon} />} href="https://www.facebook.com/eduuzofficial" target="_blank">Facebook</Button></li>
                                 </ul>
                             </Flex>
                             <Flex vertical gap={24}>
                                 <Typography.Title level={3}>Bog’lanish</Typography.Title>
                                 <ul>
                                     <li>Ishonch telefoni: <a href="tel:1006">1006</a></li>
-                                    <li><a href="#">100095, Toshkent shahri, 2-Chimboy k, 96-uy</a></li>
-                                    <li><a href="#">Telegram bot</a></li>
+                                    <li><a href="https://maps.app.goo.gl/hvKHFGDdqJfKY4AM7" target="_blank">100174, Toshkent sh., Olmazor tumani, Universitet ko‘chasi, 7-uy</a></li>
+                                    <li><a href="mailto:edu@exat.uz" target="_blank">edu@exat.uz</a> | <a href="mailto:devonxona@edu.uz" target="_blank">devonxona@edu.uz</a></li>
                                 </ul>
                             </Flex>
                         </Flex>
