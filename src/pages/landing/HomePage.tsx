@@ -396,7 +396,7 @@ const HomePage = () => {
                     </Flex>
                     <Divider style={{ margin: 0, marginTop: 25 }} />
                     <Typography.Text style={{ marginLeft: 'auto' }}>
-                        <strong>Ishlab chiqaruvchi:</strong> Raqamli ta'lim texnologiyalarini rivojlantirish markazi
+                        <strong>Ishlab chiqaruvchi:</strong> <a href="https://e-edu.uz/" target="_blank">Raqamli ta'lim texnologiyalarini rivojlantirish markazi</a>
                     </Typography.Text>
                 </Flex>
             </footer>
