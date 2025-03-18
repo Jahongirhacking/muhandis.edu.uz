@@ -7,12 +7,12 @@ interface IMask extends InputProps {
     setValue: (value: string) => void;
 }
 
-const InputMask = ({ format, maskChar, setValue, ...props }: IMask) => {
+const InputMask = ({ format, maskChar, setValue, value, ...props }: IMask) => {
     const IMPORTANT_CHAR = '!';
     const DIGIT_CHAR = '9';
     const ALPHA_CHAR = 'A';
 
-    const [internalValue, setInternalValue] = useState('');
+    const [internalValue, setInternalValue] = useState(`+${value || '998'}`);
 
     const encode = (data: string) => {
         let value = '';

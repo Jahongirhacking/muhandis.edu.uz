@@ -56,6 +56,7 @@ const RequiredContact = () => {
                         maskChar={[' ', '(', ')']}
                         setValue={validatePhone}
                         placeholder="+998"
+                        value={phone}
                         status={isValidPhone ? '' : 'error'}
                         className='input-mask phone-input'
                     />
