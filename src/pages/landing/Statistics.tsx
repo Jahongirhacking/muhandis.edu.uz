@@ -1,7 +1,11 @@
-import { Divider, Flex, Select, Switch, Typography } from "antd";
-import { useState } from "react";
+import { Divider, Flex, Switch, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
 import Uzbekistan from '../../assets/map';
+import CardSkeleton from "../../components/Skeletons/CardSkeleton";
 import SVGMap from "../../components/SVGMap";
+import { useLazyGetRegionStatQuery } from "../../services/classifier";
+import { IStat } from "../../services/classifier/types";
+import { ApplicationSubmitAsChoice, ApplicationTypeChoice } from "../../services/types";
 
 type PointedLocation = {
     name: null | string;
@@ -9,16 +13,24 @@ type PointedLocation = {
 };
 
 const Statistics = () => {
+    const DEFAULT_REGION_ID = '5';
     const [pointedLocation, setPointedLocation] = useState<PointedLocation>({
         name: null
     });
-    const [selectedLocation, setSelectedLocation] = useState('Toshkent shahri');
+    const [isRepublic, setIsRepublic] = useState(false);
     const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({
         display: "none",
     });
+    const [selectedLocation, setSelectedLocation] = useState(DEFAULT_REGION_ID);
+    const currentLocationRef = useRef('');
+    const [getStat, { data, isFetching }] = useLazyGetRegionStatQuery();
 
     const getLocationName = (event: React.MouseEvent<SVGPathElement>) => {
         return (event.target as SVGPathElement).getAttribute("name") || "";
+    };
+
+    const getLocationId = (event: React.MouseEvent<SVGPathElement>) => {
+        return (event.target as SVGPathElement).getAttribute("id") || "";
     };
 
     const handleLocationMouseOver = (event: React.MouseEvent<SVGPathElement>) => {
@@ -39,6 +51,35 @@ const Statistics = () => {
             left: event.clientX - 100,
         });
     };
+
+    const parseStatData = (stat: IStat[], applicationType: ApplicationTypeChoice): Record<'total' | ApplicationSubmitAsChoice, number> => {
+        const total = stat?.reduce((acc, curr) => acc + curr[`${applicationType}_count`], 0);
+        const student = stat?.find(el => el?.submit_as === ApplicationSubmitAsChoice.STUDENT);
+        const engineer = stat?.find(el => el?.submit_as === ApplicationSubmitAsChoice.PRACTICAL_ENGINEER);
+        const teacher = stat?.find(el => el?.submit_as === ApplicationSubmitAsChoice.PROFESSOR_TEACHER);
+
+        return {
+            total,
+            [ApplicationSubmitAsChoice.STUDENT]: student && student[`${applicationType}_count`] || 0,
+            [ApplicationSubmitAsChoice.PRACTICAL_ENGINEER]: engineer && engineer[`${applicationType}_count`] || 0,
+            [ApplicationSubmitAsChoice.PROFESSOR_TEACHER]: teacher && teacher[`${applicationType}_count`] || 0
+        }
+    }
+
+    useEffect(() => {
+        if ((selectedLocation !== currentLocationRef.current && !isRepublic) || (isRepublic && !!currentLocationRef.current)) {
+            (async () => {
+                await getStat({ id: !isRepublic ? selectedLocation : '' });
+                if (!isRepublic) {
+                    currentLocationRef.current = selectedLocation;
+                } else {
+                    currentLocationRef.current = ''
+                }
+            })()
+        }
+    }, [selectedLocation, getStat, isRepublic])
+
+    const regionName = Uzbekistan.locations.find(loc => loc.id === selectedLocation)?.name;
 
     return (
         <Flex vertical className="statistics" id="stats">
@@ -61,52 +102,56 @@ const Statistics = () => {
                         onLocationMouseOver={handleLocationMouseOver}
                         onLocationMouseOut={handleLocationMouseOut}
                         onLocationMouseMove={handleLocationMouseMove}
-                        onLocationClick={(e) => setSelectedLocation(getLocationName(e))}
+                        onLocationClick={(e) => setSelectedLocation(getLocationId(e))}
                     />
                     <div className="region_map__tooltip" style={tooltipStyle}>
                         <h3>{pointedLocation.name}</h3>
                     </div>
                     <Flex vertical gap={24} className="stat-board">
                         <Flex gap={12} align="center" justify="space-between" wrap>
-                            <Typography.Title level={2} style={{ margin: 0 }} className="selected-location">{selectedLocation}</Typography.Title>
+                            <Typography.Title level={2} style={{ margin: 0 }} className="selected-location">{isRepublic ? "Respublika miqyosidagi statistika" : regionName}</Typography.Title>
                             <Flex gap={12} align="center">
-                                <Typography.Text>Respublika bo’yicha</Typography.Text>
-                                <Switch />
+                                <Typography.Text>Respublika miqyosida</Typography.Text>
+                                <Switch onClick={() => setIsRepublic(prev => !prev)} value={isRepublic} />
                             </Flex>
-                        </Flex>
-                        <Flex vertical gap={8}>
-                            <Typography.Text>Oliy ta’lim muassasasini tanlang</Typography.Text>
-                            <Select placeholder={`${selectedLocation}dan oliy ta’lim muassasini tanlang`} />
                         </Flex>
                         <Flex gap={17} wrap>
                             {
-                                [
-                                    { title: `"Eng yaxshi g’oya" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
-                                    { title: `"Eng yaxshi loyiha" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
-                                    { title: `"Eng yaxshi ixtiro" uchun arizalar soni`, total: 0, students: 0, engineers: 0, teachers: 0 },
-                                ].map((elem, index) => (
-                                    <Flex vertical gap={24} key={index} className="stat-item">
-                                        <Flex vertical gap={12}>
-                                            <Typography.Title level={4} className="stat-total">{elem.title}</Typography.Title>
-                                            <Typography.Text className="total-num title-text">{elem.total}</Typography.Text>
+                                data && !isFetching ? (
+                                    [
+                                        { title: `"Eng yaxshi g’oya" uchun arizalar soni`, ...parseStatData(data, ApplicationTypeChoice.Idea) },
+                                        { title: `"Eng yaxshi loyiha" uchun arizalar soni`, ...parseStatData(data, ApplicationTypeChoice.Project) },
+                                        { title: `"Eng yaxshi ixtiro" uchun arizalar soni`, ...parseStatData(data, ApplicationTypeChoice.Invention) },
+                                    ].map((elem, index) => (
+                                        <Flex vertical gap={24} key={index} className="stat-item">
+                                            <Flex vertical gap={12}>
+                                                <Typography.Title level={4} className="stat-total">{elem.title}</Typography.Title>
+                                                <Typography.Text className="total-num title-text">{elem.total}</Typography.Text>
+                                            </Flex>
+                                            <Divider style={{ margin: 0 }} />
+                                            <Flex vertical gap={12}>
+                                                <Typography.Title level={5} className="stat-students">Talabalar</Typography.Title>
+                                                <Typography.Text className="students-num stat-num title-text">{elem[ApplicationSubmitAsChoice.STUDENT]}</Typography.Text>
+                                            </Flex>
+                                            <Divider style={{ margin: 0 }} />
+                                            <Flex vertical gap={12}>
+                                                <Typography.Title level={5} className="stat-engineers">Amaliyotchi muhandislar</Typography.Title>
+                                                <Typography.Text className="engineers-num stat-num title-text">{elem[ApplicationSubmitAsChoice.PRACTICAL_ENGINEER]}</Typography.Text>
+                                            </Flex>
+                                            <Divider style={{ margin: 0 }} />
+                                            <Flex vertical gap={12}>
+                                                <Typography.Title level={5} className="stat-teachers">Professor-o‘qituvchilar</Typography.Title>
+                                                <Typography.Text className="teachers-num stat-num title-text">{elem[ApplicationSubmitAsChoice.PROFESSOR_TEACHER]}</Typography.Text>
+                                            </Flex>
                                         </Flex>
-                                        <Divider style={{ margin: 0 }} />
-                                        <Flex vertical gap={12}>
-                                            <Typography.Title level={5} className="stat-students">Talabalar</Typography.Title>
-                                            <Typography.Text className="students-num stat-num title-text">{elem.students}</Typography.Text>
-                                        </Flex>
-                                        <Divider style={{ margin: 0 }} />
-                                        <Flex vertical gap={12}>
-                                            <Typography.Title level={5} className="stat-engineers">Amaliyotchi muhandislar</Typography.Title>
-                                            <Typography.Text className="engineers-num stat-num title-text">{elem.engineers}</Typography.Text>
-                                        </Flex>
-                                        <Divider style={{ margin: 0 }} />
-                                        <Flex vertical gap={12}>
-                                            <Typography.Title level={5} className="stat-teachers">Professor-o‘qituvchilar</Typography.Title>
-                                            <Typography.Text className="teachers-num stat-num title-text">{elem.teachers}</Typography.Text>
-                                        </Flex>
-                                    </Flex>
-                                ))
+                                    ))
+                                ) : (
+                                    <>
+                                        <CardSkeleton className="stat-item" />
+                                        <CardSkeleton className="stat-item" />
+                                        <CardSkeleton className="stat-item" />
+                                    </>
+                                )
                             }
                         </Flex>
                     </Flex>

@@ -1,4 +1,8 @@
-import { ApplicationTypeChoice, ExampleFileFieldNameChoices } from "../types";
+import {
+  ApplicationSubmitAsChoice,
+  ApplicationTypeChoice,
+  ExampleFileFieldNameChoices,
+} from "../types";
 
 export interface IAdmission {
   id: number;
@@ -21,4 +25,19 @@ export interface IExampleFile {
   for_idea: boolean;
   for_project: boolean;
   for_invention: boolean;
+}
+
+export interface IMipRegion {
+  id: number;
+  code: string;
+  name_uz: string;
+  name_en: string;
+  name_ru: string;
+}
+
+export interface IStat {
+  submit_as: ApplicationSubmitAsChoice;
+  idea_count: number;
+  project_count: number;
+  invention_count: number;
 }
