@@ -1,7 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons"
 import { Button, Card, Empty, Flex, message, Tag, Typography } from "antd"
 import moment from "moment"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { ArchiveIcon, CurrentApplicationsIcon, EditIcon, EmptyIcon } from "../../../assets/icons"
@@ -14,6 +14,7 @@ const ViewApplicationsPage = () => {
     const { data: applicationsData, isLoading } = useGetApplicationListQuery();
     const { currentAdmission, profile } = useSelector((store: RootState) => store.user);
     const [isCurrent, setIsCurrent] = useState(true);
+    const isMessageSeen = useRef(false);
 
     const hasPermissionToCreate = !(applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id)) && profile && moment().diff(profile?.birth_date, "years") <= 40;
 
@@ -23,8 +24,9 @@ const ViewApplicationsPage = () => {
     );
 
     if (!hasPermissionToCreate) {
-        if (profile && moment().diff(profile?.birth_date, "years") > 40) {
+        if (!isMessageSeen.current && profile && moment().diff(profile?.birth_date, "years") > 40) {
             message.warning("Ariza yaratish uchun chegara 40 yoshgacha etib belgilangan");
+            isMessageSeen.current = true;
         }
     }
 
