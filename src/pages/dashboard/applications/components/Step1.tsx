@@ -87,7 +87,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                     currentMilitaryData && (
                         <Flex gap={12}>
                             <Switch value={fromMilitary} onClick={() => setFromMilitary(prev => !prev)} />
-                            <Typography.Text>Harbiy ma'lumoti bo'yicha topshirish</Typography.Text>
+                            <Typography.Text>Harbiy ma'lumoti bo'yicha yuborish</Typography.Text>
                         </Flex>
                     )
                 }

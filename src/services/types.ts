@@ -114,6 +114,6 @@ export const getErrorMessage = (text: string): string => {
   if (text.includes("need to select a workplace"))
     return "Siz ish joyini tanlashingiz kerak";
   if (text.includes("Max age"))
-    return "Ariza topshirish uchun chegara 40 yoshgacha etib belgilangan";
+    return "Ariza yuborish uchun chegara 40 yoshgacha etib belgilangan";
   return text;
 };
