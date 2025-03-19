@@ -96,7 +96,7 @@ const MilitaryCard = () => {
                     removable={false}
                     ref={uploadRef}
                 />
-                <Button type="primary" style={{ marginLeft: 'auto' }} onClick={handleSubmit} icon={<PlusOutlined />}>Yuborish</Button>
+                <Button type="primary" style={{ marginLeft: 'auto' }} onClick={handleSubmit} icon={<PlusOutlined />}>Saqlash</Button>
             </Flex>
         </Card >
     )
