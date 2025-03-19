@@ -74,7 +74,7 @@ const Navbar = () => {
                                 {/* <Button variant="outlined" icon={<ProfileExpandIcon />} /> */}
                             </Flex>
                         </Card>
-                        <Flex vertical gap={24} justify='space-between' className='navbar-main-wrapper'>
+                        <Flex vertical gap={36} justify='space-between' className='navbar-main-wrapper'>
                             <Flex vertical gap={40} className='navbar-main-container'>
                                 <Flex vertical gap={12} className="navbar-links">
                                     {
@@ -92,7 +92,7 @@ const Navbar = () => {
                                 </Flex>
                                 <CompleteStatus />
                             </Flex>
-                            <Flex vertical gap={12}>
+                            <Flex vertical gap={24}>
                                 <ContactInfo />
                                 <Button
                                     className='logout-btn'
