@@ -470,6 +470,25 @@
               border-radius: 24px;
               @include info_text();
             }
+
+            .military-card {
+              container-type: inline-size;
+              border-radius: 24px;
+              @include info_text();
+
+              .ant-select {
+                min-height: 48px;
+                span {
+                  color: #2c324a;
+                }
+              }
+
+              .ant-btn {
+                span {
+                  color: #fff;
+                }
+              }
+            }
           }
         }
       }

@@ -4,6 +4,8 @@ import {
   IApplication,
   IBasicApplication,
   IMessage,
+  IMilitary,
+  IMilitaryInfo,
   IStudent,
   IWorkplace,
 } from "./types";
@@ -104,6 +106,32 @@ export const applicantApi = baseApi.injectEndpoints({
       query: (body) => `/applicant/application/${body.id}/sent/`,
       invalidatesTags: ["Applications"],
     }),
+
+    getMilitary: build.query<IMilitaryInfo[], void>({
+      query: () => "/applicant/military",
+      providesTags: ["Applications"],
+    }),
+
+    postMilitary: build.mutation<IMilitary, FormData>({
+      query: (body) => ({
+        url: "/applicant/military/",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Applications"],
+    }),
+
+    patchMilitary: build.mutation<
+      IMilitary,
+      { id: IMilitary["id"]; formData: FormData }
+    >({
+      query: ({ id, formData }) => ({
+        url: `/applicant/military/${id}`,
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Applications"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -122,4 +150,7 @@ export const {
   useEditApplicationMutation,
   useEditApplicationWithFormDataMutation,
   useSendApplicationMutation,
+  usePostMilitaryMutation,
+  usePatchMilitaryMutation,
+  useGetMilitaryQuery,
 } = applicantApi;

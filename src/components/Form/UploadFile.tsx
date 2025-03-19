@@ -1,22 +1,38 @@
 import { Button, Flex, Typography, Upload } from 'antd';
-import { FC } from 'react';
-import { DeleteIcon, DownloadFileIcon, UploadFileIcon } from '../../../../assets/icons';
-import { ExampleFileFieldNameChoices } from '../../../../services/types';
-import { IFile } from './Step2';
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import { DeleteIcon, DownloadFileIcon, UploadFileIcon } from '../../assets/icons';
+import { IFile } from '../../pages/dashboard/applications/components/Step2';
+import './UploadFile.scss';
 
 export interface IUploadFileProps {
-    id: ExampleFileFieldNameChoices;
+    id: string;
     title: string;
     uploadLabel: string;
     templateUrl?: string;
     fileUrl?: string;
+    optimistic?: boolean;
+    removable?: boolean;
     handleSubmit: (id: string, file: IFile) => Promise<void>
 }
 
-const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl = "", fileUrl = "", handleSubmit }) => {
+export interface UploadFileRef {
+    resetFile: () => void;
+}
+
+
+const UploadFile = forwardRef<UploadFileRef, IUploadFileProps>(({ id, title, uploadLabel, templateUrl = "", fileUrl = "", optimistic = false, removable = true, handleSubmit }, ref) => {
+    const [file, setFile] = useState<IFile | null>();
+
     const handleUpload = async (file: IFile) => {
+        setFile(file);
         await handleSubmit(id, file);
     }
+
+    useImperativeHandle(ref, () => ({
+        resetFile: () => {
+            setFile(null);
+        },
+    }));
 
     return (
         <Flex gap={8} align='stretch' className='upload-file'>
@@ -29,10 +45,18 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
                     </a>
                 )}
                 {
-                    fileUrl && (
+                    (fileUrl || optimistic) && (
                         <Flex gap={4}>
-                            <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
-                            <Button variant='filled' color='red' icon={<DeleteIcon />} onClick={() => handleUpload(null)} />
+                            {file && optimistic ? (
+                                <Typography.Text>{file?.name}</Typography.Text>
+                            ) : fileUrl && (
+                                <a className='file-url' href={fileUrl} target='_blank'>{fileUrl.split('/')[fileUrl.split('/').length - 1]}</a>
+                            )}
+                            {
+                                fileUrl && removable && (
+                                    <Button variant='filled' color='red' icon={<DeleteIcon />} onClick={() => handleUpload(null)} />
+                                )
+                            }
                         </Flex>
                     )
                 }
@@ -54,6 +78,6 @@ const UploadFile: FC<IUploadFileProps> = ({ id, title, uploadLabel, templateUrl 
             </Flex>
         </Flex>
     )
-}
+})
 
 export default UploadFile

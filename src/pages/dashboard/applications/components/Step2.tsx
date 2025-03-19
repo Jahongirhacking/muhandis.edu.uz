@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ContinueIcon, SuccessIcon } from "../../../../assets/icons";
+import UploadFile, { IUploadFileProps } from "../../../../components/Form/UploadFile";
 import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useSendApplicationMutation } from "../../../../services/applicant";
 import { useGetExampleFilesQuery } from "../../../../services/classifier";
 import { ApplicationTypeChoice, ExampleFileFieldNameChoices, getErrorMessage } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
 import { SearchParams } from "../../../../utils/config";
-import UploadFile, { IUploadFileProps } from "./UploadFile";
 
 export type IFile = File | null;
 
@@ -51,7 +51,7 @@ const Step2 = () => {
     const handleSubmit = async () => {
         try {
             if (currentApplication?.id) {
-                const isEligible = requiredUploadFiles.reduce((acc, curr) => acc && !!currentApplication[curr.id], true);
+                const isEligible = requiredUploadFiles.reduce((acc, curr) => acc && !!currentApplication[curr.id as ExampleFileFieldNameChoices], true);
                 if (!isEligible) {
                     message.error("Barcha majburiy fayllarni yuklashingiz shart!");
                     return;
@@ -171,7 +171,7 @@ const Step2 = () => {
                                 key={file.id}
                                 {...file}
                                 templateUrl={exampleFilesData.find(el => el?.field_name === file?.id && el?.file_type === currentApplication?.application_type)?.file || ''}
-                                fileUrl={currentApplication[file?.id] || ''}
+                                fileUrl={currentApplication[file?.id as ExampleFileFieldNameChoices] || ''}
                                 handleSubmit={handleUploadFile}
                             />
                         ))
@@ -181,13 +181,13 @@ const Step2 = () => {
 
             <Flex vertical gap={24}>
                 <Divider orientation="left" style={{ margin: 0 }}>Qo‘shimcha materiallar va yuklanadigan hujjatlar</Divider>
-                <Flex gap={24} wrap className="required-files">
+                <Flex gap={24} wrap className="extra-files">
                     {
                         optionalUploadFiles.map(file => (
                             <UploadFile
                                 key={file.id}
                                 {...file}
-                                fileUrl={currentApplication[file?.id] || ''}
+                                fileUrl={currentApplication[file?.id as ExampleFileFieldNameChoices] || ''}
                                 handleSubmit={handleUploadFile}
                             />
                         ))

@@ -1,0 +1,121 @@
+.upload-file {
+  width: 100%;
+  min-width: calc(50% - 25px);
+  max-width: calc(50% - 25px);
+  flex-wrap: wrap;
+
+  & > * {
+    background-color: #f8f9fb;
+    border-radius: 16px;
+
+    @container (max-width: 350px) {
+      min-width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  .upload-container {
+    padding: 24px;
+    text-align: left;
+    width: calc(100% - 130px);
+    min-width: 200px;
+    overflow: hidden;
+
+    // &.only-item {
+    //   width: 100%;
+    // }
+
+    &:has(.file-url) {
+      background-color: rgb(231, 255, 228);
+
+      & + .download {
+        background-color: rgb(231, 255, 228);
+      }
+    }
+
+    * {
+      height: auto;
+      text-align: left;
+    }
+
+    a,
+    a > span:not(.ant-btn-icon) {
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .upload-title {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.2px;
+      color: #2c324a;
+
+      @container (max-width: 500px) {
+        font-size: 16px;
+        line-height: 22px;
+      }
+    }
+
+    .template-file {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      @container (max-width: 500px) {
+        font-size: 14px;
+      }
+    }
+
+    a {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      text-decoration: underline;
+      text-decoration-style: solid;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    @container (max-width: 500px) {
+      padding: 10px;
+    }
+  }
+
+  .download {
+    padding: 8px;
+    max-width: 120px;
+    min-width: 80px;
+
+    strong {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.2px;
+    }
+
+    .ant-upload {
+      width: 100%;
+
+      button {
+        min-height: 32px;
+        width: 100%;
+        background-color: #ffec41;
+        border: none;
+        border-radius: 119px;
+
+        &:hover {
+          background-color: #ffec41c5;
+        }
+      }
+    }
+  }
+
+  @container (max-width: 750px) {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}

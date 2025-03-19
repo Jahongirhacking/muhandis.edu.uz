@@ -1,5 +1,13 @@
 import { baseApi } from "../api";
-import { IAdmission, IExampleFile, IMipRegion, IStat } from "./types";
+import { IUniversity } from "../applicant/types";
+import {
+  IAdmission,
+  IExampleFile,
+  IMipRegion,
+  ISearchQuery,
+  ISearchResult,
+  IStat,
+} from "./types";
 export const classifierApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAdmission: build.query<IAdmission[], void>({
@@ -24,6 +32,16 @@ export const classifierApi = baseApi.injectEndpoints({
           : {},
       }),
     }),
+
+    getUniversityList: build.query<
+      ISearchResult<IUniversity>,
+      ISearchQuery | Pick<IUniversity, "is_military">
+    >({
+      query: (params) => ({
+        url: "/classifier/university/",
+        params,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -34,4 +52,5 @@ export const {
   useGetExampleFilesQuery,
   useGetMipRegionsQuery,
   useLazyGetRegionStatQuery,
+  useGetUniversityListQuery,
 } = classifierApi;

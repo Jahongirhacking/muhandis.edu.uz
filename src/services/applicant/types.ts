@@ -5,17 +5,20 @@ import {
 } from "../types";
 import { IUser } from "../user/types";
 
+export interface IUniversity {
+  id: number;
+  code: string;
+  name_uz: string;
+  name_en: string;
+  name_ru: string;
+  is_military: boolean;
+  region: number;
+}
+
 export interface IStudent {
   id: number;
   admission: number;
-  university: {
-    id: number;
-    code: string;
-    name_uz: string;
-    name_en: string;
-    name_ru: string;
-    region: number;
-  };
+  university: IUniversity;
   faculty: string;
   speciality: string;
   education_type: string;
@@ -75,6 +78,7 @@ export interface IApplication {
   expert_conclusion_file: string | null;
   indicator_metric_file: string | null;
   foreign_passport_file: string | null;
+  from_military: boolean;
 }
 
 export type IBasicApplication = Pick<
@@ -89,3 +93,15 @@ export type IBasicApplication = Pick<
   | "short_description"
   | "problem_and_solution"
 >;
+
+export interface IMilitary {
+  id: number;
+  user: number;
+  admission: number;
+  university: number;
+  source_file: string;
+}
+
+export interface IMilitaryInfo extends Omit<IMilitary, "user" | "university"> {
+  university: IUniversity;
+}

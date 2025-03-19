@@ -1,10 +1,10 @@
-import { Button, Divider, Flex, Form, Input, message, Radio, Typography } from "antd";
+import { Button, Divider, Flex, Form, Input, message, Radio, Switch, Typography } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ContinueIcon } from "../../../../assets/icons";
 import { roles, specialities } from "../../../../assets/objects";
 import { ControlledFlowContext } from "../../../../components/ControlledFlow";
-import { useCreateApplicationMutation, useEditApplicationMutation, useGetApplicationListQuery, useGetStudentListQuery } from "../../../../services/applicant";
+import { useCreateApplicationMutation, useEditApplicationMutation, useGetApplicationListQuery, useGetMilitaryQuery, useGetStudentListQuery } from "../../../../services/applicant";
 import { ApplicationSubmitAsChoice, ApplicationTypeChoice, getErrorMessage } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
 
@@ -18,6 +18,9 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
     const [createApplication] = useCreateApplicationMutation();
     const [editApplication] = useEditApplicationMutation();
     const { data: applicationsData } = useGetApplicationListQuery();
+    const [fromMilitary, setFromMilitary] = useState(false);
+    const { data: militaryData } = useGetMilitaryQuery();
+    const currentMilitaryData = militaryData && militaryData[0];
     const UNKNOWN_TEXT = "Sizning ma'lumotlaringiz HEMIS axborot tizimida mavjud emas";
 
     const currentApplication = applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id);
@@ -29,6 +32,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
         if (currentApplication) {
             setSelectedRole(currentApplication.submit_as);
             setSelectedSpeciality(currentApplication.application_type);
+            setFromMilitary(currentApplication?.from_military);
             form.setFieldsValue({
                 name: currentApplication.name,
                 category: currentApplication.category,
@@ -46,7 +50,8 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                     submit_as: selectedRole,
                     application_type: selectedSpeciality,
                     admission: currentAdmission?.id,
-                    user: profile?.id
+                    user: profile?.id,
+                    from_military: fromMilitary
                 }
                 if (!editable) {
                     await createApplication(data).unwrap();
@@ -78,6 +83,14 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
             className="step-1"
         >
             <Flex vertical gap={32}>
+                {
+                    currentMilitaryData && (
+                        <Flex gap={12}>
+                            <Switch value={fromMilitary} onClick={() => setFromMilitary(prev => !prev)} />
+                            <Typography.Text>Harbiy ma'lumoti bo'yicha topshirish</Typography.Text>
+                        </Flex>
+                    )
+                }
                 <Flex gap={24} wrap>
                     {
                         roles.map(role => {
@@ -88,8 +101,8 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                     : currentWorkplace?.organization || UNKNOWN_TEXT
 
                             return (
-                                <Flex key={role.value} className="select-role" align="flex-start" gap={8} onClick={() => roleInfo !== UNKNOWN_TEXT && setSelectedRole(role.value)}>
-                                    <Radio checked={selectedRole === role.value} disabled={roleInfo === UNKNOWN_TEXT} />
+                                <Flex key={role.value} className="select-role" align="flex-start" gap={8} onClick={() => (roleInfo !== UNKNOWN_TEXT || fromMilitary) && setSelectedRole(role.value)}>
+                                    <Radio checked={selectedRole === role.value} disabled={roleInfo === UNKNOWN_TEXT && !fromMilitary} />
                                     <Flex vertical gap={6}>
                                         <Typography.Text strong>{role.label}</Typography.Text>
                                         <Typography.Text>

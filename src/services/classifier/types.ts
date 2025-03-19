@@ -41,3 +41,15 @@ export interface IStat {
   project_count: number;
   invention_count: number;
 }
+
+export interface ISearchQuery {
+  limit?: number;
+  offset?: number;
+  q?: string;
+  region_id?: number;
+}
+
+export interface ISearchResult<T> {
+  count: number;
+  results: T[];
+}

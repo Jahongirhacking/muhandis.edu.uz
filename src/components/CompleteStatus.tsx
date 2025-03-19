@@ -5,18 +5,12 @@ import { RootState } from "../store/store";
 import { DrawerChildTypes, SearchParams } from "../utils/config";
 
 const CompleteStatus = () => {
-    const { profile, workplaceList } = useSelector((store: RootState) => store.user);
+    const { profile } = useSelector((store: RootState) => store.user);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const handleOpenContactDrawer = () => {
         const newParams = new URLSearchParams(searchParams);
         newParams.set(SearchParams.Drawer, DrawerChildTypes.RequiredContact);
-        setSearchParams(newParams);
-    }
-
-    const handleOpenWorkplaceDrawer = () => {
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set(SearchParams.Drawer, DrawerChildTypes.WorkplaceList);
         setSearchParams(newParams);
     }
 
@@ -33,12 +27,6 @@ const CompleteStatus = () => {
             label: "Elektron pochta",
             onClick: handleOpenContactDrawer,
         },
-        {
-            key: 'workplace',
-            value: workplaceList?.reduce((acc, curr) => !!(acc || curr?.is_selected), false),
-            label: "Asosiy mehnat ma’lumotini tanlang",
-            onClick: handleOpenWorkplaceDrawer,
-        }
     ];
 
     const validatedFieldsNumber = requiredFields.reduce((acc, curr) => acc + Number(curr.value), 0);
