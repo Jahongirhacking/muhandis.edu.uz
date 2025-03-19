@@ -5,6 +5,7 @@ import { useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { ArchiveIcon, CurrentApplicationsIcon, EditIcon, EmptyIcon } from "../../../assets/icons"
+import ContactInfo from "../../../components/Extra/Contact"
 import CardSkeleton from "../../../components/Skeletons/CardSkeleton"
 import { useGetApplicationListQuery } from "../../../services/applicant"
 import { ApplicationStatusChoice, getApplicationChoiceName, getApplicationStatusName } from "../../../services/types"
@@ -108,6 +109,7 @@ const ViewApplicationsPage = () => {
                     }
 
                 </Flex>
+                <ContactInfo />
             </Flex >
         </>
     )

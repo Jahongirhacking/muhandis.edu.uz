@@ -18,7 +18,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
     const [createApplication] = useCreateApplicationMutation();
     const [editApplication] = useEditApplicationMutation();
     const { data: applicationsData } = useGetApplicationListQuery();
-    const UNKNOWN_TEXT = "Topilmadi";
+    const UNKNOWN_TEXT = "Sizning ma'lumotlaringiz HEMIS axborot tizimida mavjud emas";
 
     const currentApplication = applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id);
 

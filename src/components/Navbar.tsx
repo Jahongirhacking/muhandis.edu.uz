@@ -7,6 +7,7 @@ import { logout } from '../store/slices/userSlice';
 import { RootState } from '../store/store';
 import { base64ToNormalImage } from '../utils/imageUtils';
 import CompleteStatus from './CompleteStatus';
+import ContactInfo from './Extra/Contact';
 import Logo from './Logo';
 
 interface INavbarItem {
@@ -91,14 +92,17 @@ const Navbar = () => {
                                 </Flex>
                                 <CompleteStatus />
                             </Flex>
-                            <Button
-                                className='logout-btn'
-                                type='default'
-                                icon={<LogoutIcon />}
-                                onClick={handleLogout}
-                            >
-                                Tizimdan chiqish
-                            </Button>
+                            <Flex vertical gap={12}>
+                                <ContactInfo />
+                                <Button
+                                    className='logout-btn'
+                                    type='default'
+                                    icon={<LogoutIcon />}
+                                    onClick={handleLogout}
+                                >
+                                    Tizimdan chiqish
+                                </Button>
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Flex>

@@ -23,6 +23,8 @@
     height: 100%;
 
     &.view-application {
+      padding-bottom: 60px;
+
       .ant-btn-primary {
         @container dashboard-content (max-width: 500px) {
           padding: 10px 12px !important;
@@ -148,6 +150,18 @@
 
         &:hover {
           background-color: #068fffc5;
+        }
+      }
+
+      .applications-container {
+        margin-bottom: 30px;
+      }
+
+      .contact-info {
+        display: none;
+
+        @media screen and (max-width: 800px) {
+          display: block;
         }
       }
     }
@@ -417,10 +431,6 @@
         border-radius: 16px;
         padding: 16px 24px;
       }
-    }
-
-    .applications-container {
-      padding-bottom: 60px;
     }
   }
 }
