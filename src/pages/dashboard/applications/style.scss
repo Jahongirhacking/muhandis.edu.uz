@@ -89,11 +89,23 @@
             gap: 4px;
             border: 1px solid #bae0ff;
             background-color: #eff8ff;
+            min-width: 0;
+
+            svg {
+              min-width: 18px;
+            }
+
+            span {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              display: block;
+            }
 
             * {
               color: #0062cc;
               fill: #0062cc;
-              font-size: 12px;
+              font-size: 14px;
               line-height: 18px;
             }
 
@@ -107,7 +119,7 @@
             }
 
             &.status-0 {
-              @include status_style(#363636, #2b2b2b, #ffffff);
+              @include status_style(#a70000, #860000, #ffffff);
             }
 
             &.status-1 {
