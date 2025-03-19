@@ -103,7 +103,10 @@ const Statistics = () => {
                         onLocationMouseOver={handleLocationMouseOver}
                         onLocationMouseOut={handleLocationMouseOut}
                         onLocationMouseMove={handleLocationMouseMove}
-                        onLocationClick={(e) => setSelectedLocation(getLocationId(e))}
+                        onLocationClick={(e) => {
+                            setSelectedLocation(getLocationId(e));
+                            setIsRepublic(false);
+                        }}
                     />
                     <div className="region_map__tooltip" style={tooltipStyle}>
                         <h3>{pointedLocation.name}</h3>
