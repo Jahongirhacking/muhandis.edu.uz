@@ -1,5 +1,6 @@
 import { Divider, Flex, Switch, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
+import CountUp from "react-countup";
 import Uzbekistan from '../../assets/map';
 import CardSkeleton from "../../components/Skeletons/CardSkeleton";
 import SVGMap from "../../components/SVGMap";
@@ -77,7 +78,7 @@ const Statistics = () => {
                 }
             })()
         }
-    }, [selectedLocation, getStat, isRepublic])
+    }, [selectedLocation, getStat, isRepublic]);
 
     const regionName = Uzbekistan.locations.find(loc => loc.id === selectedLocation)?.name;
 
@@ -126,22 +127,30 @@ const Statistics = () => {
                                         <Flex vertical gap={24} key={index} className="stat-item">
                                             <Flex vertical gap={12}>
                                                 <Typography.Title level={4} className="stat-total">{elem.title}</Typography.Title>
-                                                <Typography.Text className="total-num title-text">{elem.total}</Typography.Text>
+                                                <Typography.Text className="total-num title-text">
+                                                    <CountUp end={elem?.total as number} separator=" " />
+                                                </Typography.Text>
                                             </Flex>
                                             <Divider style={{ margin: 0 }} />
                                             <Flex vertical gap={12}>
                                                 <Typography.Title level={5} className="stat-students">Talabalar</Typography.Title>
-                                                <Typography.Text className="students-num stat-num title-text">{elem[ApplicationSubmitAsChoice.STUDENT]}</Typography.Text>
+                                                <Typography.Text className="students-num stat-num title-text">
+                                                    <CountUp end={elem[ApplicationSubmitAsChoice.STUDENT] as number} separator=" " />
+                                                </Typography.Text>
                                             </Flex>
                                             <Divider style={{ margin: 0 }} />
                                             <Flex vertical gap={12}>
                                                 <Typography.Title level={5} className="stat-engineers">Amaliyotchi muhandislar</Typography.Title>
-                                                <Typography.Text className="engineers-num stat-num title-text">{elem[ApplicationSubmitAsChoice.PRACTICAL_ENGINEER]}</Typography.Text>
+                                                <Typography.Text className="engineers-num stat-num title-text">
+                                                    <CountUp end={elem[ApplicationSubmitAsChoice.PRACTICAL_ENGINEER] as number} separator=" " />
+                                                </Typography.Text>
                                             </Flex>
                                             <Divider style={{ margin: 0 }} />
                                             <Flex vertical gap={12}>
                                                 <Typography.Title level={5} className="stat-teachers">Professor-o‘qituvchilar</Typography.Title>
-                                                <Typography.Text className="teachers-num stat-num title-text">{elem[ApplicationSubmitAsChoice.PROFESSOR_TEACHER]}</Typography.Text>
+                                                <Typography.Text className="teachers-num stat-num title-text">
+                                                    <CountUp end={elem[ApplicationSubmitAsChoice.PROFESSOR_TEACHER] as number} separator=" " />
+                                                </Typography.Text>
                                             </Flex>
                                         </Flex>
                                     ))
