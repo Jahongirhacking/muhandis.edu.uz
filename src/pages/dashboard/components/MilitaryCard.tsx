@@ -89,7 +89,7 @@ const MilitaryCard = () => {
                 <UploadFile
                     id="source_file"
                     uploadLabel="Fayl yuklang (PDF)"
-                    title="Harbiy muassasada o'qiyotganligingiz yoki mehnat olib borayotganingiz haqida ma'lumotnoma yuklang"
+                    title="Harbiy ta'lim muassasasida tahsil olayotganligingiz yoki mehnat faoliyatini olib borayotganligingiz to'g'risida ma'lumotnoma yuklang"
                     handleSubmit={handleFileChange}
                     fileUrl={currentMilitaryData?.source_file || ''}
                     optimistic
