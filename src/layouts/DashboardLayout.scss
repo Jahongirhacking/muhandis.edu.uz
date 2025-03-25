@@ -471,6 +471,11 @@
               @include info_text();
             }
 
+            .doctorate-card {
+              border-radius: 24px;
+              @include info_text();
+            }
+
             .military-card {
               container-type: inline-size;
               border-radius: 24px;

@@ -105,3 +105,15 @@ export interface IMilitary {
 export interface IMilitaryInfo extends Omit<IMilitary, "user" | "university"> {
   university: IUniversity;
 }
+
+export interface IDoctorate {
+  id: number;
+  admission: number;
+  organization_id: number;
+  organization_name: string;
+  course: number;
+  admission_year: number;
+  doctorate_type: string;
+  direction: string;
+  scientific_work_name: string;
+}

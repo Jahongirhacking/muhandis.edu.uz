@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
 import CustomDrawer from "../components/CustomDrawer"
 import Navbar from "../components/Navbar"
-import { useLazyGetWorkplaceListQuery } from "../services/applicant"
+import { useLazyGetDoctorateQuery, useLazyGetWorkplaceListQuery } from "../services/applicant"
 import { useLazyGetAdmissionQuery } from "../services/classifier"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { setPhoto } from "../store/slices/userSlice"
@@ -18,6 +18,7 @@ const DashboardLayout = () => {
     const [getPhoto] = useLazyGetPhotoQuery();
     const [getWorkplace] = useLazyGetWorkplaceListQuery();
     const [getAdmission] = useLazyGetAdmissionQuery();
+    const [getDoctorate] = useLazyGetDoctorateQuery();
     const hasFetched = useRef(false);
     const dispatch = useDispatch();
 
@@ -47,6 +48,11 @@ const DashboardLayout = () => {
     useEffect(() => {
         getAdmission();
     }, [getAdmission])
+
+
+    useEffect(() => {
+        getDoctorate();
+    }, [getDoctorate])
 
     return (
         <Flex vertical className="dashboard-layout">

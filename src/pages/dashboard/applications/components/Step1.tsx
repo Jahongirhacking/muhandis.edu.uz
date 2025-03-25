@@ -11,7 +11,7 @@ import { RootState } from "../../../../store/store";
 const Step1 = ({ editable = false }: { editable: boolean }) => {
     const [form] = Form.useForm();
     const context = useContext(ControlledFlowContext);
-    const { workplaceList, profile, currentAdmission } = useSelector((store: RootState) => store.user);
+    const { workplaceList, profile, currentAdmission, currentDoctorate } = useSelector((store: RootState) => store.user);
     const { data: studentData } = useGetStudentListQuery();
     const currentStudentData = studentData && studentData[0];
     const currentWorkplace = workplaceList.find(el => el?.is_selected);
@@ -98,7 +98,7 @@ const Step1 = ({ editable = false }: { editable: boolean }) => {
                                 ? (currentStudentData?.university.name_uz || currentStudentData?.university.name_ru || currentStudentData?.university.name_en || UNKNOWN_TEXT)
                                 : role.value === ApplicationSubmitAsChoice.PROFESSOR_TEACHER
                                     ? (currentWorkplace?.exists_in_hemis ? currentWorkplace?.organization : UNKNOWN_TEXT)
-                                    : currentWorkplace?.organization || UNKNOWN_TEXT
+                                    : currentWorkplace?.organization || currentDoctorate?.organization_name || UNKNOWN_TEXT
 
                             return (
                                 <Flex key={role.value} className="select-role" align="flex-start" gap={8} onClick={() => (roleInfo !== UNKNOWN_TEXT || fromMilitary) && setSelectedRole(role.value)}>

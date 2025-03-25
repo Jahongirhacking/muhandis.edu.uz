@@ -3,6 +3,7 @@ import { IUser } from "../user/types";
 import {
   IApplication,
   IBasicApplication,
+  IDoctorate,
   IMessage,
   IMilitary,
   IMilitaryInfo,
@@ -132,6 +133,16 @@ export const applicantApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Applications"],
     }),
+
+    getDoctorate: build.query<IDoctorate[], void>({
+      query: () => "/applicant/doctorate",
+      providesTags: ["Doctorate"],
+    }),
+
+    reloadDoctorate: build.mutation<IMessage, void>({
+      query: () => "/applicant/doctorate/reload",
+      invalidatesTags: ["Doctorate"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -153,4 +164,6 @@ export const {
   usePostMilitaryMutation,
   usePatchMilitaryMutation,
   useGetMilitaryQuery,
+  useLazyGetDoctorateQuery,
+  useReloadDoctorateMutation,
 } = applicantApi;

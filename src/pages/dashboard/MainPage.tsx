@@ -1,5 +1,6 @@
 import { Flex, Typography } from "antd"
 import CompleteStatus from "../../components/CompleteStatus"
+import DoctorateCard from "./components/DoctorateCard"
 import MilitaryCard from "./components/MilitaryCard"
 import ProfileCard from "./components/ProfileCard"
 import StudentList from "./components/StudentList"
@@ -14,6 +15,7 @@ const MainPage = () => {
                 <Flex vertical gap={24}>
                     <ProfileCard />
                     <StudentList />
+                    <DoctorateCard />
                 </Flex>
                 <Flex vertical gap={24}>
                     <WorkplaceList />
