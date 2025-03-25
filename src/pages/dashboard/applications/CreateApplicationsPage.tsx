@@ -18,7 +18,7 @@ const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) =>
                 <Link to={"/dashboard/applications"}>
                     <Button icon={<ReturnIcon />} variant="solid" shape="circle" />
                 </Link>
-                <Typography.Title level={2} style={{ margin: 0 }}>Ariza topshirish</Typography.Title>
+                <Typography.Title level={2} style={{ margin: 0 }}>Ariza yuborish</Typography.Title>
                 <Flex gap={16} align="center" style={{ marginLeft: 16 }} className="progress-container">
                     <Progress type="circle" size="small" percent={current / 2 * 100} />
                     <Flex vertical>

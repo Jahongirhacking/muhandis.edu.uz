@@ -340,6 +340,8 @@
         container-name: dashboard-content;
 
         .main-page {
+          padding-bottom: 60px;
+
           h2 {
             @container dashboard-content (max-width: 500px) {
               font-size: 19pt;
@@ -395,6 +397,14 @@
             & > * {
               flex: 1;
               min-width: min(100%, 300px);
+            }
+
+            .ant-card-bordered {
+              border: 1px solid #dbdbdb;
+
+              .ant-card-head {
+                border-bottom: 1px solid #dbdbdb;
+              }
             }
 
             .profile-card {

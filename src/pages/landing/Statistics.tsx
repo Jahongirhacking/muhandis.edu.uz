@@ -18,12 +18,12 @@ const Statistics = () => {
     const [pointedLocation, setPointedLocation] = useState<PointedLocation>({
         name: null
     });
-    const [isRepublic, setIsRepublic] = useState(false);
+    const [isRepublic, setIsRepublic] = useState(true);
     const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({
         display: "none",
     });
     const [selectedLocation, setSelectedLocation] = useState(DEFAULT_REGION_ID);
-    const currentLocationRef = useRef('');
+    const currentLocationRef = useRef(DEFAULT_REGION_ID);
     const [getStat, { data, isFetching }] = useLazyGetRegionStatQuery();
 
     const getLocationName = (event: React.MouseEvent<SVGPathElement>) => {

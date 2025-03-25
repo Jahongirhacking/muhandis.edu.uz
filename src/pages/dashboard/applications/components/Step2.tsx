@@ -62,7 +62,7 @@ const Step2 = () => {
         } catch (err) {
             const errObj = err as { data: { detail: string } };
             console.error(errObj);
-            message.error(`Ariza topshirishda xatolik. ${getErrorMessage(errObj?.data?.detail || "")}`);
+            message.error(`Ariza yuborishda xatolik. ${getErrorMessage(errObj?.data?.detail || "")}`);
         }
     }
 
@@ -153,7 +153,7 @@ const Step2 = () => {
             >
                 <Flex vertical align="center" gap={24}>
                     <SuccessIcon />
-                    <Typography.Title level={4} style={{ textAlign: 'center' }}>Arizangiz muvaffaqiyatli topshirildi!</Typography.Title>
+                    <Typography.Title level={4} style={{ textAlign: 'center' }}>Arizangiz muvaffaqiyatli yuborildi!</Typography.Title>
                     <Link to={APPLICATIONS_PAGE}>
                         <Button variant="solid" color="primary">
                             Arizalarim
@@ -202,7 +202,7 @@ const Step2 = () => {
                 className="continue-btn"
                 onClick={handleSubmit}
             >
-                Ariza topshirish
+                Ariza yuborish
             </Button>
         </Flex>
     )
