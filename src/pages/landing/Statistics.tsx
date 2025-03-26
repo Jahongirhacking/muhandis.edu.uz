@@ -133,7 +133,7 @@ const Statistics = () => {
                     <Flex vertical className="region_map__tooltip" style={tooltipStyle}>
                         <Typography.Title level={4}>{pointedLocation.name}</Typography.Title>
                         <Typography.Text className="total-number">
-                            <span>Jami yuborilgan arizalar soni: </span>
+                            <span>Jami arizalar soni: </span>
                             <strong>{calculateTotal(regionsStat[pointedLocation.id ?? ''])}</strong>
                         </Typography.Text>
                     </Flex>
@@ -141,7 +141,7 @@ const Statistics = () => {
                         <Flex vertical gap={12} align="flex-start" justify="space-between" wrap>
                             <Typography.Title level={2} style={{ margin: 0 }} className="selected-location">{isRepublic ? "Respublika miqyosidagi statistika" : regionName}</Typography.Title>
                             <Typography.Text className="total-number">
-                                <span>Jami yuborilgan arizalar soni: </span>
+                                <span>Jami arizalar soni: </span>
                                 <strong>{calculateTotal(data)}</strong>
                             </Typography.Text>
                             <Flex gap={12} align="center">
