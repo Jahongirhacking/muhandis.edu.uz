@@ -26,7 +26,7 @@ const Navbar = () => {
         {
             icon: <HomeIcon />,
             activeIcon: <HomeFilledIcon />,
-            title: 'Asosiy sahifa',
+            title: "Shaxsiy ma'lumotlar",
             href: '/dashboard/main',
         },
         {
