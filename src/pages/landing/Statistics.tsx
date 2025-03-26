@@ -1,7 +1,8 @@
 import { Divider, Flex, Switch, Typography } from "antd";
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
-import Uzbekistan from '../../assets/map';
+import Uzbekistan, { default as uzbekistanMap } from '../../assets/map';
 import CardSkeleton from "../../components/Skeletons/CardSkeleton";
 import SVGMap from "../../components/SVGMap";
 import { useLazyGetRegionStatQuery } from "../../services/classifier";
@@ -11,12 +12,14 @@ import { ApplicationSubmitAsChoice, ApplicationTypeChoice } from "../../services
 type PointedLocation = {
     name: null | string;
     count?: number;
+    id: null | string
 };
 
 const Statistics = () => {
     const DEFAULT_REGION_ID = '5';
     const [pointedLocation, setPointedLocation] = useState<PointedLocation>({
-        name: null
+        name: null,
+        id: null
     });
     const [isRepublic, setIsRepublic] = useState(true);
     const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({
@@ -25,6 +28,7 @@ const Statistics = () => {
     const [selectedLocation, setSelectedLocation] = useState(DEFAULT_REGION_ID);
     const currentLocationRef = useRef(DEFAULT_REGION_ID);
     const [getStat, { data, isFetching }] = useLazyGetRegionStatQuery();
+    const [regionsStat, setRegionsStat] = useState<{ [id: string]: IStat[] }>({});
 
     const getLocationName = (event: React.MouseEvent<SVGPathElement>) => {
         return (event.target as SVGPathElement).getAttribute("name") || "";
@@ -37,11 +41,12 @@ const Statistics = () => {
     const handleLocationMouseOver = (event: React.MouseEvent<SVGPathElement>) => {
         setPointedLocation({
             name: getLocationName(event),
+            id: getLocationId(event)
         });
     };
 
     const handleLocationMouseOut = () => {
-        setPointedLocation({ name: null });
+        setPointedLocation({ name: null, id: null });
         setTooltipStyle({ display: "none" });
     };
 
@@ -66,6 +71,23 @@ const Statistics = () => {
             [ApplicationSubmitAsChoice.PROFESSOR_TEACHER]: teacher && teacher[`${applicationType}_count`] || 0
         }
     }
+
+    const calculateTotal = (stat: IStat[] | undefined) => {
+        return stat?.length
+            ? stat.reduce((acc, curr) => acc + [ApplicationTypeChoice.Idea, ApplicationTypeChoice.Project, ApplicationTypeChoice.Invention].reduce((a, c) => a + curr[`${c}_count`], 0), 0)
+            : 0
+    }
+
+    useEffect(() => {
+        (async () => {
+            const promises = uzbekistanMap.locations.map(async (loc) => ({
+                id: loc.id,
+                data: (await axios.get(`https://muhandis.edu.uz/api/v1/home/stat?mip_region_id=${loc?.id}`))?.data
+            }));
+            const values = await Promise.all(promises);
+            setRegionsStat(values.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.data }), {}));
+        })();
+    }, [])
 
     useEffect(() => {
         if ((selectedLocation !== currentLocationRef.current && !isRepublic) || (isRepublic && !!currentLocationRef.current)) {
@@ -108,12 +130,20 @@ const Statistics = () => {
                             setIsRepublic(false);
                         }}
                     />
-                    <div className="region_map__tooltip" style={tooltipStyle}>
-                        <h3>{pointedLocation.name}</h3>
-                    </div>
+                    <Flex vertical className="region_map__tooltip" style={tooltipStyle}>
+                        <Typography.Title level={4}>{pointedLocation.name}</Typography.Title>
+                        <Typography.Text className="total-number">
+                            <span>Jami yuborilgan arizalar soni: </span>
+                            <strong>{calculateTotal(regionsStat[pointedLocation.id ?? ''])}</strong>
+                        </Typography.Text>
+                    </Flex>
                     <Flex vertical gap={24} className="stat-board">
-                        <Flex gap={12} align="center" justify="space-between" wrap>
+                        <Flex vertical gap={12} align="flex-start" justify="space-between" wrap>
                             <Typography.Title level={2} style={{ margin: 0 }} className="selected-location">{isRepublic ? "Respublika miqyosidagi statistika" : regionName}</Typography.Title>
+                            <Typography.Text className="total-number">
+                                <span>Jami yuborilgan arizalar soni: </span>
+                                <strong>{calculateTotal(data)}</strong>
+                            </Typography.Text>
                             <Flex gap={12} align="center">
                                 <Typography.Text>Respublika miqyosida</Typography.Text>
                                 <Switch onClick={() => setIsRepublic(prev => !prev)} value={isRepublic} />

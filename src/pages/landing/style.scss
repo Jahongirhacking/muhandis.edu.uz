@@ -1033,6 +1033,18 @@ $original_width: 1728;
     .stat-board {
       min-width: 300px;
 
+      .total-number {
+        font-size: 16pt;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #004c94;
+
+        strong {
+          font-size: 25pt;
+        }
+      }
+
       .selected-location {
         font-size: 36px;
         line-height: 100%;
@@ -1144,6 +1156,18 @@ $original_width: 1728;
       border: 1px solid darkgray;
       background-color: white;
       border-radius: 6px;
+      z-index: 2;
+
+      .total-number {
+        display: flex;
+        flex-direction: column;
+        font-size: 12pt;
+        color: #004c94 !important;
+
+        strong {
+          font-size: 16pt;
+        }
+      }
     }
 
     .map_title {
