@@ -3,9 +3,12 @@ import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typogra
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import ReactPlayer from "react-player";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import Logo from "../../components/Logo";
+import { RootState } from "../../store/store";
 import BallsScene from "./BallsScene";
 import Statistics from "./Statistics";
 import './style.scss';
@@ -15,7 +18,9 @@ const HomePage = () => {
     const [isCarActivated, setIsCarActivated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const token = useSelector((store: RootState) => store.user.token);
     const MAX_NAV_WIDTH = 1420;
+    const navigate = useNavigate();
 
     const { width, height } = useWindowSize();
 
@@ -28,6 +33,14 @@ const HomePage = () => {
         // { title: "Yangiliklar", href: '#news' },
         { title: "Nizom", target: "_blank", href: '/documents/final_rules.docx' },
     ];
+
+    const handleLogin = () => {
+        if (token) {
+            navigate('/auth/callback');
+        } else {
+            window.location.href = "https://muhandis.edu.uz/api/v1/auth/one-id/";
+        }
+    }
 
     useEffect(() => {
         if (width >= MAX_NAV_WIDTH) {
@@ -86,9 +99,9 @@ const HomePage = () => {
                             <Button
                                 type='primary'
                                 className="main-btn primary-btn"
-                                href="https://muhandis.edu.uz/api/v1/auth/one-id/"
+                                onClick={handleLogin}
                             >
-                                Ariza yuborish
+                                Kabinetga o'tish
                             </Button>
 
                             {

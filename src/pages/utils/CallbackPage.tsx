@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Role } from "../../services/types";
 import { login } from "../../store/slices/userSlice";
-import { localStorageNames } from "../../utils/storageUtils";
+import { getLocalStorage, localStorageNames } from "../../utils/storageUtils";
 
 const CallbackPage = () => {
-    const token = Cookies.get("token");
-    const role = Cookies.get('role') as Role;
+    const token = Cookies.get("token") || getLocalStorage(localStorageNames.token);
+    const role = (Cookies.get('role') || getLocalStorage(localStorageNames.role)) as Role;
     const dispatch = useDispatch();
     localStorage.removeItem(localStorageNames.photo);
 
