@@ -99,7 +99,7 @@ const Step2 = () => {
         },
         {
             id: ExampleFileFieldNameChoices.VIDEO_CLIP_FILE,
-            title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash.",
+            title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash. (Video hajmi 100MB gacha bo'lishi kerak)",
             uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
         },
         ...(currentApplication?.application_type === ApplicationTypeChoice.Project
