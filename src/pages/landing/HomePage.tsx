@@ -22,6 +22,7 @@ const HomePage = () => {
     const MAX_NAV_WIDTH = 1420;
     const navigate = useNavigate();
 
+
     const { width, height } = useWindowSize();
 
     const navbar = [
@@ -101,7 +102,9 @@ const HomePage = () => {
                                 className="main-btn primary-btn"
                                 onClick={handleLogin}
                             >
-                                Kabinetga o'tish
+                                {
+                                    token ? "Kabinetga o'tish" : "Ariza yuborish"
+                                }
                             </Button>
 
                             {
