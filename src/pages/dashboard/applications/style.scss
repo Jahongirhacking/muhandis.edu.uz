@@ -289,14 +289,19 @@
 
           span {
             padding: 0;
-            white-space: nowrap;
+            white-space: wrap;
             text-overflow: ellipsis;
             overflow: hidden;
             font-weight: 500;
             font-size: 20px;
             line-height: 24px;
             color: #2c324a;
-            min-width: min(500px, 100%);
+            min-width: min(640px, 100%);
+            text-align: left;
+
+            .attention {
+              color: #0050a5;
+            }
 
             @container dashboard-content (max-width: 500px) {
               font-size: 16px;

@@ -144,7 +144,7 @@ const Step2 = () => {
     }
 
     return (
-        <Flex className="step-2" vertical gap={40}>
+        <Flex className="step-2" vertical gap={70}>
             <Modal
                 open={isModalOpen}
                 closable
@@ -163,7 +163,7 @@ const Step2 = () => {
             </Modal>
 
             <Flex vertical gap={24}>
-                <Divider orientation="left" style={{ margin: 0 }}>Majburiy materiallar va yuklanadigan hujjatlar</Divider>
+                <Divider orientation="left" style={{ margin: 0 }}>Majburiy materiallar va yuklanadigan hujjatlar <span className="attention">(Majburiy)</span></Divider>
                 <Flex gap={24} wrap className="required-files">
                     {
                         requiredUploadFiles.map(file => (
@@ -180,7 +180,7 @@ const Step2 = () => {
             </Flex>
 
             <Flex vertical gap={24}>
-                <Divider orientation="left" style={{ margin: 0 }}>Qo‘shimcha materiallar va yuklanadigan hujjatlar</Divider>
+                <Divider orientation="left" style={{ margin: 0 }}>Qo‘shimcha materiallar va yuklanadigan hujjatlar <span className="attention">(Majburiy emas)</span></Divider>
                 <Flex gap={24} wrap className="extra-files">
                     {
                         optionalUploadFiles.map(file => (
