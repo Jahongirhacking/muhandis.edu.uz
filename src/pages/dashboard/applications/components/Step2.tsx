@@ -70,44 +70,44 @@ const Step2 = () => {
     const requiredUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [
         {
             id: ExampleFileFieldNameChoices.APPEAL_FILE,
-            title: "Ariza (PDF) formatida yuklash",
+            title: "Ariza (PDF) formatida yuklash. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.TABLE1_FILE,
-            title: "G‘oya muallifining ma’lumotnomasi to‘ldirilib, imzolangan holda. 1-jadval",
+            title: "G‘oya muallifining ma’lumotnomasi to‘ldirilib, imzolangan holda. 1-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.TABLE2_FILE,
-            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 2-jadval",
+            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 2-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.TABLE2_1_FILE,
-            title: "Zarur mablag‘lar jadvali to‘ldirilib, imzolangan holda. 2.1-jadval ",
+            title: "Zarur mablag‘lar jadvali to‘ldirilib, imzolangan holda. 2.1-jadval. Yuklanadigan faylning maksimal hajmi 10MB ",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.TABLE2_2_FILE,
-            title: "Zarur mablag‘lar asosnomasi to‘ldirilib, imzolangan holda. 2.2-jadval",
+            title: "Zarur mablag‘lar asosnomasi to‘ldirilib, imzolangan holda. 2.2-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.TABLE3_FILE,
-            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 3-jadval",
+            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 3-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
             id: ExampleFileFieldNameChoices.VIDEO_CLIP_FILE,
-            title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash. Video hajmi 100MB gacha bo'lishi kerak.",
+            title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash. Yuklanadigan faylning maksimal hajmi 100MB",
             uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
         },
         ...(currentApplication?.application_type === ApplicationTypeChoice.Project
             ? [
                 {
                     id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
-                    title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim",
+                    title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim. Yuklanadigan faylning maksimal hajmi 10MB",
                     uploadLabel: 'Faylni yuklang (PDF)',
                 },
             ]
@@ -115,7 +115,7 @@ const Step2 = () => {
         ),
         {
             id: ExampleFileFieldNameChoices.PRESENTATION_FILE,
-            title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar",
+            title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: 'Faylni yuklang (PDF yoki PowerPoint)',
         }
     ]
@@ -123,7 +123,7 @@ const Step2 = () => {
     const optionalUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [
         {
             id: ExampleFileFieldNameChoices.TECHNICAL_DOCUMENT_FILE,
-            title: "Texnik chizmalar, konseptual grafikalar, modellar, diagrammalar, illyustratsiyalar, guvohnomalar,",
+            title: "Texnik chizmalar, konseptual grafikalar, modellar, diagrammalar, illyustratsiyalar, guvohnomalar",
             uploadLabel: "Faylni yuklang (PDF)",
         },
         {
@@ -133,7 +133,7 @@ const Step2 = () => {
         },
         {
             id: ExampleFileFieldNameChoices.EXPERT_CONCLUSION_FILE,
-            title: " Ekspert xulosasi yoki fikr-mulohazalar",
+            title: "Ekspert xulosasi yoki fikr-mulohazalar",
             uploadLabel: "Faylni yuklang (PDF)",
         },
     ]
