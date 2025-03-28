@@ -28,6 +28,7 @@ const Step2 = () => {
         const newParams = new URLSearchParams(searchParams);
         newParams.set(SearchParams.Step, '2');
         setSearchParams(newParams);
+        document.querySelector(".dashboard-layout-content")?.scrollTo({ top: 0 });
     }, [searchParams, setSearchParams])
 
 

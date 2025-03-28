@@ -1,7 +1,7 @@
 import { Flex } from "antd"
 import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import CustomDrawer from "../components/CustomDrawer"
 import Navbar from "../components/Navbar"
 import { useLazyGetDoctorateQuery, useLazyGetWorkplaceListQuery } from "../services/applicant"
@@ -21,6 +21,14 @@ const DashboardLayout = () => {
     const [getDoctorate] = useLazyGetDoctorateQuery();
     const hasFetched = useRef(false);
     const dispatch = useDispatch();
+    const location = useLocation();
+    const contentRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    }, [location.pathname]); // Runs when the route changes
 
     useEffect(() => {
         if (!hasFetched.current) {
@@ -61,7 +69,7 @@ const DashboardLayout = () => {
                     <Navbar />
                 </Flex>
                 <Flex vertical className="dashboard-layout-content-wrapper">
-                    <Flex vertical className="dashboard-layout-content">
+                    <Flex vertical className="dashboard-layout-content" ref={contentRef}>
                         <Outlet />
                     </Flex>
                 </Flex>

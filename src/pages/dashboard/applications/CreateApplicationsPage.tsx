@@ -22,8 +22,20 @@ const CreateApplicationsPage = ({ editable = false }: { editable?: boolean }) =>
                 <Flex gap={16} align="center" style={{ marginLeft: 16 }} className="progress-container">
                     <Progress type="circle" size="small" percent={current / 2 * 100} />
                     <Flex vertical>
-                        <Typography.Text strong>Qadam 1</Typography.Text>
-                        <Typography.Text>Ariza ma’lumotlari</Typography.Text>
+                        {
+                            current === 0 ? (
+                                <>
+                                    <Typography.Text strong>Qadam 1</Typography.Text>
+                                    <Typography.Text>Ariza ma’lumotlari</Typography.Text>
+                                </>
+                            ) : (
+                                <>
+                                    <Typography.Text strong>Qadam 2</Typography.Text>
+                                    <Typography.Text>Asosiy materiallar va yuklanadigan hujjatlar</Typography.Text>
+                                </>
+                            )
+                        }
+
                     </Flex>
                 </Flex>
             </Flex>

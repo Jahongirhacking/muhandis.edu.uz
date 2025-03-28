@@ -1,5 +1,5 @@
-import { Result } from "antd"
-import { NotificationBigIcon } from "../../assets/icons"
+import { Result } from "antd";
+import { NotificationBigIcon } from "../../assets/icons";
 
 const NotificationsPage = () => {
     return (

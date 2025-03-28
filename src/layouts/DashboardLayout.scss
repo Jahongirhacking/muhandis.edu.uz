@@ -156,9 +156,11 @@
               background-color: transparent;
             }
 
-            span {
+            span:not(.ant-btn-icon) {
               text-overflow: ellipsis;
               white-space: nowrap;
+              overflow: hidden;
+              max-width: 30dvw;
             }
           }
         }
