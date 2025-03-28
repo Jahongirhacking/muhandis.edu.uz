@@ -8,7 +8,7 @@
     background-color: #f8f9fb;
     border-radius: 16px;
 
-    @container (max-width: 400px) {
+    @container (max-width: 330px) {
       min-width: 100% !important;
       max-width: 100% !important;
     }
@@ -118,5 +118,16 @@
   @container (max-width: 750px) {
     min-width: 100%;
     max-width: 100%;
+  }
+}
+
+.main-page {
+  .upload-file {
+    & > * {
+      @container (max-width: 400px) {
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
   }
 }
