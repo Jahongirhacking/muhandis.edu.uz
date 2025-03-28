@@ -1158,6 +1158,7 @@ $original_width: 1728;
       background-color: white;
       border-radius: 6px;
       z-index: 2;
+      pointer-events: none;
 
       .total-number {
         display: flex;
