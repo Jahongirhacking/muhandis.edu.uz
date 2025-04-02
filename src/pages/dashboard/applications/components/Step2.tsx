@@ -164,6 +164,14 @@ const Step2 = () => {
             </Modal>
 
             <Flex vertical gap={24}>
+                <Flex vertical gap={12} className="instruction">
+                    <Typography.Text strong>Ariza yuborish tartibi:</Typography.Text>
+                    <Flex gap={12} justify="space-between" wrap>
+                        <Typography.Text>1. Ariza yuborish uchun namuna fayllarini yuklab oling</Typography.Text>
+                        <Typography.Text>2. Namuna faylini so'ralgan ma'lumotlar bilan to'ldiring</Typography.Text>
+                        <Typography.Text>3. To'ldirilgan fayllarni tizimga yuklang</Typography.Text>
+                    </Flex>
+                </Flex>
                 <Divider orientation="left" style={{ margin: 0 }}>Majburiy materiallar va yuklanadigan hujjatlar <span className="attention">(Majburiy)</span></Divider>
                 <Flex gap={24} wrap className="required-files">
                     {
