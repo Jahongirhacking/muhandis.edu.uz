@@ -11,6 +11,23 @@ $original_width: 1728;
 }
 
 .home-page {
+  .ant-alert {
+    border: 0;
+    border-radius: 0;
+    background-color: #77002e75;
+    text-align: center;
+
+    .ant-typography {
+      color: #fff;
+
+      span {
+        color: #10f5ff;
+        font-size: 13pt;
+        font-weight: 500;
+      }
+    }
+  }
+
   .ant-float-btn {
     border: 1px solid #01112b;
     &-body {

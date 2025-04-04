@@ -1,13 +1,16 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import { Alert, Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
+import Countdown from "react-countdown";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useWindowSize } from "react-use";
 import { FacebookIcon, InstagramIcon, TelegramIcon } from "../../assets/icons";
 import Logo from "../../components/Logo";
+import { useLazyGetAdmissionQuery } from "../../services/classifier";
 import { RootState } from "../../store/store";
 import BallsScene from "./BallsScene";
 import Statistics from "./Statistics";
@@ -19,9 +22,9 @@ const HomePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const token = useSelector((store: RootState) => store.user.token);
+    const [getAdmission] = useLazyGetAdmissionQuery();
     const MAX_NAV_WIDTH = 1420;
     const navigate = useNavigate();
-
 
     const { width, height } = useWindowSize();
 
@@ -42,6 +45,26 @@ const HomePage = () => {
             window.location.href = "https://muhandis.edu.uz/api/v1/auth/one-id/";
         }
     }
+
+    const getTimeNumber = (val: number): string => {
+        return val > 9 ? String(val) : `0${val}`;
+    }
+
+    useEffect(() => {
+        getAdmission();
+    }, [getAdmission])
+
+    const renderer = ({ days, hours, minutes, seconds, completed }: { days: number, hours: number, minutes: number, seconds: number, completed: boolean }) => {
+        if (completed) {
+            // Render a completed state
+            return <Typography.Text>Ariza yuborish va tahrirlash yakunlangan</Typography.Text>;
+        } else {
+            // Render a countdown
+            return <Typography.Text>Ariza yuborish va tahrirlash yakunlanishiga <span className="remained-time">
+                {[[days, "kun"], [hours, "soat"], [minutes, "daqiqa"], [seconds, "soniya"]].filter(el => el[0] !== 0).map(el => `${getTimeNumber(Number(el[0]))} ${el[1]}`).join(" ")}
+            </span> qoldi</Typography.Text>;
+        }
+    };
 
     useEffect(() => {
         if (width >= MAX_NAV_WIDTH) {
@@ -85,7 +108,22 @@ const HomePage = () => {
             </Drawer>
 
             {/* Header section */}
-            <Flex className="header" justify="center" align="center">
+
+            {
+                moment().isBefore(moment("10.04.2025", "DD.MM.YYYY").endOf('day')) && (
+                    <Alert
+                        message={
+                            <Countdown
+                                date={moment("10.04.2025", "DD.MM.YYYY").endOf('day').toDate()}
+                                renderer={renderer}
+                            />
+                        }
+                        type="warning"
+                    />
+                )
+            }
+
+            <Flex vertical className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
                     <Logo />
                     <Flex gap={46} align="center">
@@ -125,12 +163,6 @@ const HomePage = () => {
             <Flex vertical className="video-container" id="home">
                 <BallsScene />
                 <Flex vertical gap={12} className="video-text-content padding-box">
-                    {/* <Flex vertical className="view-video-btn">
-                        <video autoPlay loop muted playsInline className="view-video-btn__background-video">
-                            <source src="/videos/bg-1.mp4" type="video/mp4" />
-                        </video>
-                        <Button icon={<CaretRightOutlined />} color="default" variant="filled">Promo videoni ko’rish</Button>
-                    </Flex> */}
                     <Typography.Title level={1} className="title-text" data-aos-offset="-500" style={{ margin: 0 }} data-aos="fade-up">
                         <span className="main-text">Muhandislik</span> yo‘nalishlari bo‘yicha respublika tanlovi
                     </Typography.Title>
