@@ -21,7 +21,7 @@ const HomePage = () => {
     const [isCarActivated, setIsCarActivated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const token = useSelector((store: RootState) => store.user.token);
+    const { token, currentAdmission } = useSelector((store: RootState) => store.user);
     const [getAdmission] = useLazyGetAdmissionQuery();
     const MAX_NAV_WIDTH = 1420;
     const navigate = useNavigate();
@@ -110,11 +110,11 @@ const HomePage = () => {
             {/* Header section */}
 
             {
-                moment().isBefore(moment("10.04.2025", "DD.MM.YYYY").endOf('day')) && (
+                moment().isBefore(moment(currentAdmission?.applicant_can_modify_until).endOf('day')) && (
                     <Alert
                         message={
                             <Countdown
-                                date={moment("10.04.2025", "DD.MM.YYYY").endOf('day').toDate()}
+                                date={moment(currentAdmission?.applicant_can_modify_until).endOf('day').toDate()}
                                 renderer={renderer}
                             />
                         }

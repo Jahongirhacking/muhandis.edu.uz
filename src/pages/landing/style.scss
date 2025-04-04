@@ -32,9 +32,17 @@ $original_width: 1728;
     @media screen and (max-width: 750px) {
       .ant-typography {
         font-size: 11pt;
-
         span {
           font-size: 12pt;
+        }
+      }
+    }
+
+    @media screen and (max-width: 450px) {
+      .ant-typography {
+        font-size: 9pt;
+        span {
+          font-size: 10pt;
         }
       }
     }
