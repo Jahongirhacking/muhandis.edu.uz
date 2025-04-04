@@ -81,7 +81,9 @@ const ViewApplicationsPage = () => {
                                                     moment().isBefore(moment(currentAdmission?.applicant_can_modify_until)) &&
                                                     isCurrent &&
                                                     (application?.status === ApplicationStatusChoice.CREATED ||
-                                                        application?.status === ApplicationStatusChoice.REJECTED) && (
+                                                        application?.status === ApplicationStatusChoice.REJECTED ||
+                                                        application?.status === ApplicationStatusChoice.SENT
+                                                    ) && (
                                                         <Flex gap={8} wrap>
                                                             <Link to={"/dashboard/applications/edit"}>
                                                                 <Button icon={<EditIcon />} variant="text" color="primary">Tahrirlash</Button>
