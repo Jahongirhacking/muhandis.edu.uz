@@ -14,16 +14,28 @@ $original_width: 1728;
   .ant-alert {
     border: 0;
     border-radius: 0;
-    background-color: #77002e75;
+    background-color: #00347775;
     text-align: center;
+    padding: 15px 12px;
 
     .ant-typography {
       color: #fff;
+      font-size: 13pt;
 
       span {
         color: #10f5ff;
-        font-size: 13pt;
+        font-size: 15pt;
         font-weight: 500;
+      }
+    }
+
+    @media screen and (max-width: 750px) {
+      .ant-typography {
+        font-size: 11pt;
+
+        span {
+          font-size: 12pt;
+        }
       }
     }
   }
