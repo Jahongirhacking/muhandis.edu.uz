@@ -7,7 +7,7 @@ const Logo = () => {
         <Link to={'/'}>
             <Flex className="logo main-logo" gap={8} align="center">
                 <LogoIcon />
-                <Typography.Title level={2} style={{ margin: 0 }}>Muhandis edu</Typography.Title>
+                <Typography.Title level={2} style={{ margin: 0 }}>Muhandis.edu.uz</Typography.Title>
             </Flex>
         </Link>
     )
