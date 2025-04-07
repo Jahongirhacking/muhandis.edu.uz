@@ -346,6 +346,7 @@
         scrollbar-gutter: stable;
         container-type: inline-size;
         container-name: dashboard-content;
+        z-index: 1;
 
         .main-page {
           padding-bottom: 60px;
