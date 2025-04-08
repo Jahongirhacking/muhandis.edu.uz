@@ -15,8 +15,8 @@ const CallbackPage = () => {
         dispatch(login({ token, role }))
         // student
         if (role === Role.Applicant) return <Navigate to={'/dashboard/main'} replace />
-        // inspector
-        if (role === Role.Inspector) return <Navigate to={'/admin'} replace />
+        // expert
+        if (role === Role.Expert) return <Navigate to={'/expert/applications'} replace />
         // ministry
         if (role === Role.Ministry) return <Navigate to={'/ministry'} replace />
     }

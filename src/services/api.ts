@@ -18,6 +18,12 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Applications", "Workplace", "Education", "Doctorate"],
+  tagTypes: [
+    "Applications",
+    "Workplace",
+    "Education",
+    "Doctorate",
+    "GlobalApplications",
+  ],
   endpoints: () => ({}), // Empty for now; endpoints will be added separately
 });

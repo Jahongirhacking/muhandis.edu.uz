@@ -1,4 +1,5 @@
 import {
+  ApplicationTypeChoice,
   Gender,
   InspectorRoleChoice,
   InspectorTypeChoice,
@@ -8,6 +9,7 @@ import {
 export interface IUser {
   id: number;
   role: Role;
+  check_type?: ApplicationTypeChoice;
   pinfl: string;
   document: string;
   first_name: string;

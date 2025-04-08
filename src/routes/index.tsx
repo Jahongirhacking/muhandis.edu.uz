@@ -3,8 +3,8 @@ import { Suspense } from "react"
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import TestComponent from "../components/TestComponent"
 import DashboardLayout from "../layouts/DashboardLayout"
+import ExpertLayout from "../layouts/ExpertLayout"
 import RootLayout from "../layouts/RootLayout"
-import AdminPage from "../pages/admin"
 import LoginPage from "../pages/auth/LoginPage"
 import RegisterPage from "../pages/auth/RegisterPage"
 import ApplicationsPage from "../pages/dashboard/applications"
@@ -12,6 +12,8 @@ import CreateApplicationsPage from "../pages/dashboard/applications/CreateApplic
 import ViewApplicationsPage from "../pages/dashboard/applications/ViewApplicationsPage"
 import MainPage from "../pages/dashboard/MainPage"
 import NotificationsPage from "../pages/dashboard/NotificationsPage"
+import ApplicationDetailsPage from "../pages/expert/ApplicationDetailsPage"
+import ExpertApplications from "../pages/expert/ExpertApplications"
 import HomePage from "../pages/landing/HomePage"
 import MinistryPage from "../pages/ministry"
 import CallbackPage from "../pages/utils/CallbackPage"
@@ -49,8 +51,12 @@ const privateRoutes: IRoute[] = [
         ]
     },
     {
-        path: "admin",
-        element: <AdminPage />
+        path: "expert",
+        element: <ExpertLayout />,
+        children: [
+            { path: 'applications', element: <ExpertApplications /> },
+            { path: 'applications/:id', element: <ApplicationDetailsPage /> }
+        ]
     },
     {
         path: 'ministry',

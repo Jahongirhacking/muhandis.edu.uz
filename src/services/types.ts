@@ -7,7 +7,7 @@ export interface Post {
 
 export enum Role {
   Applicant = "applicant",
-  Inspector = "inspector",
+  Expert = "expert",
   Ministry = "ministry",
 }
 
@@ -93,7 +93,9 @@ export const getApplicationStatusName = (value: ApplicationStatusChoice) => {
   }
 };
 
-export const getApplicationChoiceName = (value: ApplicationTypeChoice) => {
+export const getApplicationChoiceName = (
+  value: ApplicationTypeChoice | "none"
+) => {
   switch (value) {
     case ApplicationTypeChoice.Idea:
       return "G‘oya";
@@ -101,6 +103,8 @@ export const getApplicationChoiceName = (value: ApplicationTypeChoice) => {
       return "Loyiha";
     case ApplicationTypeChoice.Invention:
       return "Ixtiro";
+    default:
+      return "Topilmadi";
   }
 };
 
@@ -115,5 +119,21 @@ export const getErrorMessage = (text: string): string => {
     return "Siz ish joyini tanlashingiz kerak";
   if (text.includes("Max age"))
     return "Ariza yuborish uchun chegara 40 yoshgacha etib belgilangan";
+  if (text.includes("can send only created or rejected applications")) {
+    return "Siz faqat yaratilgan yoki rad etilgan arizalarni yubora olasiz";
+  }
   return text;
+};
+
+export const getRoleName = (role: ApplicationSubmitAsChoice) => {
+  switch (role) {
+    case ApplicationSubmitAsChoice.STUDENT:
+      return "Talaba";
+    case ApplicationSubmitAsChoice.PRACTICAL_ENGINEER:
+      return "Amaliyotchi muhandis";
+    case ApplicationSubmitAsChoice.PROFESSOR_TEACHER:
+      return "Professor-o‘qituvchi";
+    default:
+      return "Topilmadi";
+  }
 };
