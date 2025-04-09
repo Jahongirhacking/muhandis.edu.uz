@@ -5,7 +5,6 @@ import { Outlet, useLocation } from "react-router-dom"
 import CustomDrawer from "../components/CustomDrawer"
 import Navbar from "../components/Navbar"
 import { useLazyGetDoctorateQuery, useLazyGetWorkplaceListQuery } from "../services/applicant"
-import { useLazyGetAdmissionQuery } from "../services/classifier"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { setPhoto } from "../store/slices/userSlice"
 import { RootState } from "../store/store"
@@ -17,7 +16,6 @@ const DashboardLayout = () => {
     const [getMe] = useLazyGetMeQuery();
     const [getPhoto] = useLazyGetPhotoQuery();
     const [getWorkplace] = useLazyGetWorkplaceListQuery();
-    const [getAdmission] = useLazyGetAdmissionQuery();
     const [getDoctorate] = useLazyGetDoctorateQuery();
     const hasFetched = useRef(false);
     const dispatch = useDispatch();
@@ -52,10 +50,6 @@ const DashboardLayout = () => {
     useEffect(() => {
         getWorkplace();
     }, [getWorkplace])
-
-    useEffect(() => {
-        getAdmission();
-    }, [getAdmission])
 
 
     useEffect(() => {

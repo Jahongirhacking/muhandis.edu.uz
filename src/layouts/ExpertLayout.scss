@@ -27,9 +27,13 @@ body:has(.expert-layout) {
         height: 100%;
 
         .expert-navbar {
-          border-left: 1px solid #e4e4e4;
+          border-right: 1px solid #e4e4e4;
           background-color: #fff;
           padding: 18px 12px;
+          max-height: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          min-width: 240px;
 
           .ant-menu {
             border: none;
@@ -39,6 +43,7 @@ body:has(.expert-layout) {
 
             li {
               margin: 0;
+              user-select: none;
             }
           }
         }
@@ -47,6 +52,21 @@ body:has(.expert-layout) {
           width: 100%;
           padding: 24px 12px;
           container-type: inline-size;
+
+          .application-controls {
+            justify-content: right;
+
+            .ant-input-search {
+              flex: 1;
+              min-width: min(200px, 100%);
+              max-width: 500px;
+            }
+
+            .ant-select {
+              min-width: min(180px, 100%);
+              max-width: min(180px, 100%);
+            }
+          }
 
           .ant-table-wrapper {
             width: 100%;
@@ -68,6 +88,10 @@ body:has(.expert-layout) {
                 max-width: 80px;
                 min-width: 80px;
                 text-align: center;
+              }
+
+              .application_name {
+                min-width: 200px;
               }
             }
           }

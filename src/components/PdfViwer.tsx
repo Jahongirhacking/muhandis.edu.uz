@@ -1,12 +1,20 @@
-const PdfViewer = ({ fileUrl }: { fileUrl: string }) => {
+import { Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+
+const PdfViewer = ({ fileUrl }: { fileUrl: string | null | undefined }) => {
+    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
     return (
-        <iframe
-            src={`https://docs.google.com/gview?url=${fileUrl}&embedded=true`}
-            width="100%"
-            height="600px"
-            style={{ border: "none" }}
+        <Viewer
+            fileUrl={fileUrl || 'test.pdf'}
+            plugins={[defaultLayoutPluginInstance]}
+            defaultScale={1}
+            enableSmoothScroll
         />
-    )
+    );
 };
 
 export default PdfViewer;

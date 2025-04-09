@@ -8,6 +8,7 @@ import { getApplicationChoiceName } from "../services/types"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { logout, setPhoto } from "../store/slices/userSlice"
 import { RootState } from "../store/store"
+import { SearchParams } from "../utils/config"
 import { base64ToNormalImage } from "../utils/imageUtils"
 import { getLocalStorage, localStorageNames } from "../utils/storageUtils"
 import "./ExpertLayout.scss"
@@ -46,7 +47,7 @@ const ExpertLayout = () => {
         if (e.key === 'new') navigate('/expert/applications');
         else {
             const newParams = new URLSearchParams(searchParams);
-            newParams.set('status', e.key);
+            newParams.set(SearchParams.ApplicationStatus, e.key);
             navigate(`/expert/applications?${newParams.toString()}`);
         }
     }
@@ -68,12 +69,12 @@ const ExpertLayout = () => {
             <Flex className="expert-layout-main">
                 <Flex className="expert-navbar" vertical justify="space-between">
                     <Menu
-                        defaultSelectedKeys={[searchParams.get('status') || 'new']}
+                        defaultSelectedKeys={[searchParams.get(SearchParams.ApplicationStatus) || '1']}
                         onClick={handleChangeMenuKey}
                         items={[
-                            { key: 'new', label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
-                            { key: 'accepted', label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: 'green' }} /> },
-                            { key: 'rejected', label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
+                            { key: '1', label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
+                            { key: '2', label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: '#00d500' }} /> },
+                            { key: '10', label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
                         ]}
                     />
                     <Button variant="text" color="danger" icon={<LogoutOutlined />} onClick={() => dispatch(logout())}>Chiqish</Button>
