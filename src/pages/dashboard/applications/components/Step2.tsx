@@ -136,6 +136,11 @@ const Step2 = () => {
             title: "Ekspert xulosasi yoki fikr-mulohazalar",
             uploadLabel: "Faylni yuklang (PDF)",
         },
+        {
+            id: ExampleFileFieldNameChoices.INDICATOR_METRIC_FILE,
+            title: "Indikator ko'rsatkichini yuklang",
+            uploadLabel: "Faylni yuklang (PDF)"
+        }
     ]
 
     if (!exampleFilesData || !currentApplication) return <Skeleton />
