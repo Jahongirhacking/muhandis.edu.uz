@@ -6,7 +6,7 @@ import { ContinueIcon, SuccessIcon } from "../../../../assets/icons";
 import UploadFile, { IUploadFileProps } from "../../../../components/Form/UploadFile";
 import { useEditApplicationWithFormDataMutation, useGetApplicationListQuery, useSendApplicationMutation } from "../../../../services/applicant";
 import { useGetExampleFilesQuery } from "../../../../services/classifier";
-import { ApplicationTypeChoice, ExampleFileFieldNameChoices, getErrorMessage } from "../../../../services/types";
+import { ExampleFileFieldNameChoices, getErrorMessage } from "../../../../services/types";
 import { RootState } from "../../../../store/store";
 import { SearchParams } from "../../../../utils/config";
 
@@ -103,24 +103,24 @@ const Step2 = () => {
             title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash. Yuklanadigan faylning maksimal hajmi 100MB",
             uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
         },
-        ...(currentApplication?.application_type === ApplicationTypeChoice.Project
-            ? [
-                {
-                    id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
-                    title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim. Yuklanadigan faylning maksimal hajmi 10MB",
-                    uploadLabel: 'Faylni yuklang (PDF)',
-                },
-            ]
-            : []
-        ),
+        {
+            id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
+            title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim. Yuklanadigan faylning maksimal hajmi 10MB",
+            uploadLabel: 'Faylni yuklang (PDF)',
+        },
         {
             id: ExampleFileFieldNameChoices.PRESENTATION_FILE,
             title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar. Yuklanadigan faylning maksimal hajmi 10MB",
             uploadLabel: 'Faylni yuklang (PDF yoki PowerPoint)',
         }
-    ]
+    ].filter(file => exampleFilesData?.find(example => example.field_name === file.id && example.file_type === currentApplication?.application_type))
 
     const optionalUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [
+        ...([{
+            id: ExampleFileFieldNameChoices.INDICATOR_METRIC_FILE,
+            title: "Indikator ko'rsatkichini yuklang",
+            uploadLabel: "Faylni yuklang (PDF)"
+        }].filter(file => exampleFilesData?.find(example => example.field_name === file.id && example.file_type === currentApplication?.application_type))),
         {
             id: ExampleFileFieldNameChoices.TECHNICAL_DOCUMENT_FILE,
             title: "Texnik chizmalar, konseptual grafikalar, modellar, diagrammalar, illyustratsiyalar, guvohnomalar",
@@ -136,11 +136,7 @@ const Step2 = () => {
             title: "Ekspert xulosasi yoki fikr-mulohazalar",
             uploadLabel: "Faylni yuklang (PDF)",
         },
-        {
-            id: ExampleFileFieldNameChoices.INDICATOR_METRIC_FILE,
-            title: "Indikator ko'rsatkichini yuklang",
-            uploadLabel: "Faylni yuklang (PDF)"
-        }
+
     ]
 
     if (!exampleFilesData || !currentApplication) return <Skeleton />
@@ -201,6 +197,7 @@ const Step2 = () => {
                             <UploadFile
                                 key={file.id}
                                 {...file}
+                                templateUrl={exampleFilesData.find(el => el?.field_name === file?.id && el?.file_type === currentApplication?.application_type)?.file || ''}
                                 fileUrl={currentApplication[file?.id as ExampleFileFieldNameChoices] || ''}
                                 handleSubmit={handleUploadFile}
                             />
