@@ -137,3 +137,28 @@ export const getRoleName = (role: ApplicationSubmitAsChoice) => {
       return "Topilmadi";
   }
 };
+
+export const getExampleFileName = (file: ExampleFileFieldNameChoices) => {
+  switch (file) {
+    case ExampleFileFieldNameChoices.APPEAL_FILE:
+      return "Ariza";
+    case ExampleFileFieldNameChoices.TABLE1_FILE:
+      return "1-jadval";
+    case ExampleFileFieldNameChoices.TABLE2_FILE:
+      return "2-jadval";
+    case ExampleFileFieldNameChoices.TABLE2_1_FILE:
+      return "2.1-jadval";
+    case ExampleFileFieldNameChoices.TABLE2_2_FILE:
+      return "2.2-jadval";
+    case ExampleFileFieldNameChoices.TABLE3_FILE:
+      return "3-jadval";
+    case ExampleFileFieldNameChoices.VIDEO_CLIP_FILE:
+      return "Videorolik";
+    case ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE:
+      return "Kalendar reja";
+    case ExampleFileFieldNameChoices.PRESENTATION_FILE:
+      return "Taqdimot";
+    default:
+      return file;
+  }
+};

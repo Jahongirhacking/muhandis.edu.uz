@@ -63,13 +63,37 @@ body:has(.expert-layout) {
 
             .application-container {
               width: 100%;
+
+              .check-box {
+                background-color: #fff;
+                min-width: 400px;
+                border-radius: 8px;
+                padding: 18px 12px;
+                border: 2px dashed #000;
+                max-height: calc(100dvh - 125px);
+
+                & > .ant-flex {
+                  overflow-y: auto;
+                }
+              }
             }
 
             .ant-tabs {
               width: 100%;
+
               .ant-tabs-nav {
                 margin: 0;
+
+                .ant-tabs-tab {
+                  &:has(.active) {
+                    background-color: rgb(130, 228, 171);
+                  }
+                  &:has(.inactive) {
+                    background-color: rgb(243, 138, 155);
+                  }
+                }
               }
+
               .ant-tabs-content-holder {
                 padding: 10px;
                 background-color: #fcfcfc;
@@ -78,7 +102,8 @@ body:has(.expert-layout) {
                 border-right: 1px solid #f0f0f0;
                 border-radius: 0 0 8px 8px;
 
-                .rpv-core__viewer {
+                .document-viewer {
+                  width: 100%;
                   height: calc(90dvh - 100px) !important;
                 }
               }
