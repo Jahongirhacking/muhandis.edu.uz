@@ -149,6 +149,10 @@ body:has(.expert-layout) {
                 .application_name {
                   min-width: 200px;
                 }
+
+                .file_name {
+                  width: 100px;
+                }
               }
             }
           }

@@ -56,7 +56,9 @@ const ApplicationDetailsPage = () => {
                                 checkedFiles[curr].is_exists === null ||
                                 (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
                             ), false)}
-                        >Tasdiqlash</Button>
+                        >
+                            Tasdiqlash
+                        </Button>
                     </Flex>
                     <Divider style={{ margin: 0 }} />
                     <Flex vertical gap={8}>
@@ -75,7 +77,8 @@ const ApplicationDetailsPage = () => {
                                 {
                                     key: 'name',
                                     title: 'Nomi',
-                                    dataIndex: 'name'
+                                    dataIndex: 'name',
+                                    className: 'file_name'
                                 },
                                 {
                                     key: 'actions',
@@ -116,7 +119,8 @@ const ApplicationDetailsPage = () => {
                                                 )
                                             }
                                         </Flex>
-                                    )
+                                    ),
+                                    className: 'actions'
                                 }
                             ]}
                             pagination={false}
