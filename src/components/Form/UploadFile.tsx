@@ -52,7 +52,7 @@ const UploadFile = forwardRef<UploadFileRef, IUploadFileProps>(({ id, title, upl
                 )}
                 {
                     (fileUrl || optimistic) && (
-                        <Flex gap={4}>
+                        <Flex gap={4} className='uploaded-file'>
                             {file && optimistic ? (
                                 <Typography.Text>{file?.name}</Typography.Text>
                             ) : fileUrl && (
