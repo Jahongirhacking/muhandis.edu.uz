@@ -1,97 +1,129 @@
 body:has(.expert-layout) {
   min-height: 100dvh !important;
 
-  .root-layout {
-    height: 100dvh;
+  #root {
+    max-height: 100dvh;
+    overflow: hidden;
 
-    .expert-layout {
-      height: 100%;
-      background-color: #fafafa;
+    .root-layout {
+      height: 100dvh;
 
-      .expert-header {
-        background-color: #fff;
-        border-bottom: 1px solid #e4e4e4;
-        padding: 12px 18px;
-
-        .main-logo {
-          * {
-            color: #18006e;
-          }
-          svg path {
-            fill: #18006e !important;
-          }
-        }
-      }
-
-      .expert-layout-main {
+      .expert-layout {
+        max-height: 100dvh;
         height: 100%;
+        background-color: #fafafa;
 
-        .expert-navbar {
-          border-right: 1px solid #e4e4e4;
+        .expert-header {
           background-color: #fff;
-          padding: 18px 12px;
-          max-height: 100%;
-          overflow-x: hidden;
-          overflow-y: auto;
-          min-width: 240px;
+          border-bottom: 1px solid #e4e4e4;
+          padding: 12px 18px;
 
-          .ant-menu {
-            border: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-
-            li {
-              margin: 0;
-              user-select: none;
+          .main-logo {
+            * {
+              color: #18006e;
+            }
+            svg path {
+              fill: #18006e !important;
             }
           }
         }
 
-        .expert-layout-content {
-          width: 100%;
-          padding: 24px 12px;
-          container-type: inline-size;
+        .expert-layout-main {
+          max-height: calc(100dvh - 75px);
+          min-height: calc(100dvh - 75px);
 
-          .application-controls {
-            justify-content: right;
+          .expert-navbar {
+            border-right: 1px solid #e4e4e4;
+            background-color: #fff;
+            padding: 18px 12px;
+            height: 100%;
+            max-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-width: 240px;
 
-            .ant-input-search {
-              flex: 1;
-              min-width: min(200px, 100%);
-              max-width: 500px;
-            }
+            .ant-menu {
+              border: none;
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
 
-            .ant-select {
-              min-width: min(180px, 100%);
-              max-width: min(180px, 100%);
+              li {
+                margin: 0;
+                user-select: none;
+              }
             }
           }
 
-          .ant-table-wrapper {
+          .expert-layout-content {
             width: 100%;
+            padding: 24px 12px;
+            container-type: inline-size;
+            overflow-y: auto;
 
-            .ant-table {
-              overflow-x: auto;
+            .application-container {
+              width: 100%;
+            }
 
-              table {
-                min-width: 450px;
+            .ant-tabs {
+              width: 100%;
+              .ant-tabs-nav {
+                margin: 0;
               }
+              .ant-tabs-content-holder {
+                padding: 10px;
+                background-color: #fcfcfc;
+                border-left: 1px solid #f0f0f0;
+                border-bottom: 1px solid #f0f0f0;
+                border-right: 1px solid #f0f0f0;
+                border-radius: 0 0 8px 8px;
 
-              .ant-table-thead {
-                .ant-table-cell {
-                  background-color: #fefefe;
+                .rpv-core__viewer {
+                  height: calc(90dvh - 100px) !important;
                 }
               }
+            }
 
-              .application_detail {
-                max-width: 80px;
-                min-width: 80px;
-                text-align: center;
+            .application-controls {
+              justify-content: right;
+
+              .ant-input-search {
+                flex: 1;
+                min-width: min(200px, 100%);
+                max-width: 500px;
               }
 
-              .application_name {
-                min-width: 200px;
+              .ant-select {
+                min-width: min(180px, 100%);
+                max-width: min(180px, 100%);
+              }
+            }
+
+            .ant-table-wrapper {
+              width: 100%;
+
+              .ant-table {
+                overflow-x: auto;
+
+                table {
+                  min-width: 450px;
+                }
+
+                .ant-table-thead {
+                  .ant-table-cell {
+                    background-color: #fefefe;
+                  }
+                }
+
+                .application_detail {
+                  max-width: 80px;
+                  min-width: 80px;
+                  text-align: center;
+                }
+
+                .application_name {
+                  min-width: 200px;
+                }
               }
             }
           }
