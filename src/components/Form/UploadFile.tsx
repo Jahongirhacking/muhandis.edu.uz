@@ -12,6 +12,7 @@ export interface IUploadFileProps {
     fileUrl?: string;
     optimistic?: boolean;
     removable?: boolean;
+    comment?: string;
     handleSubmit: (id: string, file: IFile) => Promise<void>
 }
 
@@ -20,7 +21,7 @@ export interface UploadFileRef {
 }
 
 
-const UploadFile = forwardRef<UploadFileRef, IUploadFileProps>(({ id, title, uploadLabel, templateUrl = "", fileUrl = "", optimistic = false, removable = true, handleSubmit }, ref) => {
+const UploadFile = forwardRef<UploadFileRef, IUploadFileProps>(({ id, title, uploadLabel, templateUrl = "", fileUrl = "", comment = "", optimistic = false, removable = true, handleSubmit }, ref) => {
     const [file, setFile] = useState<IFile | null>();
 
     const handleUpload = async (file: IFile) => {
@@ -38,6 +39,11 @@ const UploadFile = forwardRef<UploadFileRef, IUploadFileProps>(({ id, title, upl
         <Flex gap={8} align='stretch' className='upload-file'>
             <Flex vertical gap={16} className={`upload-container ${!templateUrl ? 'only-item' : ''}`}>
                 <Typography.Text className='upload-title'>{title}</Typography.Text>
+                {
+                    comment && (
+                        <Typography.Text className='comment' italic>{comment}</Typography.Text>
+                    )
+                }
                 {templateUrl && (
                     <a download href={templateUrl} target='_blank' className='template-file'>
                         <UploadFileIcon />

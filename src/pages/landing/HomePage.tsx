@@ -60,9 +60,19 @@ const HomePage = () => {
             return <Typography.Text>Ariza yuborish va tahrirlash yakunlangan</Typography.Text>;
         } else {
             // Render a countdown
-            return <Typography.Text>Ariza yuborish va tahrirlash yakunlanishiga <span className="remained-time">
-                {[[days, "kun"], [hours, "soat"], [minutes, "daqiqa"], [seconds, "soniya"]].filter(el => el[0] !== 0).map(el => `${getTimeNumber(Number(el[0]))} ${el[1]}`).join(" ")}
-            </span> qoldi</Typography.Text>;
+            return (
+                <Flex align="center" justify="center" gap={18} className="remained-time-container">
+                    <Typography.Text>Ariza yuborish va tahrirlash yakunlanishigacha: </Typography.Text>
+                    <Flex className="remained-time" gap={18}>
+                        {[[days, "kun"], [hours, "soat"], [minutes, "daqiqa"], [seconds, "soniya"]].filter(el => el[0] !== 0).map(el => (
+                            <Flex vertical>
+                                <Typography.Text strong>{getTimeNumber(Number(el[0]))}</Typography.Text>
+                                <Typography.Text>{el[1]}</Typography.Text>
+                            </Flex>
+                        ))}
+                    </Flex>
+                </Flex>
+            );
         }
     };
 

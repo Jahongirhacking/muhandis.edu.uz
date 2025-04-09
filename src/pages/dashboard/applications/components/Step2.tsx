@@ -68,52 +68,63 @@ const Step2 = () => {
     }
 
     const requiredUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [
-        {
-            id: ExampleFileFieldNameChoices.APPEAL_FILE,
-            title: "Ariza (PDF) formatida yuklash. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.TABLE1_FILE,
-            title: "G‘oya muallifining ma’lumotnomasi to‘ldirilib, imzolangan holda. 1-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.TABLE2_FILE,
-            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 2-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.TABLE2_1_FILE,
-            title: "Zarur mablag‘lar jadvali to‘ldirilib, imzolangan holda. 2.1-jadval. Yuklanadigan faylning maksimal hajmi 10MB ",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.TABLE2_2_FILE,
-            title: "Zarur mablag‘lar asosnomasi to‘ldirilib, imzolangan holda. 2.2-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.TABLE3_FILE,
-            title: "G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda. 3-jadval. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: "Faylni yuklang (PDF)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.VIDEO_CLIP_FILE,
-            title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash. Yuklanadigan faylning maksimal hajmi 100MB",
-            uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
-        },
-        {
-            id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
-            title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim. Yuklanadigan faylning maksimal hajmi 10MB",
-            uploadLabel: 'Faylni yuklang (PDF)',
-        },
+        ...([
+            {
+                id: ExampleFileFieldNameChoices.APPEAL_FILE,
+                title: "Ariza (PDF) formatida yuklash",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.TABLE1_FILE,
+                title: "1-jadval. G‘oya muallifining ma’lumotnomasi to‘ldirilib, imzolangan holda",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.TABLE2_FILE,
+                title: "2-jadval. G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.TABLE2_1_FILE,
+                title: "2.1-jadval. Zarur mablag‘lar jadvali to‘ldirilib, imzolangan holda",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.TABLE2_2_FILE,
+                title: "2.2-jadval. Zarur mablag‘lar asosnomasi to‘ldirilib, imzolangan holda",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.TABLE3_FILE,
+                title: "3-jadval. G‘oya ma’lumotnomasi to‘ldirilib, imzolangan holda",
+                uploadLabel: "Faylni yuklang (PDF)",
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.VIDEO_CLIP_FILE,
+                title: "Videorolik. G‘oya mazmuni, qanday ishlashi bo‘yicha qisqacha videorolik yuklash",
+                uploadLabel: "Faylni yuklang (mp4, FullHD, 1920*1080)",
+                comment: "Yuklanadigan videoning maksimal hajmi 100MB"
+            },
+            {
+                id: ExampleFileFieldNameChoices.CALENDAR_PLAN_FILE,
+                title: "Loyihani amalga oshirish jarayoni kalendar rejasini yuklash lozim",
+                uploadLabel: 'Faylni yuklang (PDF)',
+                comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+            },
+        ].filter(file => exampleFilesData?.find(example => example.field_name === file.id && example.file_type === currentApplication?.application_type))),
         {
             id: ExampleFileFieldNameChoices.PRESENTATION_FILE,
-            title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar. Yuklanadigan faylning maksimal hajmi 10MB",
+            title: "Taqdimot. Ixtiro qanday ishlaydi va uning afzalliklarini tushuntiruvchi slaydlar",
             uploadLabel: 'Faylni yuklang (PDF yoki PowerPoint)',
-        }
-    ].filter(file => exampleFilesData?.find(example => example.field_name === file.id && example.file_type === currentApplication?.application_type))
+            comment: "Yuklanadigan faylning maksimal hajmi 10MB"
+        },
+    ]
 
     const optionalUploadFiles: Omit<IUploadFileProps, 'templateUrl' | 'handleSubmit'>[] = [
         ...([{
