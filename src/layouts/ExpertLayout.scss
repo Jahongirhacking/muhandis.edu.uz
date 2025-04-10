@@ -60,51 +60,103 @@ body:has(.expert-layout) {
             padding: 24px 12px;
             container-type: inline-size;
             overflow-y: auto;
+            scrollbar-color: #9b9b9b99 transparent;
 
             .application-container {
               width: 100%;
 
+              @media screen and (max-width: 1400px) {
+                flex-direction: column;
+
+                .check-box {
+                  order: 1;
+                  position: relative !important;
+
+                  textarea {
+                    width: 600px !important;
+                  }
+                }
+
+                .main-details {
+                  order: 2;
+                }
+              }
+
               .check-box {
                 background-color: #fff;
-                min-width: 400px;
+                min-width: min(400px, 100%);
                 border-radius: 8px;
                 padding: 18px 12px;
-                border: 2px dashed #000;
+                border: 2px solid #f0f0f0;
                 max-height: calc(100dvh - 125px);
+                position: sticky;
+                top: 0px;
 
-                & > .ant-flex {
+                & > .result-table {
                   overflow-y: auto;
-                }
-              }
-            }
+                  scrollbar-color: #9b9b9b99 transparent;
 
-            .ant-tabs {
-              width: 100%;
-
-              .ant-tabs-nav {
-                margin: 0;
-
-                .ant-tabs-tab {
-                  &:has(.active) {
-                    background-color: rgb(130, 228, 171);
-                  }
-                  &:has(.inactive) {
-                    background-color: rgb(243, 138, 155);
+                  textarea {
+                    width: min(200px, 100%);
                   }
                 }
               }
 
-              .ant-tabs-content-holder {
-                padding: 10px;
-                background-color: #fcfcfc;
-                border-left: 1px solid #f0f0f0;
-                border-bottom: 1px solid #f0f0f0;
-                border-right: 1px solid #f0f0f0;
-                border-radius: 0 0 8px 8px;
+              .main-details {
+                width: 100%;
 
-                .document-viewer {
+                .ant-tabs {
                   width: 100%;
-                  height: calc(90dvh - 100px) !important;
+
+                  .ant-tabs-nav {
+                    margin: 0;
+
+                    .ant-tabs-tab {
+                      position: relative;
+                      &-active::before {
+                        content: "";
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 2px;
+                        background-color: #1677ff;
+                      }
+
+                      &:has(.active) {
+                        background-color: rgb(133, 243, 179);
+                      }
+                      &:has(.inactive) {
+                        background-color: rgb(243, 138, 155);
+                      }
+                    }
+                  }
+
+                  .ant-tabs-content-holder {
+                    padding: 10px;
+                    background-color: #fcfcfc;
+                    border-left: 1px solid #f0f0f0;
+                    border-bottom: 1px solid #f0f0f0;
+                    border-right: 1px solid #f0f0f0;
+                    border-radius: 0 0 8px 8px;
+
+                    .document-viewer {
+                      width: 100%;
+                      height: calc(90dvh - 100px) !important;
+                    }
+                  }
+                }
+              }
+
+              table {
+                min-width: 350px !important;
+                .file_name {
+                  width: 100px;
+                }
+
+                .file_id {
+                  max-width: 48px;
+                  width: 48px;
                 }
               }
             }
@@ -148,10 +200,6 @@ body:has(.expert-layout) {
 
                 .application_name {
                   min-width: 200px;
-                }
-
-                .file_name {
-                  width: 100px;
                 }
               }
             }

@@ -1,5 +1,6 @@
 import { baseApi } from "../api";
 import { IApplication } from "../applicant/types";
+import { IAdmission } from "../classifier/types";
 import { ApplicationStatusChoice, ApplicationSubmitAsChoice } from "../types";
 import { ITableProps } from "./types";
 
@@ -39,6 +40,7 @@ export const inspectorApi = baseApi.injectEndpoints({
       }),
       providesTags: ["GlobalApplications"],
     }),
+
     getApplicationDetails: build.query<
       IApplication,
       {
@@ -53,9 +55,32 @@ export const inspectorApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
+    putConclusion: build.mutation<
+      Pick<IApplication, "id" | "status"> | { expert_conclusion: object },
+      {
+        id: IApplication["id"];
+        expert_conclusion: object;
+        admission_id: IAdmission["id"];
+      }
+    >({
+      query: ({ id, expert_conclusion, admission_id }) => ({
+        url: `/inspector/application/${id}/conclusion/`,
+        params: {
+          admission_id,
+        },
+        body: {
+          expert_conclusion,
+        },
+        method: "PUT",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetApplicationsQuery, useGetApplicationDetailsQuery } =
-  inspectorApi;
+export const {
+  useGetApplicationsQuery,
+  useGetApplicationDetailsQuery,
+  usePutConclusionMutation,
+} = inspectorApi;

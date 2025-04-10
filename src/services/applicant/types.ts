@@ -54,6 +54,7 @@ export interface IApplication {
   submit_as: ApplicationSubmitAsChoice;
   status: ApplicationStatusChoice;
   rejected_reason: string;
+  expert_conclusion: object;
   completeness_grade: number;
   conceptual_grade: number;
   relevance_grade: number;
