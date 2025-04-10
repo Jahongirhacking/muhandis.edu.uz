@@ -17,7 +17,7 @@ const ViewApplicationsPage = () => {
     const [isCurrent, setIsCurrent] = useState(true);
     const isMessageSeen = useRef(false);
 
-    const hasPermissionToCreate = !(applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id)) && profile && moment().diff(profile?.birth_date, "years") <= 40;
+    const hasPermissionToCreate = !(applicationsData && currentAdmission && applicationsData.find(el => el?.admission === currentAdmission?.id)) && profile && moment().diff(profile?.birth_date, "years") < 41;
 
     const realData = applicationsData?.filter(el => isCurrent
         ? el.admission === currentAdmission?.id
