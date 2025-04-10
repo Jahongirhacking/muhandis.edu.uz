@@ -67,13 +67,14 @@ body:has(.expert-layout) {
 
               @media screen and (max-width: 1400px) {
                 flex-direction: column;
+                gap: 28px !important;
 
                 .check-box {
                   order: 1;
                   position: relative !important;
 
                   textarea {
-                    width: 600px !important;
+                    width: min(600px, 100%) !important;
                   }
                 }
 
@@ -95,6 +96,8 @@ body:has(.expert-layout) {
                 & > .result-table {
                   overflow-y: auto;
                   scrollbar-color: #9b9b9b99 transparent;
+                  padding: 10px 8px;
+                  padding-bottom: 40px;
 
                   textarea {
                     width: min(200px, 100%);
@@ -104,6 +107,13 @@ body:has(.expert-layout) {
 
               .main-details {
                 width: 100%;
+
+                .ant-descriptions {
+                  .ant-descriptions-extra {
+                    margin-right: auto;
+                    margin-left: 0;
+                  }
+                }
 
                 .ant-tabs {
                   width: 100%;
@@ -149,7 +159,7 @@ body:has(.expert-layout) {
               }
 
               table {
-                min-width: 350px !important;
+                min-width: 320px !important;
                 .file_name {
                   width: 100px;
                 }
@@ -157,6 +167,12 @@ body:has(.expert-layout) {
                 .file_id {
                   max-width: 48px;
                   width: 48px;
+                }
+              }
+
+              .rejected-reason {
+                textarea {
+                  width: min(400px, 100%) !important;
                 }
               }
             }

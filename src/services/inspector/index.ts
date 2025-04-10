@@ -2,6 +2,7 @@ import { baseApi } from "../api";
 import { IApplication } from "../applicant/types";
 import { IAdmission } from "../classifier/types";
 import { ApplicationStatusChoice, ApplicationSubmitAsChoice } from "../types";
+import { IUser } from "../user/types";
 import { ITableProps } from "./types";
 
 export const inspectorApi = baseApi.injectEndpoints({
@@ -75,6 +76,56 @@ export const inspectorApi = baseApi.injectEndpoints({
         method: "PUT",
       }),
     }),
+
+    rejectApplication: build.mutation<
+      { detail: string },
+      {
+        id: IApplication["id"];
+        rejected_reason: IApplication["rejected_reason"];
+        admission_id: IAdmission["id"];
+      }
+    >({
+      query: ({ id, rejected_reason, admission_id }) => ({
+        url: `/inspector/application/${id}/reject/`,
+        params: {
+          admission_id,
+        },
+        body: {
+          rejected_reason,
+        },
+        method: "PUT",
+      }),
+      invalidatesTags: ["GlobalApplications"],
+    }),
+
+    passApplication: build.mutation<
+      { detail: string },
+      {
+        id: IApplication["id"];
+        admission_id: IAdmission["id"];
+      }
+    >({
+      query: ({ id, admission_id }) => ({
+        url: `/inspector/application/${id}/pass/`,
+        params: {
+          admission_id,
+        },
+        method: "GET",
+      }),
+      invalidatesTags: ["GlobalApplications"],
+    }),
+
+    getUserInfo: build.query<
+      IUser,
+      { id: IUser["id"]; admission_id: IAdmission["id"] }
+    >({
+      query: ({ id, admission_id }) => ({
+        url: `/inspector/user/${id}`,
+        params: {
+          admission_id,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -83,4 +134,7 @@ export const {
   useGetApplicationsQuery,
   useGetApplicationDetailsQuery,
   usePutConclusionMutation,
+  useRejectApplicationMutation,
+  usePassApplicationMutation,
+  useGetUserInfoQuery,
 } = inspectorApi;

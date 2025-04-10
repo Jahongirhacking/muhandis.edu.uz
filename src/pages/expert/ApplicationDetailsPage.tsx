@@ -1,11 +1,12 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
-import { Button, Descriptions, Divider, Empty, Flex, Input, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
+import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DocumentViewer from "../../components/DocumentViewer";
-import { useGetApplicationDetailsQuery, usePutConclusionMutation } from "../../services/inspector";
-import { ExampleFileFieldNameChoices, getApplicationChoiceName, getExampleFileName, getRoleName } from "../../services/types";
+import { getUniversityName } from "../../services/applicant/types";
+import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
+import { ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName } from "../../services/types";
 import { RootState } from "../../store/store";
 
 interface ICheckedFile { [key: string]: { is_exists: boolean | null, rejected_reason: string } }
@@ -34,22 +35,57 @@ const ApplicationDetailsPage = () => {
     const { data: applicationDetials, isLoading } = useGetApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) });
     const [checkedFiles, setCheckedFiles] = useState<ICheckedFile>({})
     const [rejectWithException, setRejectWithException] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [rejectedReason, setRejectedReason] = useState('');
     const [putConclusion] = usePutConclusionMutation();
+    const [rejectApplication] = useRejectApplicationMutation();
+    const [passApplication] = usePassApplicationMutation();
+    const { data: applicantData, isLoading: isApplicantLoading } = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetials?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetials && applicationDetials?.user) });
     const conclusionRefs = useRef<{ [key: string]: string }>({});
+    const navigate = useNavigate();
 
     const handleReject = async () => {
         try {
-            console.log('bye');
+            if (!currentAdmission?.id) throw new Error("current admisson not found");
+            await rejectApplication({ id: Number(id), rejected_reason: rejectedReason, admission_id: currentAdmission?.id }).unwrap();
+            Modal.warning({
+                onCancel: () => navigate('/expert/applications'),
+                footer: null,
+                icon: null,
+                closable: true,
+                maskClosable: true,
+                content: (
+                    <Result
+                        status="warning"
+                        title="Ushbu ariza muvaffaqiyatli tarzda rad etildi"
+                    />
+                )
+            })
         } catch (err) {
+            message.error("Rad etishda xatolik");
             console.error(err);
         }
     }
 
     const handlePass = async () => {
         try {
-            console.log('hello');
+            if (!currentAdmission?.id) throw new Error("current admisson not found");
+            await passApplication({ id: Number(id), admission_id: currentAdmission?.id }).unwrap();
+            Modal.success({
+                onCancel: () => navigate('/expert/applications'),
+                footer: null,
+                icon: null,
+                closable: true,
+                maskClosable: true,
+                content: (
+                    <Result
+                        status="success"
+                        title="Ushbu ariza muvaffaqiyatli tarzda qabul qilindi"
+                    />
+                )
+            })
         } catch (err) {
+            message.error("Qabul qilishda xatolik");
             console.error(err);
         }
     }
@@ -73,29 +109,58 @@ const ApplicationDetailsPage = () => {
     }, [applicationDetials, isLoading, requiredFiles]);
 
     useEffect(() => {
-        if (checkObjectKeys(checkedFiles) && currentAdmission?.id && !isLoading) {
-            putConclusion({ id: Number(id), expert_conclusion: checkedFiles, admission_id: currentAdmission?.id || 0 });
-        }
+        (async () => {
+            try {
+                if (checkObjectKeys(checkedFiles) && currentAdmission?.id && !isLoading) {
+                    await putConclusion({ id: Number(id), expert_conclusion: checkedFiles, admission_id: currentAdmission?.id || 0 }).unwrap();
+                }
+            } catch (err) {
+                message.error("Ma'lumot yangilashda xatolik");
+                console.error(err);
+            }
+        })()
     }, [checkedFiles, putConclusion, id, currentAdmission, isLoading]);
 
     if (isLoading || !checkObjectKeys(checkedFiles)) return <Skeleton />
     if (!applicationDetials) return <Empty description="Ariza ma'lumotlari topilmadi" />
-
-    const isConfirmButtonDisabled = (rejectWithException && !rejectedReason) || Object.keys(checkedFiles).reduce((acc, curr) => (
-        acc ||
-        checkedFiles[curr].is_exists === null ||
-        (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
-    ), false);
 
     const isConfirmButtonPass = !rejectWithException && Object.keys(checkedFiles).reduce((acc, curr) => (
         acc &&
         !!checkedFiles[curr].is_exists
     ), true)
 
+    const isConfirmButtonDisabled = (!isConfirmButtonPass && !rejectedReason) || Object.keys(checkedFiles).reduce((acc, curr) => (
+        acc ||
+        checkedFiles[curr].is_exists === null ||
+        (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
+    ), false);
+
     return (
         <Flex vertical className="application-details" gap={24}>
             <Flex className="application-container" gap={12}>
                 <Flex vertical gap={24} className="main-details">
+                    <Modal footer={null} closable open={isProfileOpen} onCancel={() => setIsProfileOpen(false)}>
+                        {
+                            isApplicantLoading ? (
+                                <Skeleton />
+                            ) : (
+                                <Descriptions
+                                    bordered
+                                    items={[
+                                        { key: 'fullname', label: "F.I.SH", children: `${applicantData?.last_name} ${applicantData?.first_name} ${applicantData?.middle_name}`, span: "filled" },
+                                        { key: 'birthdate', label: "Tug'ilgan sana", children: applicantData?.birth_date, span: "filled" },
+                                        { key: 'document', label: "Pasport raqami", children: applicantData?.document, span: "filled" },
+                                        { key: 'gender', label: "Jinsi", children: applicantData?.gender === Gender.Male ? 'Erkak' : "Ayol", span: "filled" },
+                                        { key: 'phone', label: "Telefon raqami", children: applicantData?.phone_number, span: "filled" },
+                                        { key: 'email', label: "Email", children: applicantData?.email, span: "filled" },
+                                        { key: 'education', label: "O'qish joyi", children: applicantData?.students?.length ? `${getUniversityName(applicantData?.students[0]?.university)} (${applicantData?.students[0]?.course}-kurs)` : 'Topilmadi', span: "filled" },
+                                        { key: 'work', label: "Ish joyi", children: applicantData?.workplaces?.find(w => w?.is_selected) ? `${applicantData?.workplaces?.find(w => w?.is_selected)?.organization} (${applicantData?.workplaces?.find(w => w?.is_selected)?.position})` : 'Topilmadi', span: "filled" },
+                                        { key: 'military', label: "Harbiy ma'lumot", children: applicantData?.militaries?.length ? <Flex vertical gap={6}>{getUniversityName(applicantData?.militaries[0]?.university)} <Button type="primary" icon={<FileTextOutlined />} target="_blank" href={applicantData?.militaries[0]?.source_file} /></Flex> : "Topilmadi", span: "filled" },
+                                    ]}
+                                />
+                            )
+                        }
+                    </Modal>
                     <Descriptions
                         bordered
                         size="small"
@@ -109,6 +174,7 @@ const ApplicationDetailsPage = () => {
                             { key: 'category', label: "Kategoriya", children: applicationDetials?.category },
                             { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetials?.problem_and_solution },
                         ]}
+                        extra={<Button variant="filled" color="blue" icon={<EyeOutlined />} onClick={() => setIsProfileOpen(true)}>Arizachi haqida ma'lumot</Button>}
                     />
                     <Tabs
                         type="card"
@@ -130,32 +196,17 @@ const ApplicationDetailsPage = () => {
                         <Typography.Title level={4} style={{ margin: 0 }}>Tekshirish</Typography.Title>
                         <Button
                             type="primary"
-                            icon={<CheckCircleOutlined />}
+                            icon={isConfirmButtonPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
                             disabled={isConfirmButtonDisabled}
                             variant="solid"
-                            color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "green" : "red") : 'primary'}
+                            color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "primary" : "red") : 'primary'}
                             onClick={isConfirmButtonPass ? handlePass : handleReject}
                         >
                             {isConfirmButtonDisabled ? 'Tasdiqlash' : isConfirmButtonPass ? "Qabul qilish" : 'Rad etish'}
                         </Button>
                     </Flex>
                     <Divider style={{ margin: 0 }} />
-                    <Flex vertical gap={8} className="result-table">
-                        <Flex vertical gap={12}>
-                            <Flex gap={8}>
-                                <Typography.Text>Istisno bilan rad etish</Typography.Text>
-                                <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
-                            </Flex>
-                            {
-                                rejectWithException && (
-                                    <Input.TextArea
-                                        placeholder="Rad etish sababini yozing"
-                                        value={rejectedReason}
-                                        onChange={({ target: { value } }) => setRejectedReason(value)}
-                                    />
-                                )
-                            }
-                        </Flex>
+                    <Flex vertical gap={20} className="result-table">
                         <Table
                             dataSource={requiredFiles.map((file, index) => ({
                                 id: index + 1,
@@ -224,6 +275,30 @@ const ApplicationDetailsPage = () => {
                             ]}
                             pagination={false}
                         />
+                        <Flex vertical gap={12} className="rejected-reason">
+                            {
+                                Object.keys(checkedFiles).reduce((acc, curr) => (
+                                    acc &&
+                                    !!checkedFiles[curr].is_exists
+                                ), true) ? (
+                                    <Flex gap={8}>
+                                        <Typography.Text>Istisno bilan rad etish</Typography.Text>
+                                        <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
+                                    </Flex>
+                                ) : (
+                                    <Typography.Text strong>Rad etish xulosasi:</Typography.Text>
+                                )
+                            }
+                            {
+                                (isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass && (
+                                    <Input.TextArea
+                                        placeholder="Rad etish xulosasini yozing"
+                                        value={rejectedReason}
+                                        onChange={({ target: { value } }) => setRejectedReason(value)}
+                                    />
+                                )
+                            }
+                        </Flex>
                     </Flex>
                 </Flex>
             </Flex>

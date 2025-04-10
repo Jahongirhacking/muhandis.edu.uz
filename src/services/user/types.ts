@@ -1,4 +1,10 @@
 import {
+  IMilitary,
+  IStudent,
+  IUniversity,
+  IWorkplace,
+} from "../applicant/types";
+import {
   ApplicationTypeChoice,
   Gender,
   InspectorRoleChoice,
@@ -36,6 +42,9 @@ export interface IUser {
   mip_address: string;
   inspector_type: InspectorTypeChoice;
   inspector_role: InspectorRoleChoice;
+  students?: IStudent[];
+  workplaces?: IWorkplace[];
+  militaries?: (Omit<IMilitary, "university"> & { university: IUniversity })[];
 }
 
 export interface IPhoto {

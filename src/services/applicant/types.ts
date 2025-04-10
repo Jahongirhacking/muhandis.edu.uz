@@ -118,3 +118,6 @@ export interface IDoctorate {
   direction: string;
   scientific_work_name: string;
 }
+
+export const getUniversityName = (university: IUniversity) =>
+  university?.name_uz || university?.name_en || university?.name_ru;
