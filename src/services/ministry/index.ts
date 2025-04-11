@@ -3,7 +3,7 @@ import { IApplication } from "../applicant/types";
 import { IAdmission } from "../classifier/types";
 import { ApplicationStatusChoice, ApplicationSubmitAsChoice } from "../types";
 import { IUser } from "../user/types";
-import { ITableProps } from "./types";
+import { IExpert, ITableProps } from "./types";
 
 export const ministryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -19,6 +19,7 @@ export const ministryApi = baseApi.injectEndpoints({
         offset?: number;
         mip_region_id?: number;
         application_type?: IApplication["application_type"];
+        expert_id?: IExpert["id"];
       }
     >({
       query: ({
@@ -31,6 +32,7 @@ export const ministryApi = baseApi.injectEndpoints({
         offset,
         mip_region_id,
         application_type,
+        expert_id,
       }) => ({
         url: "/ministry/application",
         params: {
@@ -43,6 +45,7 @@ export const ministryApi = baseApi.injectEndpoints({
           offset,
           mip_region_id,
           application_type,
+          expert_id,
         },
       }),
     }),
@@ -73,6 +76,10 @@ export const ministryApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
+    getExpert: build.query<IExpert[], void>({
+      query: () => "/ministry/expert",
+    }),
   }),
   overrideExisting: false,
 });
@@ -81,4 +88,5 @@ export const {
   useGetMinistryApplicationsQuery,
   useGetMinistryApplicationDetailsQuery,
   useGetMinistryUserInfoQuery,
+  useGetExpertQuery,
 } = ministryApi;

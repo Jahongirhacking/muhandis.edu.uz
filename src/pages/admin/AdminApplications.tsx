@@ -5,11 +5,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import { AdminContext } from "../../layouts/AdminLayout";
-import { IApplication } from "../../services/applicant/types";
+import { getGlobalName, IApplication } from "../../services/applicant/types";
 import { useGetMipRegionsQuery } from "../../services/classifier";
 import { IMipRegion } from "../../services/classifier/types";
 import { useGetApplicationsQuery } from "../../services/inspector";
-import { useGetMinistryApplicationsQuery } from "../../services/ministry";
+import { useGetExpertQuery, useGetMinistryApplicationsQuery } from "../../services/ministry";
+import { IExpert } from "../../services/ministry/types";
 import { ApplicationStatusChoice, ApplicationSubmitAsChoice, ApplicationTypeChoice, getApplicationChoiceName, getApplicationStatusName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
 import { SearchParams } from "../../utils/config";
@@ -28,8 +29,13 @@ const AdminApplications = () => {
     const [applicationStatus, setApplicationStatus] = useState<ApplicationStatusChoice | 'all'>('all');
     const [applicationType, setApplicationType] = useState<ApplicationTypeChoice | 'all'>('all');
     const [selectedRegion, setSelectedRegion] = useState<IMipRegion['id'] | 'all'>('all');
+    const [selectedExpert, setSelectedExpert] = useState<IExpert['id'] | 'all'>('all');
+
+    console.log(selectedExpert);
+
     const navigate = useNavigate();
-    const { data: mipRegions, isLoading: isMipRegionsLoading } = useGetMipRegionsQuery();
+    const { data: mipRegions, isLoading: isMipRegionsLoading } = useGetMipRegionsQuery(undefined, { skip: adminRole !== Role.Ministry });
+    const { data: experts, isLoading: isExpertsLoading } = useGetExpertQuery(undefined, { skip: adminRole !== Role.Ministry });
 
     const expertQuery = useGetApplicationsQuery({
         admission_id: currentAdmission?.id || 0,
@@ -50,7 +56,8 @@ const AdminApplications = () => {
         q: searchTerm,
         submit_as: role === 'all' ? undefined : role,
         application_type: applicationType === 'all' ? undefined : applicationType,
-        mip_region_id: selectedRegion === 'all' ? undefined : selectedRegion
+        mip_region_id: selectedRegion === 'all' ? undefined : selectedRegion,
+        expert_id: selectedExpert === 'all' ? undefined : selectedExpert
     }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry })
 
     const data = adminRole === Role.Ministry ? ministryQuery?.data : expertQuery?.data;
@@ -120,7 +127,24 @@ const AdminApplications = () => {
                                 options={[
                                     { label: "Viloyat (Barchasi)", value: 'all' },
                                     ...(mipRegions && mipRegions.length
-                                        ? mipRegions.map(region => ({ label: region?.name_uz || region?.name_ru || region?.name_en, value: region?.id }))
+                                        ? mipRegions.map(region => ({ label: getGlobalName(region), value: region?.id }))
+                                        : []
+                                    )
+                                ]}
+                            />
+                            <Select
+                                showSearch
+                                filterOption={(input, option) => {
+                                    const label = (option?.label ?? '').toString().toLowerCase();
+                                    return label.includes(input.toLowerCase());
+                                }}
+                                loading={isExpertsLoading}
+                                value={selectedExpert}
+                                onChange={(key) => setSelectedExpert(key)}
+                                options={[
+                                    { label: "Ekspert (Barchasi)", value: 'all' },
+                                    ...(experts && experts.length
+                                        ? experts.map(expert => ({ label: `${expert?.last_name || ''} ${expert?.first_name || ''} ${expert?.middle_name || ''}`, value: expert?.id }))
                                         : []
                                     )
                                 ]}
