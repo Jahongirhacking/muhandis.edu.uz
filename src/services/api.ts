@@ -24,6 +24,7 @@ export const baseApi = createApi({
     "Education",
     "Doctorate",
     "GlobalApplications",
+    "ApplicationDetails",
   ],
   endpoints: () => ({}), // Empty for now; endpoints will be added separately
 });

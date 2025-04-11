@@ -44,7 +44,6 @@ const ApplicationDetailsPage = () => {
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
 
-
     useEffect(() => {
         if (applicationDetials?.rejected_reason) {
             setRejectedReason(applicationDetials?.rejected_reason);
@@ -116,6 +115,7 @@ const ApplicationDetailsPage = () => {
     }, [applicationDetials, isLoading, requiredFiles]);
 
     useEffect(() => {
+        console.log(applicationDetials?.status);
         if (!applicationDetials || applicationDetials?.status !== ApplicationStatusChoice.SENT) return;
         (async () => {
             try {
@@ -293,7 +293,7 @@ const ApplicationDetailsPage = () => {
                         />
                         <Flex vertical gap={12} className="rejected-reason">
                             {
-                                !canModify && applicationDetials?.status !== ApplicationStatusChoice.PASSED && (
+                                applicationDetials?.status !== ApplicationStatusChoice.PASSED && (
                                     <>
                                         {
                                             Object.keys(checkedFiles).reduce((acc, curr) => (
@@ -309,7 +309,7 @@ const ApplicationDetailsPage = () => {
                                             )
                                         }
                                         {
-                                            (isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetials?.rejected_reason && (
+                                            ((isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetials?.rejected_reason) && (
                                                 <Input.TextArea
                                                     placeholder="Rad etish xulosasini yozing"
                                                     value={rejectedReason}
@@ -321,7 +321,6 @@ const ApplicationDetailsPage = () => {
                                     </>
                                 )
                             }
-
                         </Flex>
                     </Flex>
                 </Flex>

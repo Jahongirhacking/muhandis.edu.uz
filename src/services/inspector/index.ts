@@ -55,6 +55,7 @@ export const inspectorApi = baseApi.injectEndpoints({
           admission_id,
         },
       }),
+      providesTags: ["ApplicationDetails"],
     }),
 
     putConclusion: build.mutation<
@@ -95,7 +96,7 @@ export const inspectorApi = baseApi.injectEndpoints({
         },
         method: "PUT",
       }),
-      invalidatesTags: ["GlobalApplications"],
+      invalidatesTags: ["GlobalApplications", "ApplicationDetails"],
     }),
 
     passApplication: build.mutation<
@@ -112,7 +113,7 @@ export const inspectorApi = baseApi.injectEndpoints({
         },
         method: "GET",
       }),
-      invalidatesTags: ["GlobalApplications"],
+      invalidatesTags: ["GlobalApplications", "ApplicationDetails"],
     }),
 
     getUserInfo: build.query<
