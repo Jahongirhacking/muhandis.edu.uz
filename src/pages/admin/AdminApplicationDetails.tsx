@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import DocumentViewer from "../../components/DocumentViewer";
 import { AdminContext } from "../../layouts/AdminLayout";
-import { getUniversityName } from "../../services/applicant/types";
+import { getGlobalName } from "../../services/applicant/types";
 import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
 import { useGetMinistryApplicationDetailsQuery, useGetMinistryUserInfoQuery } from "../../services/ministry";
 import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName, Role } from "../../services/types";
@@ -173,11 +173,12 @@ const AdminApplicationDetails = () => {
                                         { key: 'birthdate', label: "Tug'ilgan sana", children: applicantData?.birth_date, span: "filled" },
                                         { key: 'document', label: "Pasport raqami", children: applicantData?.document, span: "filled" },
                                         { key: 'gender', label: "Jinsi", children: applicantData?.gender === Gender.Male ? 'Erkak' : "Ayol", span: "filled" },
-                                        { key: 'phone', label: "Telefon raqami", children: applicantData?.phone_number, span: "filled" },
-                                        { key: 'email', label: "Email", children: applicantData?.email, span: "filled" },
-                                        { key: 'education', label: "O'qish joyi", children: applicantData?.students?.length ? `${getUniversityName(applicantData?.students[0]?.university)} (${applicantData?.students[0]?.course}-kurs)` : 'Topilmadi', span: "filled" },
+                                        { key: 'address', label: "Manzil", children: `${getGlobalName(applicantData?.mip_region_data || {})}, ${getGlobalName(applicantData?.mip_district_data || {})}, ${applicantData?.mip_address}`, span: "filled" },
+                                        { key: 'phone', label: "Telefon raqami", children: applicantData?.phone_number || '-', span: "filled" },
+                                        { key: 'email', label: "Email", children: applicantData?.email || '-', span: "filled" },
+                                        { key: 'education', label: "O'qish joyi", children: applicantData?.students?.length ? `${getGlobalName(applicantData?.students[0]?.university)} (${applicantData?.students[0]?.course}-kurs)` : 'Topilmadi', span: "filled" },
                                         { key: 'work', label: "Ish joyi", children: applicantData?.workplaces?.find(w => w?.is_selected) ? `${applicantData?.workplaces?.find(w => w?.is_selected)?.organization} (${applicantData?.workplaces?.find(w => w?.is_selected)?.position})` : 'Topilmadi', span: "filled" },
-                                        { key: 'military', label: "Harbiy ma'lumot", children: applicantData?.militaries?.length ? <Flex vertical gap={6}>{getUniversityName(applicantData?.militaries[0]?.university)} <Button type="primary" icon={<FileTextOutlined />} target="_blank" href={applicantData?.militaries[0]?.source_file} /></Flex> : "Topilmadi", span: "filled" },
+                                        { key: 'military', label: "Harbiy ma'lumot", children: applicantData?.militaries?.length ? <Flex vertical gap={6}>{getGlobalName(applicantData?.militaries[0]?.university)} <Button type="primary" icon={<FileTextOutlined />} target="_blank" href={applicantData?.militaries[0]?.source_file} /></Flex> : "Topilmadi", span: "filled" },
                                     ]}
                                 />
                             )

@@ -119,5 +119,10 @@ export interface IDoctorate {
   scientific_work_name: string;
 }
 
-export const getUniversityName = (university: IUniversity) =>
-  university?.name_uz || university?.name_en || university?.name_ru;
+export const getGlobalName = (value: {
+  name_uz?: string;
+  name_en?: string;
+  name_ru?: string;
+}) => {
+  return value?.name_uz || value?.name_en || value?.name_ru || "";
+};

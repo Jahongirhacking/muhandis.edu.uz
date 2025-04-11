@@ -4,6 +4,7 @@ import {
   IUniversity,
   IWorkplace,
 } from "../applicant/types";
+import { IMipRegion } from "../classifier/types";
 import {
   ApplicationTypeChoice,
   Gender,
@@ -45,6 +46,8 @@ export interface IUser {
   students?: IStudent[];
   workplaces?: IWorkplace[];
   militaries?: (Omit<IMilitary, "university"> & { university: IUniversity })[];
+  mip_region_data?: IMipRegion;
+  mip_district_data?: IMipRegion;
 }
 
 export interface IPhoto {
