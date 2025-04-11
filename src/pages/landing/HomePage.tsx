@@ -1,9 +1,9 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Alert, Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
-import moment from "moment";
+import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+//import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
-import Countdown from "react-countdown";
+//import Countdown from "react-countdown";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ const HomePage = () => {
     const [isCarActivated, setIsCarActivated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const { token, currentAdmission } = useSelector((store: RootState) => store.user);
+    const { token } = useSelector((store: RootState) => store.user);
     const [getAdmission] = useLazyGetAdmissionQuery();
     const MAX_NAV_WIDTH = 1420;
     const navigate = useNavigate();
@@ -46,15 +46,15 @@ const HomePage = () => {
         }
     }
 
-    const getTimeNumber = (val: number): string => {
+    /*const getTimeNumber = (val: number): string => {
         return val > 9 ? String(val) : `0${val}`;
-    }
+    }*/
 
     useEffect(() => {
         getAdmission();
     }, [getAdmission])
 
-    const renderer = ({ days, hours, minutes, seconds, completed }: { days: number, hours: number, minutes: number, seconds: number, completed: boolean }) => {
+    /*const renderer = ({ days, hours, minutes, seconds, completed }: { days: number, hours: number, minutes: number, seconds: number, completed: boolean }) => {
         if (completed) {
             // Render a completed state
             return <Typography.Text>Ariza yuborish va tahrirlash yakunlangan</Typography.Text>;
@@ -74,7 +74,7 @@ const HomePage = () => {
                 </Flex>
             );
         }
-    };
+    };*/
 
     useEffect(() => {
         if (width >= MAX_NAV_WIDTH) {
@@ -119,7 +119,7 @@ const HomePage = () => {
 
             {/* Header section */}
 
-            {
+            {/*
                 moment().isBefore(moment(currentAdmission?.applicant_can_modify_until).endOf('day')) && (
                     <Alert
                         message={
@@ -131,7 +131,7 @@ const HomePage = () => {
                         type="warning"
                     />
                 )
-            }
+            */}
 
             <Flex vertical className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
