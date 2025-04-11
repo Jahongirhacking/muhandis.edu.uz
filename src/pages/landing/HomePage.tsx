@@ -1,5 +1,5 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import { Alert, Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
