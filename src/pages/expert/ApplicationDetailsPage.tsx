@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DocumentViewer from "../../components/DocumentViewer";
 import { getUniversityName } from "../../services/applicant/types";
 import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
-import { ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName } from "../../services/types";
+import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName } from "../../services/types";
 import { RootState } from "../../store/store";
 
 interface ICheckedFile { [key: string]: { is_exists: boolean | null, rejected_reason: string } }
@@ -43,6 +43,13 @@ const ApplicationDetailsPage = () => {
     const { data: applicantData, isLoading: isApplicantLoading } = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetials?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetials && applicationDetials?.user) });
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (applicationDetials?.rejected_reason) {
+            setRejectedReason(applicationDetials?.rejected_reason);
+        }
+    }, [applicationDetials?.rejected_reason])
 
     const handleReject = async () => {
         try {
@@ -109,6 +116,7 @@ const ApplicationDetailsPage = () => {
     }, [applicationDetials, isLoading, requiredFiles]);
 
     useEffect(() => {
+        if (!applicationDetials || applicationDetials?.status !== ApplicationStatusChoice.SENT) return;
         (async () => {
             try {
                 if (checkObjectKeys(checkedFiles) && currentAdmission?.id && !isLoading) {
@@ -119,7 +127,7 @@ const ApplicationDetailsPage = () => {
                 console.error(err);
             }
         })()
-    }, [checkedFiles, putConclusion, id, currentAdmission, isLoading]);
+    }, [checkedFiles, putConclusion, id, currentAdmission, isLoading, applicationDetials]);
 
     if (isLoading || !checkObjectKeys(checkedFiles)) return <Skeleton />
     if (!applicationDetials) return <Empty description="Ariza ma'lumotlari topilmadi" />
@@ -134,6 +142,8 @@ const ApplicationDetailsPage = () => {
         checkedFiles[curr].is_exists === null ||
         (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
     ), false);
+
+    const canModify = applicationDetials?.status === ApplicationStatusChoice.SENT;
 
     return (
         <Flex vertical className="application-details" gap={24}>
@@ -194,16 +204,20 @@ const ApplicationDetailsPage = () => {
                 <Flex vertical gap={12} className="check-box">
                     <Flex gap={12} justify="space-between" align="center" wrap>
                         <Typography.Title level={4} style={{ margin: 0 }}>Tekshirish</Typography.Title>
-                        <Button
-                            type="primary"
-                            icon={isConfirmButtonPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
-                            disabled={isConfirmButtonDisabled}
-                            variant="solid"
-                            color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "primary" : "red") : 'primary'}
-                            onClick={isConfirmButtonPass ? handlePass : handleReject}
-                        >
-                            {isConfirmButtonDisabled ? 'Tasdiqlash' : isConfirmButtonPass ? "Qabul qilish" : 'Rad etish'}
-                        </Button>
+                        {
+                            canModify && (
+                                <Button
+                                    type="primary"
+                                    icon={isConfirmButtonPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
+                                    disabled={isConfirmButtonDisabled}
+                                    variant="solid"
+                                    color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "primary" : "red") : 'primary'}
+                                    onClick={isConfirmButtonPass ? handlePass : handleReject}
+                                >
+                                    {isConfirmButtonDisabled ? 'Tasdiqlash' : isConfirmButtonPass ? "Qabul qilish" : 'Rad etish'}
+                                </Button>
+                            )
+                        }
                     </Flex>
                     <Divider style={{ margin: 0 }} />
                     <Flex vertical gap={20} className="result-table">
@@ -239,6 +253,7 @@ const ApplicationDetailsPage = () => {
                                                     { label: "✅ Toʻgʻri", value: true },
                                                     { label: "❌ Xato", value: false }
                                                 ]}
+                                                disabled={!canModify}
                                                 onChange={(value) => {
                                                     setCheckedFiles(prev => ({
                                                         ...prev,
@@ -254,6 +269,7 @@ const ApplicationDetailsPage = () => {
                                                     <Input.TextArea
                                                         defaultValue={checkedFiles[record?.key]?.rejected_reason}
                                                         placeholder="Rad etish sababini yozing"
+                                                        disabled={!canModify}
                                                         onChange={({ target: { value } }) => {
                                                             conclusionRefs.current = { ...conclusionRefs.current, [record?.key]: value };
                                                         }}
@@ -277,27 +293,35 @@ const ApplicationDetailsPage = () => {
                         />
                         <Flex vertical gap={12} className="rejected-reason">
                             {
-                                Object.keys(checkedFiles).reduce((acc, curr) => (
-                                    acc &&
-                                    !!checkedFiles[curr].is_exists
-                                ), true) ? (
-                                    <Flex gap={8}>
-                                        <Typography.Text>Istisno bilan rad etish</Typography.Text>
-                                        <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
-                                    </Flex>
-                                ) : (
-                                    <Typography.Text strong>Rad etish xulosasi:</Typography.Text>
+                                !canModify && applicationDetials?.status !== ApplicationStatusChoice.PASSED && (
+                                    <>
+                                        {
+                                            Object.keys(checkedFiles).reduce((acc, curr) => (
+                                                acc &&
+                                                !!checkedFiles[curr].is_exists
+                                            ), true) && canModify ? (
+                                                <Flex gap={8}>
+                                                    <Typography.Text>Istisno bilan rad etish</Typography.Text>
+                                                    <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
+                                                </Flex>
+                                            ) : (
+                                                <Typography.Text strong>Rad etish xulosasi:</Typography.Text>
+                                            )
+                                        }
+                                        {
+                                            (isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetials?.rejected_reason && (
+                                                <Input.TextArea
+                                                    placeholder="Rad etish xulosasini yozing"
+                                                    value={rejectedReason}
+                                                    disabled={!canModify}
+                                                    onChange={({ target: { value } }) => setRejectedReason(value)}
+                                                />
+                                            )
+                                        }
+                                    </>
                                 )
                             }
-                            {
-                                (isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass && (
-                                    <Input.TextArea
-                                        placeholder="Rad etish xulosasini yozing"
-                                        value={rejectedReason}
-                                        onChange={({ target: { value } }) => setRejectedReason(value)}
-                                    />
-                                )
-                            }
+
                         </Flex>
                     </Flex>
                 </Flex>

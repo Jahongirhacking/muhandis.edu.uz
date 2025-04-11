@@ -68,21 +68,18 @@ const ExpertApplications = () => {
                         <Table
                             dataSource={data?.results}
                             columns={[
-                                ...(
-                                    APPLICATION_STATUS === ApplicationStatusChoice.SENT
-                                        ? [{
-                                            key: 'detail',
-                                            title: "Ko'rish",
-                                            render: (_: unknown, record: IApplication) => (
-                                                <Button
-                                                    type="primary"
-                                                    icon={<EyeOutlined />}
-                                                    onClick={() => navigate(`/expert/applications/${record?.id}`)}
-                                                />
-                                            ),
-                                            className: "application_detail"
-                                        }] : []
-                                ),
+                                {
+                                    key: 'detail',
+                                    title: "Ko'rish",
+                                    render: (_: unknown, record: IApplication) => (
+                                        <Button
+                                            type="primary"
+                                            icon={<EyeOutlined />}
+                                            onClick={() => navigate(`/expert/applications/${record?.id}`)}
+                                        />
+                                    ),
+                                    className: "application_detail"
+                                },
                                 {
                                     key: "id",
                                     dataIndex: "id",
