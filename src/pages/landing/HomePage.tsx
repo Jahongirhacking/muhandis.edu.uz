@@ -119,7 +119,7 @@ const HomePage = () => {
 
             {/* Header section */}
 
-            {
+            {/*
                 moment().isBefore(moment(currentAdmission?.applicant_can_modify_until).endOf('day')) && (
                     <Alert
                         message={
@@ -131,7 +131,7 @@ const HomePage = () => {
                         type="warning"
                     />
                 )
-            }
+            */}
 
             <Flex vertical className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">
