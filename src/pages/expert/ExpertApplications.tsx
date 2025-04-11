@@ -1,5 +1,6 @@
 import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextFilled } from "@ant-design/icons";
 import { Button, Empty, Flex, Input, Select, Skeleton, Switch, Table, Typography } from "antd";
+import moment from "moment";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -29,6 +30,12 @@ const ExpertApplications = () => {
         submit_as: role === 'all' ? undefined : role
     }, { skip: !(currentAdmission && currentAdmission?.id) });
     const navigate = useNavigate();
+
+    if (moment().isBefore(moment(currentAdmission?.end_at))) return (
+        <Empty
+            description={`${currentAdmission?.name} - ushbu tanlov uchun arizalarni ko'rib chiqish hali boshlanmagan`}
+        />
+    )
 
 
     return (

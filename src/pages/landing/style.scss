@@ -63,7 +63,7 @@ $original_width: 1728;
 
     .ant-typography {
       color: #fff;
-      font-size: 14pt;
+      font-size: 16pt;
 
       span {
         color: #10f5ff;
@@ -72,20 +72,20 @@ $original_width: 1728;
       }
     }
 
-    @media screen and (max-width: 750px) {
+    @media screen and (max-width: 450px) {
       .ant-typography {
-        font-size: 11pt;
+        font-size: 12pt;
         span {
-          font-size: 12pt;
+          font-size: 10pt;
         }
       }
     }
 
-    @media screen and (max-width: 450px) {
+    @media (min-width: 451px) and (max-width: 750px) {
       .ant-typography {
-        font-size: 9pt;
+        font-size: 15pt;
         span {
-          font-size: 10pt;
+          font-size: 12pt;
         }
       }
     }

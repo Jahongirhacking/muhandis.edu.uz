@@ -1,5 +1,5 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+import { Alert, Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
 //import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
@@ -119,19 +119,12 @@ const HomePage = () => {
 
             {/* Header section */}
 
-            {/*
-                moment().isBefore(moment(currentAdmission?.applicant_can_modify_until).endOf('day')) && (
-                    <Alert
-                        message={
-                            <Countdown
-                                date={moment(currentAdmission?.applicant_can_modify_until).endOf('day').toDate()}
-                                renderer={renderer}
-                            />
-                        }
-                        type="warning"
-                    />
-                )
-            */}
+
+            <Alert
+                message={<Typography.Title level={3} style={{ margin: 0 }}>Ariza qabul qilish yakunlangan</Typography.Title>}
+                type="warning"
+            />
+
 
             <Flex vertical className="header" justify="center" align="center">
                 <Flex className="padding-box" gap={12} justify='space-between' align="center">

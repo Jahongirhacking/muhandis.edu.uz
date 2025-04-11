@@ -74,7 +74,7 @@ const userSlice = createSlice({
         classifierApi.endpoints.getAdmission.matchFulfilled,
         (state, { payload }) => {
           state.currentAdmission = payload
-            ? payload?.find((el) => el?.is_active) ?? null
+            ? payload?.find((el) => el?.is_visible) ?? null
             : null;
         }
       )
