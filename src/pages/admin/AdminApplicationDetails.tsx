@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, FileTextOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -36,7 +36,6 @@ const AdminApplicationDetails = () => {
     }, [profile.check_type]);
     const [checkedFiles, setCheckedFiles] = useState<ICheckedFile>({})
     const [rejectWithException, setRejectWithException] = useState(false);
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [rejectedReason, setRejectedReason] = useState('');
     const [putConclusion] = usePutConclusionMutation();
     const [rejectApplication] = useRejectApplicationMutation();
@@ -161,44 +160,59 @@ const AdminApplicationDetails = () => {
         <Flex vertical className="application-details" gap={24}>
             <Flex className="application-container" gap={12}>
                 <Flex vertical gap={24} className="main-details">
-                    <Modal footer={null} closable open={isProfileOpen} onCancel={() => setIsProfileOpen(false)}>
-                        {
-                            isApplicantLoading ? (
-                                <Skeleton />
-                            ) : (
-                                <Descriptions
-                                    bordered
-                                    items={[
-                                        { key: 'fullname', label: "F.I.SH", children: `${applicantData?.last_name} ${applicantData?.first_name} ${applicantData?.middle_name}`, span: "filled" },
-                                        { key: 'birthdate', label: "Tug'ilgan sana", children: applicantData?.birth_date, span: "filled" },
-                                        { key: 'document', label: "Pasport raqami", children: applicantData?.document, span: "filled" },
-                                        { key: 'gender', label: "Jinsi", children: applicantData?.gender === Gender.Male ? 'Erkak' : "Ayol", span: "filled" },
-                                        { key: 'address', label: "Manzil", children: `${getGlobalName(applicantData?.mip_region_data || {})}, ${getGlobalName(applicantData?.mip_district_data || {})}, ${applicantData?.mip_address}`, span: "filled" },
-                                        { key: 'phone', label: "Telefon raqami", children: applicantData?.phone_number || '-', span: "filled" },
-                                        { key: 'email', label: "Email", children: applicantData?.email || '-', span: "filled" },
-                                        { key: 'education', label: "O'qish joyi", children: applicantData?.students?.length ? `${getGlobalName(applicantData?.students[0]?.university)} (${applicantData?.students[0]?.course}-kurs)` : 'Topilmadi', span: "filled" },
-                                        { key: 'work', label: "Ish joyi", children: applicantData?.workplaces?.find(w => w?.is_selected) ? `${applicantData?.workplaces?.find(w => w?.is_selected)?.organization} (${applicantData?.workplaces?.find(w => w?.is_selected)?.position})` : 'Topilmadi', span: "filled" },
-                                        { key: 'military', label: "Harbiy ma'lumot", children: applicantData?.militaries?.length ? <Flex vertical gap={6}>{getGlobalName(applicantData?.militaries[0]?.university)} <Button type="primary" icon={<FileTextOutlined />} target="_blank" href={applicantData?.militaries[0]?.source_file} /></Flex> : "Topilmadi", span: "filled" },
-                                    ]}
-                                />
-                            )
-                        }
-                    </Modal>
-                    <Descriptions
-                        bordered
-                        size="small"
-                        layout="vertical"
+                    <Tabs
+                        type="card"
                         items={[
-                            { key: 'id', label: 'Ariza raqami', children: id },
-                            { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetails?.application_type) },
-                            { key: 'submit_as', label: "Arizachi kasbi", children: getRoleName(applicationDetails?.submit_as) },
-                            { key: 'name', label: "Nomi", children: applicationDetails?.name },
-                            { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetails?.short_description },
-                            { key: 'category', label: "Kategoriya", children: applicationDetails?.category },
-                            { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetails?.problem_and_solution },
+                            {
+                                key: 'application',
+                                label: "Ariza ma'lumoti",
+                                children: (
+                                    <Descriptions
+                                        bordered
+                                        size="small"
+                                        layout="vertical"
+                                        items={[
+                                            { key: 'id', label: 'Ariza raqami', children: id },
+                                            { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetails?.application_type) },
+                                            { key: 'name', label: "Nomi", children: applicationDetails?.name },
+                                            { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetails?.short_description },
+                                            { key: 'category', label: "Kategoriya", children: applicationDetails?.category },
+                                            { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetails?.problem_and_solution },
+                                        ]}
+                                    />
+                                )
+                            },
+                            {
+                                key: "applicant",
+                                label: "Arizachi ma'lumoti",
+                                children: (
+                                    isApplicantLoading ? (
+                                        <Skeleton />
+                                    ) : (
+                                        <Descriptions
+                                            bordered
+                                            size="small"
+                                            layout="vertical"
+                                            items={[
+                                                { key: 'submit_as', label: "Arizachi roli", children: getRoleName(applicationDetails?.submit_as) },
+                                                { key: 'fullname', label: "F.I.SH", children: `${applicantData?.last_name} ${applicantData?.first_name} ${applicantData?.middle_name}` },
+                                                { key: 'birthdate', label: "Tug'ilgan sana", children: applicantData?.birth_date },
+                                                { key: 'document', label: "Pasport raqami", children: applicantData?.document },
+                                                { key: 'gender', label: "Jinsi", children: applicantData?.gender === Gender.Male ? 'Erkak' : "Ayol" },
+                                                { key: 'address', label: "Manzil", children: `${getGlobalName(applicantData?.mip_region_data || {})}, ${getGlobalName(applicantData?.mip_district_data || {})}, ${applicantData?.mip_address}` },
+                                                { key: 'phone', label: "Telefon raqami", children: applicantData?.phone_number || '-' },
+                                                { key: 'email', label: "Email", children: applicantData?.email || '-' },
+                                                { key: 'education', label: "O'qish joyi", children: applicantData?.students?.length ? `${getGlobalName(applicantData?.students[0]?.university)} (${applicantData?.students[0]?.course}-kurs)` : 'Topilmadi' },
+                                                { key: 'work', label: "Ish joyi", children: applicantData?.workplaces?.find(w => w?.is_selected) ? `${applicantData?.workplaces?.find(w => w?.is_selected)?.organization} (${applicantData?.workplaces?.find(w => w?.is_selected)?.position})` : 'Topilmadi' },
+                                                { key: 'military', label: "Harbiy ma'lumot", children: applicantData?.militaries?.length ? <Flex vertical gap={6}>{getGlobalName(applicantData?.militaries[0]?.university)} <Button type="primary" icon={<FileTextOutlined />} target="_blank" href={applicantData?.militaries[0]?.source_file} /></Flex> : "Topilmadi" },
+                                            ]}
+                                        />
+                                    )
+                                )
+                            }
                         ]}
-                        extra={<Button variant="filled" color="blue" icon={<EyeOutlined />} onClick={() => setIsProfileOpen(true)}>Arizachi haqida ma'lumot</Button>}
                     />
+
                     <Tabs
                         type="card"
                         items={

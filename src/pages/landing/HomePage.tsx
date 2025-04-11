@@ -119,7 +119,6 @@ const HomePage = () => {
 
             {/* Header section */}
 
-
             <Alert
                 message={<Typography.Title level={3} style={{ margin: 0 }}>Ariza qabul qilish yakunlangan</Typography.Title>}
                 type="warning"
