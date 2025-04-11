@@ -1,9 +1,9 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { Alert, Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
-import moment from "moment";
+import { Button, Card, Divider, Drawer, Flex, FloatButton, Image, Modal, Typography } from "antd";
+// import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
-import Countdown from "react-countdown";
+// import Countdown from "react-countdown";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -46,14 +46,15 @@ const HomePage = () => {
         }
     }
 
-    const getTimeNumber = (val: number): string => {
+    /*const getTimeNumber = (val: number): string => {
         return val > 9 ? String(val) : `0${val}`;
-    }
+    }*/
 
     useEffect(() => {
         getAdmission();
     }, [getAdmission])
 
+    /*
     const renderer = ({ days, hours, minutes, seconds, completed }: { days: number, hours: number, minutes: number, seconds: number, completed: boolean }) => {
         if (completed) {
             // Render a completed state
@@ -75,6 +76,7 @@ const HomePage = () => {
             );
         }
     };
+    */
 
     useEffect(() => {
         if (width >= MAX_NAV_WIDTH) {
