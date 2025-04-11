@@ -40,7 +40,8 @@ body:has(.expert-layout) {
             max-height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
-            min-width: 240px;
+            min-width: min(240px, 30%);
+            max-width: min(240px, 30%);
 
             .ant-menu {
               border: none;
