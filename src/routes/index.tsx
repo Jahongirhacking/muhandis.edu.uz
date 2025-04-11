@@ -15,7 +15,6 @@ import ViewApplicationsPage from "../pages/dashboard/applications/ViewApplicatio
 import MainPage from "../pages/dashboard/MainPage"
 import NotificationsPage from "../pages/dashboard/NotificationsPage"
 import HomePage from "../pages/landing/HomePage"
-import MinistryPage from "../pages/ministry"
 import CallbackPage from "../pages/utils/CallbackPage"
 import { Role } from "../services/types"
 import { buildRoutes, IRoute } from "../utils/routeUtils"
@@ -67,10 +66,6 @@ const privateRoutes: IRoute[] = [
             { path: 'applications/:id', element: <AdminApplicationDetails /> }
         ]
     },
-    {
-        path: 'ministry',
-        element: <MinistryPage />
-    }
 ]
 
 const MainRouter = () => {

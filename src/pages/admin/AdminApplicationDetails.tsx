@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, EyeOutlined, FileTextOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import DocumentViewer from "../../components/DocumentViewer";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { getUniversityName } from "../../services/applicant/types";
 import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
+import { useGetMinistryApplicationDetailsQuery, useGetMinistryUserInfoQuery } from "../../services/ministry";
 import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
 
@@ -33,7 +34,6 @@ const AdminApplicationDetails = () => {
             ExampleFileFieldNameChoices.PRESENTATION_FILE,
         ];
     }, [profile.check_type]);
-    const { data: applicationDetials, isLoading } = useGetApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) });
     const [checkedFiles, setCheckedFiles] = useState<ICheckedFile>({})
     const [rejectWithException, setRejectWithException] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -41,16 +41,27 @@ const AdminApplicationDetails = () => {
     const [putConclusion] = usePutConclusionMutation();
     const [rejectApplication] = useRejectApplicationMutation();
     const [passApplication] = usePassApplicationMutation();
-    const { data: applicantData, isLoading: isApplicantLoading } = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetials?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetials && applicationDetials?.user) });
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
-    const { role } = useOutletContext<AdminContext>();
+    const { role: adminRole } = useOutletContext<AdminContext>();
+
+    // Details Query
+    const expertDetailsQuery = useGetApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
+    const ministryDetailsQuery = useGetMinistryApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry });
+    const applicationDetails = adminRole === Role.Ministry ? ministryDetailsQuery?.data : expertDetailsQuery?.data;
+    const isDetailsLoading = adminRole === Role.Ministry ? ministryDetailsQuery?.isLoading : expertDetailsQuery?.isLoading;
+
+    // Applicant Query
+    const expertApplicantQuery = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole === Role.Ministry });
+    const ministryApplicantQuery = useGetMinistryUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole !== Role.Ministry });
+    const applicantData = adminRole === Role.Ministry ? ministryApplicantQuery?.data : expertApplicantQuery?.data;
+    const isApplicantLoading = adminRole === Role.Ministry ? ministryDetailsQuery?.isLoading : expertDetailsQuery?.isLoading;
 
     useEffect(() => {
-        if (applicationDetials?.rejected_reason) {
-            setRejectedReason(applicationDetials?.rejected_reason);
+        if (applicationDetails?.rejected_reason) {
+            setRejectedReason(applicationDetails?.rejected_reason);
         }
-    }, [applicationDetials?.rejected_reason])
+    }, [applicationDetails?.rejected_reason])
 
     const handleReject = async () => {
         try {
@@ -99,8 +110,8 @@ const AdminApplicationDetails = () => {
     }
 
     useEffect(() => {
-        if (!isLoading && applicationDetials) {
-            const conclusion = applicationDetials.expert_conclusion;
+        if (!isDetailsLoading && applicationDetails) {
+            const conclusion = applicationDetails.expert_conclusion;
             if (checkObjectKeys(conclusion || {})) {
                 setCheckedFiles(conclusion as ICheckedFile);
             } else {
@@ -114,13 +125,13 @@ const AdminApplicationDetails = () => {
                 setCheckedFiles(defaultChecked);
             }
         }
-    }, [applicationDetials, isLoading, requiredFiles]);
+    }, [applicationDetails, isDetailsLoading, requiredFiles]);
 
     useEffect(() => {
-        if (!applicationDetials || applicationDetials?.status !== ApplicationStatusChoice.SENT) return;
+        if (!applicationDetails || applicationDetails?.status !== ApplicationStatusChoice.SENT || adminRole === Role.Ministry) return;
         (async () => {
             try {
-                if (checkObjectKeys(checkedFiles) && currentAdmission?.id && !isLoading) {
+                if (checkObjectKeys(checkedFiles) && currentAdmission?.id && !isDetailsLoading) {
                     await putConclusion({ id: Number(id), expert_conclusion: checkedFiles, admission_id: currentAdmission?.id || 0 }).unwrap();
                 }
             } catch (err) {
@@ -128,10 +139,10 @@ const AdminApplicationDetails = () => {
                 console.error(err);
             }
         })()
-    }, [checkedFiles, putConclusion, id, currentAdmission, isLoading, applicationDetials]);
+    }, [checkedFiles, putConclusion, id, currentAdmission, isDetailsLoading, applicationDetails, adminRole]);
 
-    if (isLoading || !checkObjectKeys(checkedFiles)) return <Skeleton />
-    if (!applicationDetials) return <Empty description="Ariza ma'lumotlari topilmadi" />
+    if (isDetailsLoading || !checkObjectKeys(checkedFiles)) return <Skeleton />
+    if (!applicationDetails) return <Empty description="Ariza ma'lumotlari topilmadi" />
 
     const isConfirmButtonPass = !rejectWithException && Object.keys(checkedFiles).reduce((acc, curr) => (
         acc &&
@@ -144,7 +155,7 @@ const AdminApplicationDetails = () => {
         (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
     ), false);
 
-    const canModify = applicationDetials?.status === ApplicationStatusChoice.SENT && role !== Role.Ministry;
+    const canModify = applicationDetails?.status === ApplicationStatusChoice.SENT && adminRole !== Role.Ministry;
 
     return (
         <Flex vertical className="application-details" gap={24}>
@@ -178,12 +189,12 @@ const AdminApplicationDetails = () => {
                         layout="vertical"
                         items={[
                             { key: 'id', label: 'Ariza raqami', children: id },
-                            { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetials?.application_type) },
-                            { key: 'submit_as', label: "Arizachi kasbi", children: getRoleName(applicationDetials?.submit_as) },
-                            { key: 'name', label: "Nomi", children: applicationDetials?.name },
-                            { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetials?.short_description },
-                            { key: 'category', label: "Kategoriya", children: applicationDetials?.category },
-                            { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetials?.problem_and_solution },
+                            { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetails?.application_type) },
+                            { key: 'submit_as', label: "Arizachi kasbi", children: getRoleName(applicationDetails?.submit_as) },
+                            { key: 'name', label: "Nomi", children: applicationDetails?.name },
+                            { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetails?.short_description },
+                            { key: 'category', label: "Kategoriya", children: applicationDetails?.category },
+                            { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetails?.problem_and_solution },
                         ]}
                         extra={<Button variant="filled" color="blue" icon={<EyeOutlined />} onClick={() => setIsProfileOpen(true)}>Arizachi haqida ma'lumot</Button>}
                     />
@@ -192,7 +203,12 @@ const AdminApplicationDetails = () => {
                         items={
                             requiredFiles.map(file => ({
                                 key: file,
-                                children: <DocumentViewer fileUrl={applicationDetials[file as ExampleFileFieldNameChoices] || ''} />,
+                                children: (
+                                    <Flex vertical gap={24}>
+                                        <DocumentViewer fileUrl={applicationDetails[file as ExampleFileFieldNameChoices] || ''} />
+                                        <Button type="primary" href={applicationDetails[file as ExampleFileFieldNameChoices] || ''} target="_blank" icon={<DownloadOutlined />} download style={{ margin: 'auto' }}>Faylni yuklab olish</Button>
+                                    </Flex>
+                                ),
                                 label: (
                                     <span className={`${file} ${checkedFiles[file].is_exists ? "active" : checkedFiles[file].is_exists === false ? "inactive" : ''}`}>
                                         {getExampleFileName(file)}
@@ -294,7 +310,7 @@ const AdminApplicationDetails = () => {
                         />
                         <Flex vertical gap={12} className="rejected-reason">
                             {
-                                applicationDetials?.status !== ApplicationStatusChoice.PASSED && (
+                                applicationDetails?.status !== ApplicationStatusChoice.PASSED && (
                                     <>
                                         {
                                             Object.keys(checkedFiles).reduce((acc, curr) => (
@@ -310,7 +326,7 @@ const AdminApplicationDetails = () => {
                                             )
                                         }
                                         {
-                                            ((isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetials?.rejected_reason) && (
+                                            ((isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetails?.rejected_reason) && (
                                                 <Input.TextArea
                                                     placeholder="Rad etish xulosasini yozing"
                                                     value={rejectedReason}

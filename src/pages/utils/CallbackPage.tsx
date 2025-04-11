@@ -18,7 +18,7 @@ const CallbackPage = () => {
         // expert
         if (role === Role.Expert) return <Navigate to={'/expert/applications'} replace />
         // ministry
-        if (role === Role.Ministry) return <Navigate to={'/ministry'} replace />
+        if (role === Role.Ministry) return <Navigate to={'/ministry/applications'} replace />
     }
 
     return (

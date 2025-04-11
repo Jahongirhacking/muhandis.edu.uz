@@ -6,39 +6,66 @@ import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { IApplication } from "../../services/applicant/types";
+import { useGetMipRegionsQuery } from "../../services/classifier";
+import { IMipRegion } from "../../services/classifier/types";
 import { useGetApplicationsQuery } from "../../services/inspector";
-import { ApplicationStatusChoice, ApplicationSubmitAsChoice, getApplicationStatusName, getRoleName, Role } from "../../services/types";
+import { useGetMinistryApplicationsQuery } from "../../services/ministry";
+import { ApplicationStatusChoice, ApplicationSubmitAsChoice, ApplicationTypeChoice, getApplicationChoiceName, getApplicationStatusName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
 import { SearchParams } from "../../utils/config";
-
-const PAGE_LIMIT = 20;
+import { getLocalStorage, localStorageNames, setLocalStorage } from "../../utils/storageUtils";
 
 const AdminApplications = () => {
     const [searchParams] = useSearchParams();
     const APPLICATION_STATUS = Math.max(Number(searchParams.get(SearchParams.ApplicationStatus)), ApplicationStatusChoice.SENT);
+    const [pageLimit, setPageLimit] = useState(getLocalStorage(localStorageNames.pageLimit) || 20);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [role, setRole] = useState<ApplicationSubmitAsChoice | 'all'>('all');
     const [fromMilitary, setFromMilitary] = useState(false);
     const { currentAdmission } = useSelector((store: RootState) => store.user);
     const { role: adminRole } = useOutletContext<AdminContext>();
-    const { data, isLoading } = useGetApplicationsQuery({
+    const [applicationStatus, setApplicationStatus] = useState<ApplicationStatusChoice | 'all'>('all');
+    const [applicationType, setApplicationType] = useState<ApplicationTypeChoice | 'all'>('all');
+    const [selectedRegion, setSelectedRegion] = useState<IMipRegion['id'] | 'all'>('all');
+    const navigate = useNavigate();
+    const { data: mipRegions, isLoading: isMipRegionsLoading } = useGetMipRegionsQuery();
+
+    const expertQuery = useGetApplicationsQuery({
         admission_id: currentAdmission?.id || 0,
-        limit: PAGE_LIMIT,
-        offset: (currentPage - 1) * PAGE_LIMIT,
-        status: adminRole === Role.Ministry ? undefined : APPLICATION_STATUS,
+        limit: pageLimit,
+        offset: (currentPage - 1) * pageLimit,
+        status: APPLICATION_STATUS,
         from_military: fromMilitary,
         q: searchTerm,
         submit_as: role === 'all' ? undefined : role
-    }, { skip: !(currentAdmission && currentAdmission?.id) });
-    const navigate = useNavigate();
+    }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
+
+    const ministryQuery = useGetMinistryApplicationsQuery({
+        admission_id: currentAdmission?.id || 0,
+        limit: pageLimit,
+        offset: (currentPage - 1) * pageLimit,
+        status: applicationStatus === 'all' ? undefined : applicationStatus,
+        from_military: fromMilitary,
+        q: searchTerm,
+        submit_as: role === 'all' ? undefined : role,
+        application_type: applicationType === 'all' ? undefined : applicationType,
+        mip_region_id: selectedRegion === 'all' ? undefined : selectedRegion
+    }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry })
+
+    const data = adminRole === Role.Ministry ? ministryQuery?.data : expertQuery?.data;
+    const isLoading = adminRole === Role.Ministry ? ministryQuery?.isLoading : expertQuery?.isLoading;
+
+    const handleChangePageLimit = (_: number, pageSize: number) => {
+        setPageLimit(pageSize);
+        setLocalStorage(localStorageNames.pageLimit, pageSize);
+    }
 
     if (moment().isBefore(moment(currentAdmission?.end_at))) return (
         <Empty
             description={`${currentAdmission?.name} - ushbu tanlov uchun arizalarni ko'rib chiqish hali boshlanmagan`}
         />
     )
-
 
     return (
         <Flex vertical gap={18}>
@@ -52,12 +79,55 @@ const AdminApplications = () => {
                     value={role}
                     onChange={(key) => setRole(key)}
                     options={[
-                        { label: "Barchasi", value: 'all' },
+                        { label: "Arizachi roli (Barchasi)", value: 'all' },
                         { label: getRoleName(ApplicationSubmitAsChoice.STUDENT), value: ApplicationSubmitAsChoice.STUDENT },
                         { label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), value: ApplicationSubmitAsChoice.PRACTICAL_ENGINEER },
                         { label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), value: ApplicationSubmitAsChoice.PROFESSOR_TEACHER },
                     ]}
                 />
+                {
+                    adminRole === Role.Ministry && (
+                        <>
+                            <Select
+                                value={applicationType}
+                                onChange={(key) => setApplicationType(key)}
+                                options={[
+                                    { label: "Ariza turi (Barchasi)", value: 'all' },
+                                    { label: getApplicationChoiceName(ApplicationTypeChoice.Idea), value: ApplicationTypeChoice.Idea },
+                                    { label: getApplicationChoiceName(ApplicationTypeChoice.Project), value: ApplicationTypeChoice.Project },
+                                    { label: getApplicationChoiceName(ApplicationTypeChoice.Invention), value: ApplicationTypeChoice.Invention },
+                                ]}
+                            />
+                            <Select
+                                value={applicationStatus}
+                                onChange={(key) => setApplicationStatus(key)}
+                                options={[
+                                    { label: "Ariza holati (Barchasi)", value: 'all' },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.SENT), value: ApplicationStatusChoice.SENT },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.REJECTED), value: ApplicationStatusChoice.REJECTED },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.PASSED), value: ApplicationStatusChoice.PASSED },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.EVALUATED), value: ApplicationStatusChoice.EVALUATED },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.SELECTED), value: ApplicationStatusChoice.SELECTED },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.PLACE_3), value: ApplicationStatusChoice.PLACE_3 },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.PLACE_2), value: ApplicationStatusChoice.PLACE_2 },
+                                    { label: getApplicationStatusName(ApplicationStatusChoice.PLACE_1), value: ApplicationStatusChoice.PLACE_1 },
+                                ]}
+                            />
+                            <Select
+                                loading={isMipRegionsLoading}
+                                value={selectedRegion}
+                                onChange={(key) => setSelectedRegion(key)}
+                                options={[
+                                    { label: "Viloyat (Barchasi)", value: 'all' },
+                                    ...(mipRegions && mipRegions.length
+                                        ? mipRegions.map(region => ({ label: region?.name_uz || region?.name_ru || region?.name_en, value: region?.id }))
+                                        : []
+                                    )
+                                ]}
+                            />
+                        </>
+                    )
+                }
                 <Flex gap={8}>
                     <Switch value={fromMilitary} onChange={(val) => setFromMilitary(val)} />
                     <Typography.Text>Harbiy ma'lumotga ega</Typography.Text>
@@ -92,6 +162,17 @@ const AdminApplications = () => {
                                     title: "ID",
                                     className: "application_id"
                                 },
+                                ...(
+                                    adminRole === Role.Ministry ? [
+                                        {
+                                            key: "application_type",
+                                            dataIndex: "application_type",
+                                            title: "Ariza turi",
+                                            className: "application_type",
+                                            render: (application_type: IApplication['application_type']) => getApplicationChoiceName(application_type)
+                                        }
+                                    ] : []
+                                ),
                                 {
                                     key: "name",
                                     dataIndex: "name",
@@ -136,7 +217,10 @@ const AdminApplications = () => {
                             pagination={{
                                 current: currentPage,
                                 onChange: (page) => setCurrentPage(page),
-                                pageSize: PAGE_LIMIT
+                                pageSize: pageLimit,
+                                total: data?.count || 0,
+                                pageSizeOptions: [10, 20, 40, 60],
+                                onShowSizeChange: handleChangePageLimit
                             }}
                             locale={{
                                 emptyText: <Empty description="Ariza topilmadi" />

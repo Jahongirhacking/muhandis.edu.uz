@@ -9,6 +9,7 @@ export enum Role {
   Applicant = "applicant",
   Expert = "expert",
   Ministry = "ministry",
+  Comission = "commission",
 }
 
 export enum Gender {
