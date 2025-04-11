@@ -2,11 +2,12 @@ import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextOutlined } f
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import DocumentViewer from "../../components/DocumentViewer";
+import { AdminContext } from "../../layouts/AdminLayout";
 import { getUniversityName } from "../../services/applicant/types";
 import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
-import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName } from "../../services/types";
+import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
 
 interface ICheckedFile { [key: string]: { is_exists: boolean | null, rejected_reason: string } }
@@ -16,7 +17,7 @@ const checkObjectKeys = (obj: object) => {
     return true;
 }
 
-const ApplicationDetailsPage = () => {
+const AdminApplicationDetails = () => {
     const { id } = useParams();
     const { currentAdmission, profile } = useSelector((store: RootState) => store.user);
     const requiredFiles = useMemo(() => {
@@ -43,6 +44,7 @@ const ApplicationDetailsPage = () => {
     const { data: applicantData, isLoading: isApplicantLoading } = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetials?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetials && applicationDetials?.user) });
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
+    const { role } = useOutletContext<AdminContext>();
 
     useEffect(() => {
         if (applicationDetials?.rejected_reason) {
@@ -115,7 +117,6 @@ const ApplicationDetailsPage = () => {
     }, [applicationDetials, isLoading, requiredFiles]);
 
     useEffect(() => {
-        console.log(applicationDetials?.status);
         if (!applicationDetials || applicationDetials?.status !== ApplicationStatusChoice.SENT) return;
         (async () => {
             try {
@@ -143,7 +144,7 @@ const ApplicationDetailsPage = () => {
         (checkedFiles[curr].is_exists === false && !checkedFiles[curr].rejected_reason)
     ), false);
 
-    const canModify = applicationDetials?.status === ApplicationStatusChoice.SENT;
+    const canModify = applicationDetials?.status === ApplicationStatusChoice.SENT && role !== Role.Ministry;
 
     return (
         <Flex vertical className="application-details" gap={24}>
@@ -329,4 +330,4 @@ const ApplicationDetailsPage = () => {
     )
 }
 
-export default ApplicationDetailsPage
+export default AdminApplicationDetails

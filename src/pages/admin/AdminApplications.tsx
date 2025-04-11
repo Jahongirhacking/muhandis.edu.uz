@@ -3,16 +3,17 @@ import { Button, Empty, Flex, Input, Select, Skeleton, Switch, Table, Typography
 import moment from "moment";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
+import { AdminContext } from "../../layouts/AdminLayout";
 import { IApplication } from "../../services/applicant/types";
 import { useGetApplicationsQuery } from "../../services/inspector";
-import { ApplicationStatusChoice, ApplicationSubmitAsChoice, getApplicationStatusName, getRoleName } from "../../services/types";
+import { ApplicationStatusChoice, ApplicationSubmitAsChoice, getApplicationStatusName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
 import { SearchParams } from "../../utils/config";
 
 const PAGE_LIMIT = 20;
 
-const ExpertApplications = () => {
+const AdminApplications = () => {
     const [searchParams] = useSearchParams();
     const APPLICATION_STATUS = Math.max(Number(searchParams.get(SearchParams.ApplicationStatus)), ApplicationStatusChoice.SENT);
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,11 +21,12 @@ const ExpertApplications = () => {
     const [role, setRole] = useState<ApplicationSubmitAsChoice | 'all'>('all');
     const [fromMilitary, setFromMilitary] = useState(false);
     const { currentAdmission } = useSelector((store: RootState) => store.user);
+    const { role: adminRole } = useOutletContext<AdminContext>();
     const { data, isLoading } = useGetApplicationsQuery({
         admission_id: currentAdmission?.id || 0,
         limit: PAGE_LIMIT,
         offset: (currentPage - 1) * PAGE_LIMIT,
-        status: APPLICATION_STATUS,
+        status: adminRole === Role.Ministry ? undefined : APPLICATION_STATUS,
         from_military: fromMilitary,
         q: searchTerm,
         submit_as: role === 'all' ? undefined : role
@@ -75,7 +77,11 @@ const ExpertApplications = () => {
                                         <Button
                                             type="primary"
                                             icon={<EyeOutlined />}
-                                            onClick={() => navigate(`/expert/applications/${record?.id}`)}
+                                            onClick={() => navigate(
+                                                adminRole === Role.Ministry
+                                                    ? `/ministry/applications/${record?.id}`
+                                                    : `/expert/applications/${record?.id}`
+                                            )}
                                         />
                                     ),
                                     className: "application_detail"
@@ -144,4 +150,4 @@ const ExpertApplications = () => {
     )
 }
 
-export default ExpertApplications
+export default AdminApplications
