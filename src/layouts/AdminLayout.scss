@@ -225,4 +225,10 @@ body:has(.expert-layout) {
       }
     }
   }
+
+  .ministry-details {
+    .check-box {
+      order: 3 !important;
+    }
+  }
 }

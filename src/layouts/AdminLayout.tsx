@@ -1,5 +1,5 @@
 import { CheckCircleFilled, CloseCircleFilled, FileTextFilled, LogoutOutlined } from "@ant-design/icons"
-import { Avatar, Button, Flex, Menu, MenuProps, Typography } from "antd"
+import { Avatar, Button, Dropdown, Flex, Menu, MenuProps, Typography } from "antd"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom"
@@ -67,9 +67,15 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
             <Flex className="expert-header" justify="space-between" align="center">
                 <Logo />
                 <Flex gap={8} align="center">
-                    <Avatar size={50} shape="circle" src={base64ToNormalImage(photo)}>
-                        {profile?.last_name?.slice(0, 1)}{profile?.first_name?.slice(0, 1)}
-                    </Avatar>
+                    <Dropdown trigger={['click']} menu={{
+                        items: [
+                            { label: <Button variant="text" color="danger" icon={<LogoutOutlined />} onClick={() => dispatch(logout())}>Chiqish</Button>, key: 'logout' }
+                        ]
+                    }}>
+                        <Avatar size={50} shape="circle" src={base64ToNormalImage(photo)} style={{ cursor: 'pointer' }}>
+                            {profile?.last_name?.slice(0, 1)}{profile?.first_name?.slice(0, 1)}
+                        </Avatar>
+                    </Dropdown>
                     <Flex vertical gap={4}>
                         <Typography.Text strong>{profile?.last_name} {profile?.first_name?.slice(0, 1)}.</Typography.Text>
                         <Typography.Text>
@@ -86,24 +92,22 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
             </Flex>
             <Flex className="expert-layout-main">
                 {
-
-                    <Flex className="expert-navbar" vertical justify="space-between">
-                        <Menu
-                            defaultSelectedKeys={[searchParams.get(SearchParams.ApplicationStatus) || '1']}
-                            onClick={handleChangeMenuKey}
-                            items={[...(role === Role.Expert ? [
-                                { key: '1', label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
-                                { key: '2', label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: '#00d500' }} /> },
-                                { key: '10', label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
-                            ] : role === Role.Ministry ? [
-                                { key: '0', label: "Barcha arizalar", icon: <FileTextFilled style={{ color: '#1677ff' }} /> }
-                            ] : [])]}
-                        />
-                        <Button variant="text" color="danger" icon={<LogoutOutlined />} onClick={() => dispatch(logout())}>Chiqish</Button>
-                    </Flex>
-
+                    role !== Role.Ministry && (
+                        <Flex className="expert-navbar" vertical justify="space-between">
+                            <Menu
+                                defaultSelectedKeys={[searchParams.get(SearchParams.ApplicationStatus) || '1']}
+                                onClick={handleChangeMenuKey}
+                                items={[...(role === Role.Expert ? [
+                                    { key: '1', label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
+                                    { key: '2', label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: '#00d500' }} /> },
+                                    { key: '10', label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
+                                ] : [])]}
+                            />
+                            <Button variant="text" color="danger" icon={<LogoutOutlined />} onClick={() => dispatch(logout())}>Chiqish</Button>
+                        </Flex>
+                    )
                 }
-                <Flex vertical className="expert-layout-content">
+                <Flex vertical className="expert-layout-content" align="center">
                     <Outlet context={{ role }} />
                 </Flex>
             </Flex>

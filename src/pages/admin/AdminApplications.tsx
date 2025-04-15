@@ -23,7 +23,7 @@ const AdminApplications = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [role, setRole] = useState<ApplicationSubmitAsChoice | 'all'>('all');
-    const [fromMilitary, setFromMilitary] = useState(false);
+    const [fromMilitary, setFromMilitary] = useState<boolean | undefined>();
     const { currentAdmission } = useSelector((store: RootState) => store.user);
     const { role: adminRole } = useOutletContext<AdminContext>();
     const [applicationStatus, setApplicationStatus] = useState<ApplicationStatusChoice | 'all'>('all');
@@ -75,7 +75,7 @@ const AdminApplications = () => {
     )
 
     return (
-        <Flex vertical gap={18}>
+        <Flex vertical gap={18} style={{ maxWidth: 1700 }}>
             <Flex className="application-controls" gap={12} wrap align='center'>
                 <Input.Search
                     placeholder="Qidirish"
@@ -157,29 +157,16 @@ const AdminApplications = () => {
                     <Typography.Text>Harbiy ma'lumotga ega</Typography.Text>
                 </Flex>
             </Flex>
-
+            <Typography.Text>
+                Jami arizalar soni: <strong>{data?.count}</strong>
+            </Typography.Text>
             {
                 !isLoading
                     ? (
                         <Table
+                            bordered
                             dataSource={data?.results}
                             columns={[
-                                {
-                                    key: 'detail',
-                                    title: "Ko'rish",
-                                    render: (_: unknown, record: IApplication) => (
-                                        <Button
-                                            type="primary"
-                                            icon={<EyeOutlined />}
-                                            onClick={() => navigate(
-                                                adminRole === Role.Ministry
-                                                    ? `/ministry/applications/${record?.id}`
-                                                    : `/expert/applications/${record?.id}`
-                                            )}
-                                        />
-                                    ),
-                                    className: "application_detail"
-                                },
                                 {
                                     key: "id",
                                     dataIndex: "id",
@@ -235,11 +222,29 @@ const AdminApplications = () => {
                                             dataIndex: 'rejected_reason',
                                             title: 'Rad etish sababi'
                                         }] : []
-                                )
+                                ),
+                                {
+                                    key: 'detail',
+                                    title: "Ko'rish",
+                                    fixed: 'right',
+                                    render: (_: unknown, record: IApplication) => (
+                                        <Button
+                                            type="primary"
+                                            icon={<EyeOutlined />}
+                                            onClick={() => navigate(
+                                                adminRole === Role.Ministry
+                                                    ? `/ministry/applications/${record?.id}`
+                                                    : `/expert/applications/${record?.id}`
+                                            )}
+                                        />
+                                    ),
+                                    className: "application_detail"
+                                },
                             ]}
                             rowKey={'id'}
                             pagination={{
                                 current: currentPage,
+                                position: ['bottomCenter'],
                                 onChange: (page) => setCurrentPage(page),
                                 pageSize: pageLimit,
                                 total: data?.count || 0,

@@ -1,8 +1,8 @@
-import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, FileTextOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, FileTextOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import DocumentViewer from "../../components/DocumentViewer";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { getGlobalName } from "../../services/applicant/types";
@@ -157,9 +157,16 @@ const AdminApplicationDetails = () => {
     const canModify = applicationDetails?.status === ApplicationStatusChoice.SENT && adminRole !== Role.Ministry;
 
     return (
-        <Flex vertical className="application-details" gap={24}>
+        <Flex vertical className={`application-details ${adminRole === Role.Ministry ? "ministry-details" : "admin-details"}`} gap={24}>
             <Flex className="application-container" gap={12}>
                 <Flex vertical gap={24} className="main-details">
+                    {
+                        adminRole === Role.Ministry && (
+                            <Link to={'/ministry/applications'}>
+                                <Button icon={<LeftOutlined />} type="primary">Arizalar bo'limiga qaytish</Button>
+                            </Link>
+                        )
+                    }
                     <Tabs
                         type="card"
                         items={[
