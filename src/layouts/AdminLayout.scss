@@ -63,6 +63,10 @@ body:has(.expert-layout) {
             overflow-y: auto;
             scrollbar-color: #9b9b9b99 transparent;
 
+            & > .ant-flex {
+              width: 100%;
+            }
+
             .application-container {
               width: 100%;
 
