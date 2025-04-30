@@ -4,6 +4,7 @@ import moment from "moment";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
+import ExportToExcel from "../../components/ExportToExcel";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { getGlobalName, IApplication } from "../../services/applicant/types";
 import { useGetMipRegionsQuery } from "../../services/classifier";
@@ -31,8 +32,6 @@ const AdminApplications = () => {
     const [selectedRegion, setSelectedRegion] = useState<IMipRegion['id'] | 'all'>('all');
     const [selectedExpert, setSelectedExpert] = useState<IExpert['id'] | 'all'>('all');
 
-    console.log(selectedExpert);
-
     const navigate = useNavigate();
     const { data: mipRegions, isLoading: isMipRegionsLoading } = useGetMipRegionsQuery(undefined, { skip: adminRole !== Role.Ministry });
     const { data: experts, isLoading: isExpertsLoading } = useGetExpertQuery(undefined, { skip: adminRole !== Role.Ministry });
@@ -41,6 +40,15 @@ const AdminApplications = () => {
         admission_id: currentAdmission?.id || 0,
         limit: pageLimit,
         offset: (currentPage - 1) * pageLimit,
+        status: APPLICATION_STATUS,
+        from_military: fromMilitary,
+        q: searchTerm,
+        submit_as: role === 'all' ? undefined : role
+    }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
+
+    const expertAllQuery = useGetApplicationsQuery({
+        admission_id: currentAdmission?.id || 0,
+        limit: 1300,
         status: APPLICATION_STATUS,
         from_military: fromMilitary,
         q: searchTerm,
@@ -60,7 +68,20 @@ const AdminApplications = () => {
         expert_id: selectedExpert === 'all' ? undefined : selectedExpert
     }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry })
 
+    const ministryAllQuery = useGetMinistryApplicationsQuery({
+        admission_id: currentAdmission?.id || 0,
+        limit: 1300,
+        status: applicationStatus === 'all' ? undefined : applicationStatus,
+        from_military: fromMilitary,
+        q: searchTerm,
+        submit_as: role === 'all' ? undefined : role,
+        application_type: applicationType === 'all' ? undefined : applicationType,
+        mip_region_id: selectedRegion === 'all' ? undefined : selectedRegion,
+        expert_id: selectedExpert === 'all' ? undefined : selectedExpert
+    }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry })
+
     const data = adminRole === Role.Ministry ? ministryQuery?.data : expertQuery?.data;
+    const allData = adminRole === Role.Ministry ? ministryAllQuery?.data : expertAllQuery?.data;
     const isLoading = adminRole === Role.Ministry ? ministryQuery?.isLoading : expertQuery?.isLoading;
 
     const handleChangePageLimit = (_: number, pageSize: number) => {
@@ -157,9 +178,12 @@ const AdminApplications = () => {
                     <Typography.Text>Harbiy ma'lumotga ega</Typography.Text>
                 </Flex>
             </Flex>
-            <Typography.Text>
-                Jami arizalar soni: <strong>{data?.count}</strong>
-            </Typography.Text>
+            <Flex gap={21} align="center" wrap>
+                <Typography.Text>
+                    Jami arizalar soni: <strong>{data?.count}</strong>
+                </Typography.Text>
+                <ExportToExcel data={allData?.results || []} fileName="Arizalar.xlsx" />
+            </Flex>
             {
                 !isLoading
                     ? (
