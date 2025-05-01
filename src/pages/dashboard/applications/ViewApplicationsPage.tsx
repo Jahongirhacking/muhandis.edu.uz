@@ -64,6 +64,14 @@ const ViewApplicationsPage = () => {
                                         )}
                                     >
                                         <Flex vertical gap={24} className="application-info">
+                                            {
+                                                application?.status === ApplicationStatusChoice.REJECTED && (
+                                                    <Flex vertical gap={4}>
+                                                        <Typography.Text>{getApplicationChoiceName(application?.application_type)} rad etilish sababi</Typography.Text>
+                                                        <Typography.Text strong>{application?.rejected_reason}</Typography.Text>
+                                                    </Flex>
+                                                )
+                                            }
                                             <Flex vertical gap={4}>
                                                 <Typography.Text>{getApplicationChoiceName(application?.application_type)} nomi</Typography.Text>
                                                 <Typography.Text strong>{application?.name}</Typography.Text>
