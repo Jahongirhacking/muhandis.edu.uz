@@ -126,17 +126,14 @@ export const inspectorApi = baseApi.injectEndpoints({
         competitiveness_grade: number;
       }
     >({
-      query: ({ id, admission_id, ...body }) => {
-        console.log(id, admission_id, body);
-        return {
-          url: `/inspector/application/${id}/evaluate`,
-          method: "POST",
-          params: {
-            admission_id,
-          },
-          body,
-        };
-      },
+      query: ({ id, admission_id, ...body }) => ({
+        url: `/inspector/application/${id}/evaluate/`,
+        params: {
+          admission_id,
+        },
+        body,
+        method: "POST",
+      }),
       invalidatesTags: ["GlobalApplications", "ApplicationDetails"],
     }),
   }),

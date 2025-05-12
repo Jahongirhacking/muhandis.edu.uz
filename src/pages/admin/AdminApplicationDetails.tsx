@@ -52,7 +52,7 @@ const AdminApplicationDetails = () => {
     const isDetailsLoading = adminRole === Role.Ministry ? ministryDetailsQuery?.isLoading : expertDetailsQuery?.isLoading;
 
     // Applicant Query
-    const expertApplicantQuery = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole === Role.Ministry });
+    const expertApplicantQuery = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole === Role.Ministry || adminRole === Role.Comission });
     const ministryApplicantQuery = useGetMinistryUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole !== Role.Ministry });
     const applicantData = adminRole === Role.Ministry ? ministryApplicantQuery?.data : expertApplicantQuery?.data;
     const isApplicantLoading = adminRole === Role.Ministry ? ministryDetailsQuery?.isLoading : expertDetailsQuery?.isLoading;
