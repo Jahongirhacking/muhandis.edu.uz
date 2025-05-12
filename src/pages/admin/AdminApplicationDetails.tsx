@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, FileTextOutlined, LeftOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, EyeOutlined, FileTextOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom
 import DocumentViewer from "../../components/DocumentViewer";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { getGlobalName } from "../../services/applicant/types";
-import { useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
+import { useEvaluateApplicationMutation, useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
 import { useGetMinistryApplicationDetailsQuery, useGetMinistryUserInfoQuery } from "../../services/ministry";
 import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
@@ -43,6 +43,7 @@ const AdminApplicationDetails = () => {
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
     const { role: adminRole } = useOutletContext<AdminContext>();
+    const [evaluateApplication] = useEvaluateApplicationMutation()
 
     // Details Query
     const expertDetailsQuery = useGetApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
@@ -61,6 +62,28 @@ const AdminApplicationDetails = () => {
             setRejectedReason(applicationDetails?.rejected_reason);
         }
     }, [applicationDetails?.rejected_reason])
+
+    const handleEvaluate = async () => {
+        try {
+            if (currentAdmission?.id && applicationDetails?.id) {
+                await evaluateApplication({
+                    admission_id: currentAdmission?.id || 0,
+                    id: applicationDetails?.id || 0,
+                    competitiveness_grade: 0,
+                    conceptual_grade: 0,
+                    relevance_grade: 0,
+                    funds_calculated_grade: 0,
+                    effectiveness_grade: 0,
+                    completeness_grade: 0
+                }).unwrap();
+            }
+            message.success("Ariza muvaffaqiyatli ko'rib chiqildi");
+            navigate(-1);
+        } catch (err) {
+            console.error(err);
+            message.error("Baholashda xatolik")
+        }
+    }
 
     const handleReject = async () => {
         try {
@@ -179,17 +202,22 @@ const AdminApplicationDetails = () => {
                                         size="small"
                                         layout="vertical"
                                         items={[
-                                            { key: 'id', label: 'Ariza raqami', children: id },
-                                            { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetails?.application_type) },
+                                            ...(adminRole !== Role.Comission ? [
+                                                { key: 'id', label: 'Ariza raqami', children: id },
+                                                { key: 'type', label: 'Ariza turi', children: getApplicationChoiceName(applicationDetails?.application_type) }
+                                            ] : []),
                                             { key: 'name', label: "Nomi", children: applicationDetails?.name },
                                             { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetails?.short_description },
                                             { key: 'category', label: "Kategoriya", children: applicationDetails?.category },
                                             { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetails?.problem_and_solution },
+                                            ...(adminRole === Role.Comission ? [
+                                                { key: 'actions', label: "Amallar", children: <Button variant="solid" color="cyan" icon={<EyeOutlined />} onClick={handleEvaluate}>Ko'rib chiqildi</Button> }
+                                            ] : [])
                                         ]}
                                     />
                                 )
                             },
-                            {
+                            ...(adminRole !== Role.Comission ? [{
                                 key: "applicant",
                                 label: "Arizachi ma'lumoti",
                                 children: (
@@ -216,14 +244,15 @@ const AdminApplicationDetails = () => {
                                         />
                                     )
                                 )
-                            }
+                            }] : [])
                         ]}
                     />
 
                     <Tabs
                         type="card"
+                        defaultActiveKey={adminRole === Role.Comission ? ExampleFileFieldNameChoices.TABLE2_FILE : ExampleFileFieldNameChoices.APPEAL_FILE}
                         items={
-                            requiredFiles.map(file => ({
+                            requiredFiles.filter(file => !(adminRole === Role.Comission && (file === ExampleFileFieldNameChoices.APPEAL_FILE || file === ExampleFileFieldNameChoices.TABLE1_FILE))).map(file => ({
                                 key: file,
                                 children: (
                                     <Flex vertical gap={24}>
@@ -240,129 +269,134 @@ const AdminApplicationDetails = () => {
                         }
                     />
                 </Flex>
-                <Flex vertical gap={12} className="check-box">
-                    <Flex gap={12} justify="space-between" align="center" wrap>
-                        <Typography.Title level={4} style={{ margin: 0 }}>Tekshirish</Typography.Title>
-                        {
-                            canModify && (
-                                <Button
-                                    type="primary"
-                                    icon={isConfirmButtonPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
-                                    disabled={isConfirmButtonDisabled}
-                                    variant="solid"
-                                    color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "primary" : "red") : 'primary'}
-                                    onClick={isConfirmButtonPass ? handlePass : handleReject}
-                                >
-                                    {isConfirmButtonDisabled ? 'Tasdiqlash' : isConfirmButtonPass ? "Qabul qilish" : 'Rad etish'}
-                                </Button>
-                            )
-                        }
-                    </Flex>
-                    <Divider style={{ margin: 0 }} />
-                    <Flex vertical gap={20} className="result-table">
-                        <Table
-                            dataSource={requiredFiles.map((file, index) => ({
-                                id: index + 1,
-                                key: file,
-                                name: getExampleFileName(file)
-                            }))}
-                            columns={[
+                {
+                    adminRole !== Role.Comission && (
+
+                        <Flex vertical gap={12} className="check-box">
+                            <Flex gap={12} justify="space-between" align="center" wrap>
+                                <Typography.Title level={4} style={{ margin: 0 }}>Tekshirish</Typography.Title>
                                 {
-                                    key: 'id',
-                                    title: '№',
-                                    dataIndex: 'id',
-                                    className: 'file_id'
-                                },
-                                {
-                                    key: 'name',
-                                    title: 'Nomi',
-                                    dataIndex: 'name',
-                                    className: 'file_name'
-                                },
-                                {
-                                    key: 'actions',
-                                    title: "Amallar",
-                                    render: (_, record) => (
-                                        <Flex vertical gap={8}>
-                                            <Select
-                                                style={{ width: 100 }}
-                                                placeholder="Tanlang"
-                                                value={checkedFiles[record?.key]?.is_exists}
-                                                options={[
-                                                    { label: "✅ Toʻgʻri", value: true },
-                                                    { label: "❌ Xato", value: false }
-                                                ]}
-                                                disabled={!canModify}
-                                                onChange={(value) => {
-                                                    setCheckedFiles(prev => ({
-                                                        ...prev,
-                                                        [record.key]: {
-                                                            is_exists: value,
-                                                            rejected_reason: prev[record.key].rejected_reason
-                                                        }
-                                                    }))
-                                                }}
-                                            />
-                                            {
-                                                checkedFiles[record?.key]?.is_exists === false && (
-                                                    <Input.TextArea
-                                                        defaultValue={checkedFiles[record?.key]?.rejected_reason}
-                                                        placeholder="Rad etish sababini yozing"
+                                    canModify && (
+                                        <Button
+                                            type="primary"
+                                            icon={isConfirmButtonPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
+                                            disabled={isConfirmButtonDisabled}
+                                            variant="solid"
+                                            color={!isConfirmButtonDisabled ? (isConfirmButtonPass ? "primary" : "red") : 'primary'}
+                                            onClick={isConfirmButtonPass ? handlePass : handleReject}
+                                        >
+                                            {isConfirmButtonDisabled ? 'Tasdiqlash' : isConfirmButtonPass ? "Qabul qilish" : 'Rad etish'}
+                                        </Button>
+                                    )
+                                }
+                            </Flex>
+                            <Divider style={{ margin: 0 }} />
+                            <Flex vertical gap={20} className="result-table">
+                                <Table
+                                    dataSource={requiredFiles.map((file, index) => ({
+                                        id: index + 1,
+                                        key: file,
+                                        name: getExampleFileName(file)
+                                    }))}
+                                    columns={[
+                                        {
+                                            key: 'id',
+                                            title: '№',
+                                            dataIndex: 'id',
+                                            className: 'file_id'
+                                        },
+                                        {
+                                            key: 'name',
+                                            title: 'Nomi',
+                                            dataIndex: 'name',
+                                            className: 'file_name'
+                                        },
+                                        {
+                                            key: 'actions',
+                                            title: "Amallar",
+                                            render: (_, record) => (
+                                                <Flex vertical gap={8}>
+                                                    <Select
+                                                        style={{ width: 100 }}
+                                                        placeholder="Tanlang"
+                                                        value={checkedFiles[record?.key]?.is_exists}
+                                                        options={[
+                                                            { label: "✅ Toʻgʻri", value: true },
+                                                            { label: "❌ Xato", value: false }
+                                                        ]}
                                                         disabled={!canModify}
-                                                        onChange={({ target: { value } }) => {
-                                                            conclusionRefs.current = { ...conclusionRefs.current, [record?.key]: value };
-                                                        }}
-                                                        onBlur={() => {
+                                                        onChange={(value) => {
                                                             setCheckedFiles(prev => ({
-                                                                ...prev, [record?.key]: {
-                                                                    ...prev[record?.key],
-                                                                    rejected_reason: conclusionRefs.current[record?.key] || ''
+                                                                ...prev,
+                                                                [record.key]: {
+                                                                    is_exists: value,
+                                                                    rejected_reason: prev[record.key].rejected_reason
                                                                 }
                                                             }))
                                                         }}
                                                     />
-                                                )
-                                            }
-                                        </Flex>
-                                    ),
-                                    className: 'file_actions'
-                                }
-                            ]}
-                            pagination={false}
-                        />
-                        <Flex vertical gap={12} className="rejected-reason">
-                            {
-                                applicationDetails?.status !== ApplicationStatusChoice.PASSED && (
-                                    <>
-                                        {
-                                            Object.keys(checkedFiles).reduce((acc, curr) => (
-                                                acc &&
-                                                !!checkedFiles[curr].is_exists
-                                            ), true) && canModify ? (
-                                                <Flex gap={8}>
-                                                    <Typography.Text>Istisno bilan rad etish</Typography.Text>
-                                                    <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
+                                                    {
+                                                        checkedFiles[record?.key]?.is_exists === false && (
+                                                            <Input.TextArea
+                                                                defaultValue={checkedFiles[record?.key]?.rejected_reason}
+                                                                placeholder="Rad etish sababini yozing"
+                                                                disabled={!canModify}
+                                                                onChange={({ target: { value } }) => {
+                                                                    conclusionRefs.current = { ...conclusionRefs.current, [record?.key]: value };
+                                                                }}
+                                                                onBlur={() => {
+                                                                    setCheckedFiles(prev => ({
+                                                                        ...prev, [record?.key]: {
+                                                                            ...prev[record?.key],
+                                                                            rejected_reason: conclusionRefs.current[record?.key] || ''
+                                                                        }
+                                                                    }))
+                                                                }}
+                                                            />
+                                                        )
+                                                    }
                                                 </Flex>
-                                            ) : (
-                                                <Typography.Text strong>Rad etish xulosasi:</Typography.Text>
-                                            )
+                                            ),
+                                            className: 'file_actions'
                                         }
-                                        {
-                                            ((isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetails?.rejected_reason) && (
-                                                <Input.TextArea
-                                                    placeholder="Rad etish xulosasini yozing"
-                                                    value={rejectedReason}
-                                                    disabled={!canModify}
-                                                    onChange={({ target: { value } }) => setRejectedReason(value)}
-                                                />
-                                            )
-                                        }
-                                    </>
-                                )
-                            }
+                                    ]}
+                                    pagination={false}
+                                />
+                                <Flex vertical gap={12} className="rejected-reason">
+                                    {
+                                        applicationDetails?.status !== ApplicationStatusChoice.PASSED && (
+                                            <>
+                                                {
+                                                    Object.keys(checkedFiles).reduce((acc, curr) => (
+                                                        acc &&
+                                                        !!checkedFiles[curr].is_exists
+                                                    ), true) && canModify ? (
+                                                        <Flex gap={8}>
+                                                            <Typography.Text>Istisno bilan rad etish</Typography.Text>
+                                                            <Switch value={rejectWithException} onChange={(value) => setRejectWithException(value)} style={{ width: 'fit-content' }} />
+                                                        </Flex>
+                                                    ) : (
+                                                        <Typography.Text strong>Rad etish xulosasi:</Typography.Text>
+                                                    )
+                                                }
+                                                {
+                                                    ((isConfirmButtonPass && rejectWithException) || !isConfirmButtonPass || applicationDetails?.rejected_reason) && (
+                                                        <Input.TextArea
+                                                            placeholder="Rad etish xulosasini yozing"
+                                                            value={rejectedReason}
+                                                            disabled={!canModify}
+                                                            onChange={({ target: { value } }) => setRejectedReason(value)}
+                                                        />
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
+                                </Flex>
+                            </Flex>
                         </Flex>
-                    </Flex>
-                </Flex>
+                    )
+                }
             </Flex>
         </Flex>
     )

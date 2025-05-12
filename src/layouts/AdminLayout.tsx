@@ -31,8 +31,8 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
     const handleChangeMenuKey: MenuProps['onClick'] = (e) => {
         const newParams = new URLSearchParams(searchParams);
         if (role === Role.Comission) {
-            const [status, submitAsChoice] = e.key.split(SPLIT_SIGN);
-            newParams.set(SearchParams.ApplicationStatus, status);
+            const [hasGrade, submitAsChoice] = e.key.split(SPLIT_SIGN);
+            newParams.set(SearchParams.HasGrade, hasGrade);
             newParams.set(SearchParams.SubmitAsChoice, submitAsChoice);
             navigate(`/${role}/applications?${newParams.toString()}`);
             return;
@@ -94,7 +94,7 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
                                     `Ekspert: ${getApplicationChoiceName(profile?.check_type || 'none')}`
                                 ) : role === Role.Ministry ? (
                                     "Vazirlik xodimi"
-                                ) : "Komissiya a'zosi"
+                                ) : "Komissiya kotibi"
                             }
                         </Typography.Text>
                     </Flex>
@@ -107,7 +107,7 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
                             <Menu
                                 mode="inline"
                                 defaultSelectedKeys={role === Role.Comission ? [] : [searchParams.get(SearchParams.ApplicationStatus) || '1']}
-                                openKeys={[String(ApplicationStatusChoice.PASSED), String(ApplicationStatusChoice.EVALUATED)]}
+                                openKeys={["has-grade", "no-grade"]}
                                 onClick={handleChangeMenuKey}
                                 items={[...(role === Role.Expert ? [
                                     { key: ApplicationStatusChoice.SENT, label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
@@ -115,23 +115,23 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
                                     { key: ApplicationStatusChoice.REJECTED, label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
                                 ] : role === Role.Comission ? [
                                     {
-                                        key: ApplicationStatusChoice.PASSED,
+                                        key: "no-grade",
                                         label: "Arizalar",
                                         icon: <FileTextFilled style={{ color: '#1677ff' }} />,
                                         children: [
-                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
-                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
-                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
+                                            { key: getToken("false", ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
+                                            { key: getToken("false", ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
+                                            { key: getToken("false", ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
                                         ]
                                     },
                                     {
-                                        key: ApplicationStatusChoice.EVALUATED,
+                                        key: "has-grade",
                                         label: "Ko'rib chiqilgan arizalar",
                                         icon: <CheckCircleFilled style={{ color: '#00d500' }} />,
                                         children: [
-                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
-                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
-                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
+                                            { key: getToken("true", ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
+                                            { key: getToken("true", ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
+                                            { key: getToken("true", ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
                                         ]
                                     }
                                 ] : [])]}

@@ -17,27 +17,12 @@ export const inspectorApi = baseApi.injectEndpoints({
         from_military?: boolean;
         q?: string;
         offset?: number;
+        has_grade?: boolean;
       }
     >({
-      query: ({
-        admission_id,
-        limit,
-        submit_as,
-        status,
-        from_military,
-        q,
-        offset,
-      }) => ({
+      query: (params) => ({
         url: "/inspector/application",
-        params: {
-          admission_id,
-          limit,
-          submit_as,
-          status,
-          from_military,
-          q,
-          offset,
-        },
+        params,
       }),
       providesTags: ["GlobalApplications"],
     }),
@@ -127,6 +112,33 @@ export const inspectorApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
+    evaluateApplication: build.mutation<
+      void,
+      {
+        id: IApplication["id"];
+        admission_id: IAdmission["id"];
+        completeness_grade: number;
+        conceptual_grade: number;
+        relevance_grade: number;
+        funds_calculated_grade: number;
+        effectiveness_grade: number;
+        competitiveness_grade: number;
+      }
+    >({
+      query: ({ id, admission_id, ...body }) => {
+        console.log(id, admission_id, body);
+        return {
+          url: `/inspector/application/${id}/evaluate`,
+          method: "POST",
+          params: {
+            admission_id,
+          },
+          body,
+        };
+      },
+      invalidatesTags: ["GlobalApplications", "ApplicationDetails"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -138,4 +150,5 @@ export const {
   useRejectApplicationMutation,
   usePassApplicationMutation,
   useGetUserInfoQuery,
+  useEvaluateApplicationMutation,
 } = inspectorApi;

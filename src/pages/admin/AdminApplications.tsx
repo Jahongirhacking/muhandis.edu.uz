@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextFilled } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileDoneOutlined, FileTextFilled } from "@ant-design/icons";
 import { Button, Empty, Flex, Input, Select, Skeleton, Switch, Table, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ const AdminApplications = () => {
     const [searchParams] = useSearchParams();
     const { role: adminRole } = useOutletContext<AdminContext>();
     const APPLICATION_STATUS = Math.max(Number(searchParams.get(SearchParams.ApplicationStatus)), adminRole === Role.Comission ? ApplicationStatusChoice.PASSED : ApplicationStatusChoice.SENT);
+    const HAS_GRADE = JSON.parse(searchParams.get(SearchParams.HasGrade) || 'false');
     const [pageLimit, setPageLimit] = useState(getLocalStorage(localStorageNames.pageLimit) || 20);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -49,7 +50,8 @@ const AdminApplications = () => {
         status: APPLICATION_STATUS,
         from_military: fromMilitary,
         q: searchTerm,
-        submit_as: role === 'all' ? undefined : role
+        submit_as: role === 'all' ? undefined : role,
+        has_grade: adminRole === Role.Comission ? HAS_GRADE : undefined,
     }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
 
     const expertAllQuery = useGetApplicationsQuery({
@@ -58,7 +60,8 @@ const AdminApplications = () => {
         status: APPLICATION_STATUS,
         from_military: fromMilitary,
         q: searchTerm,
-        submit_as: role === 'all' ? undefined : role
+        submit_as: role === 'all' ? undefined : role,
+        has_grade: adminRole === Role.Comission ? HAS_GRADE : undefined,
     }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
 
     const ministryQuery = useGetMinistryApplicationsQuery({
@@ -93,6 +96,16 @@ const AdminApplications = () => {
     const handleChangePageLimit = (_: number, pageSize: number) => {
         setPageLimit(pageSize);
         setLocalStorage(localStorageNames.pageLimit, pageSize);
+    }
+
+    const getApplicationStatusButton = (status: ApplicationStatusChoice) => {
+        switch (status) {
+            case ApplicationStatusChoice.CREATED: return <Button variant="text" color="blue" icon={<FileTextFilled />}>Yangi</Button>;
+            case ApplicationStatusChoice.PASSED: return <Button variant="text" color="green" icon={<CheckCircleFilled />}>Qabul qilingan</Button>;
+            case ApplicationStatusChoice.REJECTED: return <Button variant="text" color="red" icon={<CloseCircleFilled />}>Rad etilgan</Button>;
+            case ApplicationStatusChoice.EVALUATED: return <Button variant="text" color="magenta" icon={<FileDoneOutlined />}>Baholangan</Button>;
+            default: return getApplicationStatusName(status);
+        }
     }
 
     if (moment().isBefore(moment(currentAdmission?.end_at))) return (
@@ -245,13 +258,7 @@ const AdminApplications = () => {
                                     key: "status",
                                     dataIndex: "status",
                                     title: "Holati",
-                                    render: (status) => status === 1
-                                        ? (<Button variant="text" color="blue" icon={<FileTextFilled />}>Yangi</Button>)
-                                        : (status === 2)
-                                            ? (<Button variant="text" color="green" icon={<CheckCircleFilled />}>Qabul qilingan</Button>)
-                                            : (status === 10)
-                                                ? (<Button variant="text" color="red" icon={<CloseCircleFilled />}>Rad etilgan</Button>)
-                                                : getApplicationStatusName(status)
+                                    render: (status) => getApplicationStatusButton(status)
                                 },
                                 ...(
                                     APPLICATION_STATUS === ApplicationStatusChoice.REJECTED
@@ -269,11 +276,7 @@ const AdminApplications = () => {
                                         <Button
                                             type="primary"
                                             icon={<EyeOutlined />}
-                                            onClick={() => navigate(
-                                                adminRole === Role.Ministry
-                                                    ? `/ministry/applications/${record?.id}`
-                                                    : `/expert/applications/${record?.id}`
-                                            )}
+                                            onClick={() => navigate(`/${adminRole}/applications/${record?.id}`)}
                                         />
                                     ),
                                     className: "application_detail"

@@ -3,6 +3,7 @@ export const enum SearchParams {
   Step = "step",
   ApplicationStatus = "status",
   SubmitAsChoice = "submit-as-choice",
+  HasGrade = "has-grade",
 }
 
 export const enum DrawerChildTypes {
