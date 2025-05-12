@@ -1,10 +1,10 @@
-import { CheckCircleFilled, CloseCircleFilled, FileTextFilled, LogoutOutlined } from "@ant-design/icons"
+import { BankOutlined, CheckCircleFilled, CloseCircleFilled, ExperimentOutlined, FileTextFilled, LogoutOutlined, UserOutlined } from "@ant-design/icons"
 import { Avatar, Button, Dropdown, Flex, Menu, MenuProps, Typography } from "antd"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom"
 import Logo from "../components/Logo"
-import { ApplicationStatusChoice, getApplicationChoiceName, Role } from "../services/types"
+import { ApplicationStatusChoice, ApplicationSubmitAsChoice, getApplicationChoiceName, getRoleName, Role } from "../services/types"
 import { useLazyGetMeQuery, useLazyGetPhotoQuery } from "../services/user"
 import { logout, setPhoto } from "../store/slices/userSlice"
 import { RootState } from "../store/store"
@@ -24,6 +24,25 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
     const [getMe] = useLazyGetMeQuery();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const SPLIT_SIGN = '-';
+
+    const getToken = (...keys: string[]): string => keys.join(SPLIT_SIGN);
+
+    const handleChangeMenuKey: MenuProps['onClick'] = (e) => {
+        const newParams = new URLSearchParams(searchParams);
+        if (role === Role.Comission) {
+            const [status, submitAsChoice] = e.key.split(SPLIT_SIGN);
+            newParams.set(SearchParams.ApplicationStatus, status);
+            newParams.set(SearchParams.SubmitAsChoice, submitAsChoice);
+            navigate(`/${role}/applications?${newParams.toString()}`);
+            return;
+        }
+        if (e.key === String(ApplicationStatusChoice.SENT) || role === Role.Ministry) navigate(`/${role}/applications`);
+        else {
+            newParams.set(SearchParams.ApplicationStatus, e.key);
+            navigate(`/${role}/applications?${newParams.toString()}`);
+        }
+    }
 
     useEffect(() => {
         if (profile?.role === 'applicant') {
@@ -53,15 +72,6 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
         }
     }, [profile?.role, role, dispatch]);
 
-    const handleChangeMenuKey: MenuProps['onClick'] = (e) => {
-        if (e.key === String(ApplicationStatusChoice.SENT) || role === Role.Ministry) navigate(`/${role}/applications`);
-        else {
-            const newParams = new URLSearchParams(searchParams);
-            newParams.set(SearchParams.ApplicationStatus, e.key);
-            navigate(`/${role}/applications?${newParams.toString()}`);
-        }
-    }
-
     return (
         <Flex vertical className="expert-layout">
             <Flex className="expert-header" justify="space-between" align="center">
@@ -84,7 +94,7 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
                                     `Ekspert: ${getApplicationChoiceName(profile?.check_type || 'none')}`
                                 ) : role === Role.Ministry ? (
                                     "Vazirlik xodimi"
-                                ) : "Admin"
+                                ) : "Komissiya a'zosi"
                             }
                         </Typography.Text>
                     </Flex>
@@ -95,19 +105,42 @@ const AdminLayout = ({ role = Role.Expert }: AdminContext) => {
                     role !== Role.Ministry && (
                         <Flex className="expert-navbar" vertical justify="space-between">
                             <Menu
-                                defaultSelectedKeys={[searchParams.get(SearchParams.ApplicationStatus) || '1']}
+                                mode="inline"
+                                defaultSelectedKeys={role === Role.Comission ? [] : [searchParams.get(SearchParams.ApplicationStatus) || '1']}
+                                openKeys={[String(ApplicationStatusChoice.PASSED), String(ApplicationStatusChoice.EVALUATED)]}
                                 onClick={handleChangeMenuKey}
                                 items={[...(role === Role.Expert ? [
-                                    { key: '1', label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
-                                    { key: '2', label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: '#00d500' }} /> },
-                                    { key: '10', label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
+                                    { key: ApplicationStatusChoice.SENT, label: 'Yangi arizalar', icon: <FileTextFilled style={{ color: '#1677ff' }} /> },
+                                    { key: ApplicationStatusChoice.PASSED, label: 'Qabul qilingan arizalar', icon: <CheckCircleFilled style={{ color: '#00d500' }} /> },
+                                    { key: ApplicationStatusChoice.REJECTED, label: 'Rad etilgan arizalar', icon: <CloseCircleFilled style={{ color: 'red' }} /> },
+                                ] : role === Role.Comission ? [
+                                    {
+                                        key: ApplicationStatusChoice.PASSED,
+                                        label: "Arizalar",
+                                        icon: <FileTextFilled style={{ color: '#1677ff' }} />,
+                                        children: [
+                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
+                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
+                                            { key: getToken(String(ApplicationStatusChoice.PASSED), ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
+                                        ]
+                                    },
+                                    {
+                                        key: ApplicationStatusChoice.EVALUATED,
+                                        label: "Ko'rib chiqilgan arizalar",
+                                        icon: <CheckCircleFilled style={{ color: '#00d500' }} />,
+                                        children: [
+                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.STUDENT), label: getRoleName(ApplicationSubmitAsChoice.STUDENT), icon: <UserOutlined /> },
+                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.PROFESSOR_TEACHER), label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), icon: <BankOutlined /> },
+                                            { key: getToken(String(ApplicationStatusChoice.EVALUATED), ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), icon: <ExperimentOutlined /> },
+                                        ]
+                                    }
                                 ] : [])]}
                             />
                             <Button variant="text" color="danger" icon={<LogoutOutlined />} onClick={() => dispatch(logout())}>Chiqish</Button>
                         </Flex>
                     )
                 }
-                <Flex vertical className="expert-layout-content" align="center">
+                <Flex vertical className={`expert-layout-content ${role}-content`} align="center">
                     <Outlet context={{ role }} />
                 </Flex>
             </Flex>

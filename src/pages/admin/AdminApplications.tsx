@@ -1,7 +1,7 @@
 import { CheckCircleFilled, CloseCircleFilled, EyeOutlined, FileTextFilled } from "@ant-design/icons";
 import { Button, Empty, Flex, Input, Select, Skeleton, Switch, Table, Typography } from "antd";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import ExportToExcel from "../../components/ExportToExcel";
@@ -19,18 +19,24 @@ import { getLocalStorage, localStorageNames, setLocalStorage } from "../../utils
 
 const AdminApplications = () => {
     const [searchParams] = useSearchParams();
-    const APPLICATION_STATUS = Math.max(Number(searchParams.get(SearchParams.ApplicationStatus)), ApplicationStatusChoice.SENT);
+    const { role: adminRole } = useOutletContext<AdminContext>();
+    const APPLICATION_STATUS = Math.max(Number(searchParams.get(SearchParams.ApplicationStatus)), adminRole === Role.Comission ? ApplicationStatusChoice.PASSED : ApplicationStatusChoice.SENT);
     const [pageLimit, setPageLimit] = useState(getLocalStorage(localStorageNames.pageLimit) || 20);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [role, setRole] = useState<ApplicationSubmitAsChoice | 'all'>('all');
     const [fromMilitary, setFromMilitary] = useState<boolean | undefined>();
     const { currentAdmission } = useSelector((store: RootState) => store.user);
-    const { role: adminRole } = useOutletContext<AdminContext>();
     const [applicationStatus, setApplicationStatus] = useState<ApplicationStatusChoice | 'all'>('all');
     const [applicationType, setApplicationType] = useState<ApplicationTypeChoice | 'all'>('all');
     const [selectedRegion, setSelectedRegion] = useState<IMipRegion['id'] | 'all'>('all');
     const [selectedExpert, setSelectedExpert] = useState<IExpert['id'] | 'all'>('all');
+
+    useEffect(() => {
+        if (searchParams.has(SearchParams.SubmitAsChoice)) {
+            setRole(searchParams.get(SearchParams.SubmitAsChoice) as ApplicationSubmitAsChoice);
+        }
+    }, [searchParams])
 
     const navigate = useNavigate();
     const { data: mipRegions, isLoading: isMipRegionsLoading } = useGetMipRegionsQuery(undefined, { skip: adminRole !== Role.Ministry });
@@ -82,7 +88,7 @@ const AdminApplications = () => {
 
     const data = adminRole === Role.Ministry ? ministryQuery?.data : expertQuery?.data;
     const allData = adminRole === Role.Ministry ? ministryAllQuery?.data : expertAllQuery?.data;
-    const isLoading = adminRole === Role.Ministry ? ministryQuery?.isLoading : expertQuery?.isLoading;
+    const isLoading = adminRole === Role.Ministry ? ministryQuery?.isFetching : expertQuery?.isFetching;
 
     const handleChangePageLimit = (_: number, pageSize: number) => {
         setPageLimit(pageSize);
@@ -103,16 +109,20 @@ const AdminApplications = () => {
                     onSearch={(val) => setSearchTerm(val)}
                     enterButton
                 />
-                <Select
-                    value={role}
-                    onChange={(key) => setRole(key)}
-                    options={[
-                        { label: "Arizachi roli (Barchasi)", value: 'all' },
-                        { label: getRoleName(ApplicationSubmitAsChoice.STUDENT), value: ApplicationSubmitAsChoice.STUDENT },
-                        { label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), value: ApplicationSubmitAsChoice.PRACTICAL_ENGINEER },
-                        { label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), value: ApplicationSubmitAsChoice.PROFESSOR_TEACHER },
-                    ]}
-                />
+                {
+                    adminRole !== Role.Comission && (
+                        <Select
+                            value={role}
+                            onChange={(key) => setRole(key)}
+                            options={[
+                                { label: "Arizachi roli (Barchasi)", value: 'all' },
+                                { label: getRoleName(ApplicationSubmitAsChoice.STUDENT), value: ApplicationSubmitAsChoice.STUDENT },
+                                { label: getRoleName(ApplicationSubmitAsChoice.PRACTICAL_ENGINEER), value: ApplicationSubmitAsChoice.PRACTICAL_ENGINEER },
+                                { label: getRoleName(ApplicationSubmitAsChoice.PROFESSOR_TEACHER), value: ApplicationSubmitAsChoice.PROFESSOR_TEACHER },
+                            ]}
+                        />
+                    )
+                }
                 {
                     adminRole === Role.Ministry && (
                         <>
@@ -191,12 +201,14 @@ const AdminApplications = () => {
                             bordered
                             dataSource={data?.results}
                             columns={[
-                                {
-                                    key: "id",
-                                    dataIndex: "id",
-                                    title: "ID",
-                                    className: "application_id"
-                                },
+                                ...(
+                                    adminRole !== Role.Comission ? [{
+                                        key: "id",
+                                        dataIndex: "id",
+                                        title: "ID",
+                                        className: "application_id"
+                                    }] : []
+                                ),
                                 ...(
                                     adminRole === Role.Ministry ? [
                                         {
@@ -221,12 +233,14 @@ const AdminApplications = () => {
                                     render: (role: ApplicationSubmitAsChoice) => getRoleName(role),
                                     className: "user_role"
                                 },
-                                {
-                                    key: "user_full_name",
-                                    dataIndex: "user_full_name",
-                                    title: "F.I.Sh",
-                                    className: "user_fullname"
-                                },
+                                ...(
+                                    adminRole !== Role.Comission ? [{
+                                        key: "user_full_name",
+                                        dataIndex: "user_full_name",
+                                        title: "F.I.Sh",
+                                        className: "user_fullname"
+                                    }] : []
+                                ),
                                 {
                                     key: "status",
                                     dataIndex: "status",
