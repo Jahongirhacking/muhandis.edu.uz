@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, EyeOutlined, FileTextOutlined, LeftOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, DownloadOutlined, EyeOutlined, FileTextOutlined, LeftOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Button, Descriptions, Divider, Empty, Flex, Input, message, Modal, Result, Select, Skeleton, Switch, Table, Tabs, Typography } from "antd";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom
 import DocumentViewer from "../../components/DocumentViewer";
 import { AdminContext } from "../../layouts/AdminLayout";
 import { getGlobalName } from "../../services/applicant/types";
-import { useEvaluateApplicationMutation, useGetApplicationDetailsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
+import { useEvaluateApplicationMutation, useGetApplicationDetailsQuery, useGetApplicationsQuery, useGetUserInfoQuery, usePassApplicationMutation, usePutConclusionMutation, useRejectApplicationMutation } from "../../services/inspector";
 import { useGetMinistryApplicationDetailsQuery, useGetMinistryUserInfoQuery } from "../../services/ministry";
 import { ApplicationStatusChoice, ExampleFileFieldNameChoices, Gender, getApplicationChoiceName, getExampleFileName, getRoleName, Role } from "../../services/types";
 import { RootState } from "../../store/store";
@@ -43,13 +43,21 @@ const AdminApplicationDetails = () => {
     const conclusionRefs = useRef<{ [key: string]: string }>({});
     const navigate = useNavigate();
     const { role: adminRole } = useOutletContext<AdminContext>();
-    const [evaluateApplication] = useEvaluateApplicationMutation()
+    const [evaluateApplication] = useEvaluateApplicationMutation();
 
     // Details Query
     const expertDetailsQuery = useGetApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry });
     const ministryDetailsQuery = useGetMinistryApplicationDetailsQuery({ id: Number(id), admission_id: currentAdmission?.id || 0 }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole !== Role.Ministry });
     const applicationDetails = adminRole === Role.Ministry ? ministryDetailsQuery?.data : expertDetailsQuery?.data;
     const isDetailsLoading = adminRole === Role.Ministry ? ministryDetailsQuery?.isLoading : expertDetailsQuery?.isLoading;
+
+    const { data: gradedApplication, isFetching: isCheckLoading } = useGetApplicationsQuery({
+        admission_id: currentAdmission?.id || 0,
+        status: ApplicationStatusChoice.PASSED,
+        q: applicationDetails?.name,
+        submit_as: applicationDetails?.submit_as,
+        has_grade: true,
+    }, { skip: !(currentAdmission && currentAdmission?.id) || adminRole === Role.Ministry || !applicationDetails })
 
     // Applicant Query
     const expertApplicantQuery = useGetUserInfoQuery({ admission_id: currentAdmission?.id || 0, id: applicationDetails?.user || 0 }, { skip: !(currentAdmission && currentAdmission?.id && applicationDetails && applicationDetails?.user) || adminRole === Role.Ministry || adminRole === Role.Comission });
@@ -210,8 +218,23 @@ const AdminApplicationDetails = () => {
                                             { key: 'short_description', label: "Qisqa ma'lumot", children: applicationDetails?.short_description },
                                             { key: 'category', label: "Kategoriya", children: applicationDetails?.category },
                                             { key: 'problem_and_solution', label: "Muammo va yechim", children: applicationDetails?.problem_and_solution },
-                                            ...(adminRole === Role.Comission ? [
-                                                { key: 'actions', label: "Amallar", children: <Button variant="solid" color="cyan" icon={<EyeOutlined />} onClick={handleEvaluate}>Ko'rib chiqildi</Button> }
+                                            ...(adminRole === Role.Comission && !gradedApplication?.results.find(elem => String(elem?.id) === id) ? [
+                                                {
+                                                    key: 'actions',
+                                                    label: "Amallar",
+                                                    children: isCheckLoading
+                                                        ? <LoadingOutlined />
+                                                        : (
+                                                            <Button
+                                                                variant="solid"
+                                                                color="cyan"
+                                                                icon={<EyeOutlined />}
+                                                                onClick={handleEvaluate}
+                                                            >
+                                                                Ko'rib chiqildi
+                                                            </Button>
+                                                        )
+                                                }
                                             ] : [])
                                         ]}
                                     />
