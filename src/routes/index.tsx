@@ -51,7 +51,7 @@ const privateRoutes: IRoute[] = [
         ]
     },
     {
-        path: "expert",
+        path: Role.Expert,
         element: <AdminLayout role={Role.Expert} />,
         children: [
             { path: 'applications', element: <AdminApplications /> },
@@ -59,8 +59,16 @@ const privateRoutes: IRoute[] = [
         ]
     },
     {
-        path: "ministry",
+        path: Role.Ministry,
         element: <AdminLayout role={Role.Ministry} />,
+        children: [
+            { path: 'applications', element: <AdminApplications /> },
+            { path: 'applications/:id', element: <AdminApplicationDetails /> }
+        ]
+    },
+    {
+        path: Role.Comission,
+        element: <AdminLayout role={Role.Comission} />,
         children: [
             { path: 'applications', element: <AdminApplications /> },
             { path: 'applications/:id', element: <AdminApplicationDetails /> }
